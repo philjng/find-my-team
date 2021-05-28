@@ -24,3 +24,7 @@ Additional functionality may include shareability of event postings with other u
 * In app Google maps for event location
 
 # Prototypes #
+## Add New Event Post Workflow ##
+![workflow 1 image 1](CPSC_455_PP1_AddEvent1.png)
+![workflow 1 image 2](CPSC_455_PP1_AddEvent2.png)
+![workflow 1 image 3](CPSC_455_AddEvent2.png)
