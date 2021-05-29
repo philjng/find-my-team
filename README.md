@@ -28,3 +28,6 @@ Additional functionality may include shareability of event postings with other u
 ![workflow 1 image 1](CPSC_455_PP1_AddEvent1.png)
 ![workflow 1 image 2](CPSC_455_PP1_AddEvent2.png)
 ![workflow 1 image 3](CPSC_455_AddEvent2.png)
+![login image 1](CPSC_455_Login_1.png)
+![login image 2](CPSC_455_Login_2.png)
+![login image 3](CPSC_455_Login_3.png)
