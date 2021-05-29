@@ -7,7 +7,17 @@ Additional functionality may include shareability of event postings with other u
 # Project Requirements #
 ## Minimal Requirements ##
 * User can create an account (and login to account)
-* Users can create an event (and delete own events) 
+  * Create landing page
+  * Setup database connection
+    * Find good way to store login data
+  * Find method of secure authentication
+  * Create ‘create account page’
+
+* Users can create an event (and delete own events)
+  * Create “create event” button
+  * Create modal for event building or another page
+  * Create “delete event” button
+
 * Users can join events
 
 ## Standard Requirements ##
@@ -25,10 +35,10 @@ Additional functionality may include shareability of event postings with other u
 
 # Prototypes #
 ## Add New Event Post Workflow ##
-![workflow 1 image 1](CPSC_455_PP1_AddEvent1.png)
-![workflow 1 image 2](CPSC_455_PP1_AddEvent2.png)
-![workflow 1 image 3](CPSC_455_AddEvent2.png)
+![workflow 1 image 1](img/CPSC_455_PP1_AddEvent1.png)
+![workflow 1 image 2](img/CPSC_455_PP1_AddEvent2.png)
+![workflow 1 image 3](img/CPSC_455_AddEvent2.png)
 ## Login Workflow ##
-![login image 1](CPSC_455_Login_1.png)
-![login image 2](CPSC_455_Login_2.png)
-![login image 3](CPSC_455_Login_3.png)
+![login image 1](img/CPSC_455_Login_1.png)
+![login image 2](img/CPSC_455_Login_2.png)
+![login image 3](img/CPSC_455_Login_3.png)
