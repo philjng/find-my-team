@@ -14,7 +14,15 @@ const eventsReducer = (events = events_test_data, action) => {
     return events;
 }
 
+const viewEventDetailReducer = (viewableEvent = null, action) => {
+    if (action.type === 'VIEW_EVENT_DETAILS') {
+        return action.value;
+    }
+    return viewableEvent;
+}
+
 export default combineReducers({
     orig_val: setValReducer,
-    events: eventsReducer
+    events: eventsReducer,
+    viewableEvent: viewEventDetailReducer
 });

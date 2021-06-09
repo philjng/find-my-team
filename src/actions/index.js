@@ -4,3 +4,10 @@ export const setVal = (val) =>{
         value: val
     };
 };
+
+export const viewEventDetails = (event) =>{
+    return {
+        type: 'VIEW_EVENT_DETAILS',
+        value: event
+    }
+}

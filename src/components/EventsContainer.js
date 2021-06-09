@@ -7,7 +7,6 @@ function EventsContainer(props) {
             <ul>
                 {props.events.map( (event) => 
                 <div>
-                    {console.log(event)}
                     <Event info={event}/>
                 </div>
                 )}
