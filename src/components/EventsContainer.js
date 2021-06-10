@@ -1,11 +1,15 @@
 import Event from './Event.js';
 import {connect} from 'react-redux';
+import {viewUpcomingEventsOnly, viewAllEvents} from '../actions';
 
 function EventsContainer(props) {
+    console.log(props.viewableEvents);
     return (
         <div class = "events_container">
+            <button onClick={props.all}>All</button>
+            <button onClick = {props.upcoming}>Upcoming</button>
             <ul>
-                {props.events.map( (event) => 
+                {props.viewableEvents.map( (event) => 
                 <div>
                     <Event info={event}/>
                 </div>
@@ -16,6 +20,10 @@ function EventsContainer(props) {
 }
 
 const mapStateToProps = (state) => {
-    return {events: state.events};
+    return {
+        events: state.events,
+        viewableEvents: state.viewableEvents
+    };
 }
-export default connect(mapStateToProps)(EventsContainer);
+
+export default connect(mapStateToProps, {upcoming: viewUpcomingEventsOnly, all: viewAllEvents})(EventsContainer);

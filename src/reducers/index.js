@@ -21,8 +21,22 @@ const viewEventDetailReducer = (viewableEvent = null, action) => {
     return viewableEvent;
 }
 
+const toggleViewableEventsReducer = (viewableEvents = events_test_data, action) => {
+    let retval = viewableEvents;
+    switch(action.type) {
+        case 'VIEW_UPCOMING_ONLY':
+            retval = viewableEvents.filter(viewableEvent => viewableEvent.date > new Date());
+            break;
+        case 'VIEW_ALL_EVENTS':
+            retval = events_test_data;
+            break;
+    }
+    return retval;
+}
+
 export default combineReducers({
     orig_val: setValReducer,
     events: eventsReducer,
-    viewableEvent: viewEventDetailReducer
+    viewableEvent: viewEventDetailReducer,
+    viewableEvents: toggleViewableEventsReducer
 });

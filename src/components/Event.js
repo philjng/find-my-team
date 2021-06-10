@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {viewEventDetails} from "../actions";
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 function Event(props) {
-    console.log(props);
     return (
         <div class = "event_container">
             <p class="event_name">Name: {props.info.name}</p>

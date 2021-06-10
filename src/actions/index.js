@@ -11,3 +11,15 @@ export const viewEventDetails = (event) =>{
         value: event
     }
 }
+
+export const viewUpcomingEventsOnly = () =>{
+    return {
+        type: 'VIEW_UPCOMING_ONLY'
+    }
+}
+
+export const viewAllEvents = () =>{
+    return {
+        type: 'VIEW_ALL_EVENTS'
+    }
+}
