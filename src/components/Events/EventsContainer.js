@@ -1,6 +1,6 @@
 import Event from './Event.js';
 import {connect} from 'react-redux';
-import {viewUpcomingEventsOnly, viewAllEvents} from '../actions';
+import {viewUpcomingEventsOnly, viewAllEvents} from '../../actions';
 
 function EventsContainer(props) {
     return (
