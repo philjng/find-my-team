@@ -10,7 +10,7 @@ function Event(props) {
             <p class = "event_date">Date: {props.info.date.toUTCString()}</p>
             <Link to = "/eventdetails" onClick = {() => props.viewEventDetails(props.info)}>Details</Link>
         </div>
-    );
+    )
 }
 
 const mapStateToProps = (state) => {

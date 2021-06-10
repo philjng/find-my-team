@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {viewUpcomingEventsOnly, viewAllEvents} from '../actions';
 
 function EventsContainer(props) {
-    console.log(props.viewableEvents);
     return (
         <div class = "events_container">
             <button onClick={props.all}>All</button>
