@@ -1,22 +1,23 @@
 import Event from './Event.js';
 import {connect} from 'react-redux';
 import {viewUpcomingEventsOnly, viewAllEvents} from '../../actions';
+import {Container, Button, List, ListItem} from "@material-ui/core";
 
 function EventsContainer(props) {
     return (
-        <div class = "events_container">
-            <button onClick={props.all}>All</button>
-            <button onClick = {props.upcoming}>Upcoming</button>
-            <ul>
+        <Container class = "events_container">
+            <Button onClick={props.all}>All</Button>
+            <Button onClick = {props.upcoming}>Upcoming</Button>
+            <List>
                 {props.viewableEvents.map( (event) => 
-                <li key = {JSON.stringify(event)}>
-                <div>
+                <ListItem key = {JSON.stringify(event)}>
+                <Container>
                     <Event info={event}/>
-                </div>
-                </li>
+                </Container>
+                </ListItem>
                 )}
-            </ul>
-        </div>
+            </List>
+        </Container>
     )
 }
 

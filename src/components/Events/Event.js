@@ -2,14 +2,15 @@ import "../../styling/Events.css"
 import {connect} from 'react-redux';
 import {viewEventDetails} from "../../actions";
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import {Container, Typography} from "@material-ui/core";
 function Event(props) {
     return (
-        <div className = "event_container">
-            <p className= "event_name">Name: {props.info.name}</p>
-            <p className = "event_location">Location: {props.info.location}</p>
-            <p className = "event_date">Date: {props.info.date.toUTCString()}</p>
+        <Container className = "event_container">
+            <Typography variant="body1" className= "event_name">Name: {props.info.name}</Typography>
+            <Typography variant="body1" className = "event_location">Location: {props.info.location}</Typography>
+            <Typography variant="body1" className = "event_date">Date: {props.info.date.toUTCString()}</Typography>
             <Link to = "/eventdetails" onClick = {() => props.viewEventDetails(props.info)}>Details</Link>
-        </div>
+        </Container>
     )
 }
 
