@@ -9,9 +9,11 @@ function EventsContainer(props) {
             <button onClick = {props.upcoming}>Upcoming</button>
             <ul>
                 {props.viewableEvents.map( (event) => 
+                <li key = {JSON.stringify(event)}>
                 <div>
                     <Event info={event}/>
                 </div>
+                </li>
                 )}
             </ul>
         </div>
