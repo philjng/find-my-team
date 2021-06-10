@@ -1,5 +1,4 @@
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
-import Login from "./Login";
 import Signup from "./Signup";
 import Events from "./Events";
 import Profile from "./Profile";
@@ -8,32 +7,24 @@ import Groups from "./Groups";
 import Create from "./Create";
 import GroupDetails from "./GroupDetails";
 import EventDetails from "./EventDetails";
-import Landing from "./Landing";
 import React from "react";
+import LoginPage from "./Login/LoginPage";
+import {AppBar} from "@material-ui/core";
 
+//Followed React Router quick-start tutorial at https://reactrouter.com/web/guides/quick-start
 export const Navbar = () => {
     return (
-        <Router>
             <div>
-                <nav>
+                <AppBar position="static">
                     <ul>
                         <li>
-                            <Link to = "/">Landing</Link>
-                        </li>
-                        <li>
-                            <Link to = "/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to = "/signup">Signup</Link>
+                            <Link to = "/home">Home</Link>
                         </li>
                         <li>
                             <Link to = "/events">Events</Link>
                         </li>
                         <li>
                             <Link to = "/profile">Profile</Link>
-                        </li>
-                        <li>
-                            <Link to = "/home">Home</Link>
                         </li>
                         <li>
                             <Link to = "/groups">Groups</Link>
@@ -48,11 +39,8 @@ export const Navbar = () => {
                             <Link to = "/eventdetails">Event Details</Link>
                         </li>
                     </ul>
-                </nav>
+                </AppBar>
                 <Switch>
-                    <Route path = "/login">
-                        <Login/>
-                    </Route>
                     <Route path = "/signup">
                         <Signup/>
                     </Route>
@@ -77,11 +65,11 @@ export const Navbar = () => {
                     <Route path = "/eventdetails">
                         <EventDetails/>
                     </Route>
-                    <Route path ="/">
-                        <Landing/>
+                    <Route path = "/">
+                        <LoginPage/>
                     </Route>
                 </Switch>
             </div>
-        </Router>
+
     )
 }
