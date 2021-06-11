@@ -1,12 +1,10 @@
 import {Link, Route, Switch} from "react-router-dom";
 import Signup from "./Signup";
-import Events from "./Events";
+import Events from "./Events/Events";
 import Profile from "./Profile";
 import Home from "./Home";
 import Groups from "./Groups";
 import Create from "./Create";
-import GroupDetails from "./GroupDetails";
-import EventDetails from "./EventDetails";
 import React from "react";
 import LoginPage from "./Login/LoginPage";
 import styled from "styled-components"
@@ -69,12 +67,6 @@ export const Navbar = () => {
                     </Route>
                     <Route path = "/create">
                         <Create/>
-                    </Route>
-                    <Route path = "/groupdetails">
-                        <GroupDetails/>
-                    </Route>
-                    <Route path = "/eventdetails">
-                        <EventDetails/>
                     </Route>
                     <Route path = "/">
                         <LoginPage/>

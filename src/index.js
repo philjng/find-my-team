@@ -5,8 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import reducers from './reducers';
 import {BrowserRouter} from "react-router-dom";
+import reducers from './reducers/events';
 
 ReactDOM.render(
   <React.StrictMode>
