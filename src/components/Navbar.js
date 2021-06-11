@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch} from "react-router-dom";
 import Signup from "./Signup";
 import Events from "./Events";
 import Profile from "./Profile";
@@ -9,37 +9,48 @@ import GroupDetails from "./GroupDetails";
 import EventDetails from "./EventDetails";
 import React from "react";
 import LoginPage from "./Login/LoginPage";
-import {AppBar} from "@material-ui/core";
+import styled from "styled-components"
+import {AccountCircle, Add} from "@material-ui/icons";
+
+const Nav = styled.nav`
+  background-color: #3f51b5;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+`
+
+const Links = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const NavLink = styled(Link)`
+  color: #fff;  // will want to remove pure black and white later
+  text-decoration: none;
+  margin: 0 1rem;
+`
+
+const Icons = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 //Followed React Router quick-start tutorial at https://reactrouter.com/web/guides/quick-start
 export const Navbar = () => {
+
     return (
             <div>
-                <AppBar position="static">
-                    <ul>
-                        <li>
-                            <Link to = "/home">Home</Link>
-                        </li>
-                        <li>
-                            <Link to = "/events">Events</Link>
-                        </li>
-                        <li>
-                            <Link to = "/profile">Profile</Link>
-                        </li>
-                        <li>
-                            <Link to = "/groups">Groups</Link>
-                        </li>
-                        <li>
-                            <Link to = "/create">Create Events or Groups</Link>
-                        </li>
-                        <li>
-                            <Link to = "/groupdetails">Group Details</Link>
-                        </li>
-                        <li>
-                            <Link to = "/eventdetails">Event Details</Link>
-                        </li>
-                    </ul>
-                </AppBar>
+                <Nav>
+                    <Links>
+                        <NavLink to = "/home"><h3>Find My Team</h3></NavLink>
+                        <NavLink to = "/events">Events</NavLink>
+                        <NavLink to = "/groups">Groups</NavLink>
+                    </Links>
+                    <Icons>
+                        <NavLink to = "/create"><Add/></NavLink>
+                        <NavLink to = "/profile"><AccountCircle/></NavLink>
+                    </Icons>
+                </Nav>
                 <Switch>
                     <Route path = "/signup">
                         <Signup/>
