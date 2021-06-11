@@ -2,8 +2,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Create from './Create.js';
-import EventDetails from './EventDetails.js';
-import Events from './Events.js';
+import EventDetails from './Events/EventDetails.js';
+import Events from './Events/Events.js';
 import GroupDetails from './GroupDetails.js';
 import Groups from './Groups.js';
 import Landing from './Landing.js';
