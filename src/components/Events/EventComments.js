@@ -1,4 +1,4 @@
-import {Container, List, ListItem, Typography, Box} from "@material-ui/core";
+import {Container, List, ListItem, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 
 const ListItem1 = styled(ListItem) ({

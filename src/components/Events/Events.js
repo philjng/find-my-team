@@ -1,5 +1,5 @@
 import EventsContainer from './EventsContainer.js';
-import {Container, Typography, Box} from "@material-ui/core";
+import {Container, Typography} from "@material-ui/core";
 
 
 function Events() {
