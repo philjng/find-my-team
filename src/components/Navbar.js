@@ -10,7 +10,8 @@ import EventDetails from "./EventDetails";
 import React from "react";
 import LoginPage from "./Login/LoginPage";
 import styled from "styled-components"
-import {AccountCircle, Add} from "@material-ui/icons";
+import {DropdownAdd} from "./DropdownAdd";
+import {DropdownProfile} from "./DropdownProfile";
 
 const Nav = styled.nav`
   background-color: #3f51b5;
@@ -37,18 +38,17 @@ const Icons = styled.div`
 
 //Followed React Router quick-start tutorial at https://reactrouter.com/web/guides/quick-start
 export const Navbar = () => {
-
     return (
             <div>
                 <Nav>
                     <Links>
                         <NavLink to = "/home"><h3>Find My Team</h3></NavLink>
-                        <NavLink to = "/events">Events</NavLink>
+                        <NavLink to = "/events">All Events</NavLink>
                         <NavLink to = "/groups">Groups</NavLink>
                     </Links>
                     <Icons>
-                        <NavLink to = "/create"><Add/></NavLink>
-                        <NavLink to = "/profile"><AccountCircle/></NavLink>
+                        <DropdownAdd/>
+                        <DropdownProfile/>
                     </Icons>
                 </Nav>
                 <Switch>
