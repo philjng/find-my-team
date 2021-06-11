@@ -15,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AccountCircle, Visibility, VisibilityOff } from "@material-ui/icons";
 
 import { useState } from "react";
+import { loginAction } from "../../actions/user.action";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -45,9 +47,12 @@ function LoginForm() {
     setShowPassword(!showPassword);
   };
 
+  const dispatch = useDispatch()
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({username, password});
+    dispatch(loginAction(username + "_id"))
   };
 
   const classes = useStyles();
