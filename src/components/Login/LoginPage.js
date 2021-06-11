@@ -1,12 +1,6 @@
-import LoginBar from "./LoginBar"
 import LoginForm from "./LoginForm";
 
 function LoginPage() {
-  return (
-    <>
-      {/*<LoginBar />*/}
-      <LoginForm />;
-    </>
-  );
+  return <LoginForm />;
 }
 export default LoginPage;

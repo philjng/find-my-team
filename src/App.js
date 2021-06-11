@@ -1,6 +1,6 @@
-import React from 'react';
-import {Navbar} from "./components/Navbar";
-import {Switch} from "react-router-dom";
+import React from "react";
+import { Navbar } from "./components/Navbar";
+import { Switch } from "react-router-dom";
 import ProtectedRoute from "./ProtectRoute";
 import Signup from "./components/Signup";
 import Events from "./components/Events/Events";
@@ -12,24 +12,30 @@ import GroupDetails from "./components/GroupDetails";
 import EventDetails from "./components/Events/EventDetails";
 import LoginRoute from "./LoginRoute";
 import LoginPage from "./components/Login/LoginPage";
+import { connect } from "react-redux";
 
-
-function App() {
+function App(props) {
   return (
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <ProtectedRoute path="/signup" component={Signup} />
-          <ProtectedRoute path="/events" component={Events} />
-          <ProtectedRoute path="/profile" component={Profile} />
-          <ProtectedRoute path="/home" component={Home} />
-          <ProtectedRoute path="/groups" component={Groups} />
-          <ProtectedRoute path="/create" component={Create} />
-          <ProtectedRoute path="/groupdetails" component={GroupDetails} />
-          <ProtectedRoute path="/eventdetails" component={EventDetails} />
-          <LoginRoute path="/" component={LoginPage} />
-        </Switch>
-      </div>
+    <div className="App">
+      {props.isAuth && <Navbar />}
+      <Switch>
+        <ProtectedRoute path="/signup" component={Signup} />
+        <ProtectedRoute path="/events" component={Events} />
+        <ProtectedRoute path="/profile" component={Profile} />
+        <ProtectedRoute path="/home" component={Home} />
+        <ProtectedRoute path="/groups" component={Groups} />
+        <ProtectedRoute path="/create" component={Create} />
+        <ProtectedRoute path="/groupdetails" component={GroupDetails} />
+        <ProtectedRoute path="/eventdetails" component={EventDetails} />
+        <LoginRoute path="/" component={LoginPage} />
+      </Switch>
+    </div>
   );
 }
-export default App;
+
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.user.isAuth,
+  };
+};
+export default connect(mapStateToProps)(App);
