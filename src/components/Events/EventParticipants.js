@@ -1,17 +1,18 @@
+import {Container, Typography, List, ListItem} from "@material-ui/core";
 function EventParticipants(props) {
     return (
-        <div>
-            <h1>Participants</h1>
-            <ul>
+        <Container>
+            <Typography variant="h2">Participants</Typography>
+            <List>
                 {props.participants.map( (participant) => 
-                <li key={JSON.stringify(participant)}>
-                    <div>
+                <ListItem key={JSON.stringify(participant)}>
+                    <Container>
                         <p>{participant.name}</p>
-                    </div>
-                </li>
-            )};
-            </ul>
-        </div>
+                    </Container>
+                </ListItem>
+            )}
+            </List>
+        </Container>
     )
 
 }

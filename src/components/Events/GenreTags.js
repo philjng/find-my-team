@@ -1,9 +1,10 @@
+import {Container, Button} from '@material-ui/core';
 function GenreTags(props) {
     return (
-        <div>
+        <Container>
             {props.genre.map( (gen) => 
-            <button>{gen}</button>)}
-        </div>
+            <Button>{gen}</Button>)}
+        </Container>
     )
 
 }

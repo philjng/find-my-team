@@ -1,9 +1,10 @@
+import {Container, Typography} from "@material-ui/core";
 function EventDescription(props) {
     return (
-        <div>
-            <h1>Description</h1>
-            <p>{props.description}</p>
-        </div>
+        <Container>
+            <Typography variant="h2">Description</Typography>
+            <Typography variant="body1">{props.description}</Typography>
+        </Container>
     )
 
 }

@@ -6,9 +6,9 @@ import {Container, Typography} from "@material-ui/core";
 function Event(props) {
     return (
         <Container className = "event_container">
-            <Typography variant="body1" className= "event_name">Name: {props.info.name}</Typography>
+            <Typography variant="h5" className= "event_name">{props.info.name}</Typography>
             <Typography variant="body1" className = "event_location">Location: {props.info.location}</Typography>
-            <Typography variant="body1" className = "event_date">Date: {props.info.date.toUTCString()}</Typography>
+            <Typography variant="body2" className = "event_date">Date: {props.info.date.toUTCString()}</Typography>
             <Link to = "/eventdetails" onClick = {() => props.viewEventDetails(props.info)}>Details</Link>
         </Container>
     )

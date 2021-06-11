@@ -1,17 +1,18 @@
+import {Container, List, ListItem, Typography, Box} from "@material-ui/core";
 function EventComments(props) {
     return (
-        <div>
-            <h1>Comments</h1>
-            <ul>
+        <Container>
+            <Typography variant = "h2">Comments</Typography>
+            <List>
                 {props.comments.map( (comment) =>
-                <li key={JSON.stringify(comment)}>
-                    <div>
-                        <p>{comment.user.name}</p>
-                        <p>{comment.text}</p>
-                    </div>
-                </li>)}
-            </ul>
-        </div>
+                <ListItem key={JSON.stringify(comment)}>
+                    <Container>
+                        <Typography variant = "body2">{comment.user.name}</Typography>
+                        <Typography variant = "body1">{comment.text}</Typography>
+                    </Container>
+                </ListItem>)}
+            </List>
+        </Container>
     )
 
 }

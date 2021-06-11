@@ -5,7 +5,7 @@ import {Container, Button, List, ListItem} from "@material-ui/core";
 
 function EventsContainer(props) {
     return (
-        <Container class = "events_container">
+        <Container className = "events_container">
             <Button onClick={props.all}>All</Button>
             <Button onClick = {props.upcoming}>Upcoming</Button>
             <List>
