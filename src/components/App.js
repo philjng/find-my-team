@@ -7,7 +7,7 @@ import Events from './Events/Events.js';
 import GroupDetails from './GroupDetails.js';
 import Groups from './Groups.js';
 import Landing from './Landing.js';
-import Login from './Login.js';
+import LoginPage from './Login/LoginPage.js';
 import Profile from './Profile.js';
 import Signup from './Signup.js';
 import Home from './Home.js';
@@ -55,7 +55,7 @@ function App() {
         </nav>
         <Switch>
           <Route path = "/login">
-            <Login/>
+            <LoginPage />
           </Route>
           <Route path = "/signup">
             <Signup/>
