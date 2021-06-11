@@ -5,13 +5,13 @@ import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import allReducers from "./reducers/allReducers";
+import rootReducer from "./reducers/rootReducer";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider
       store={createStore(
-        allReducers,
+        rootReducer,
         window.__REDUX_DEVTOOLS_EXTENSION__ &&
           window.__REDUX_DEVTOOLS_EXTENSION__()
       )}
