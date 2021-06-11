@@ -9,7 +9,11 @@ import React from "react";
 import LoginPage from "./Login/LoginPage";
 import styled from "styled-components"
 import {DropdownAdd} from "./DropdownAdd";
-import {DropdownProfile} from "./DropdownProfile";
+import LoginRoute from "../LoginRoute";
+import ProtectedRoute from "../ProtectRoute";
+import GroupDetails from "./GroupDetails";
+import EventDetails from "./Events/EventDetails";
+import DropdownProfile from "./DropdownProfile";
 
 const Nav = styled.nav`
   background-color: #3f51b5;
@@ -50,27 +54,15 @@ export const Navbar = () => {
                     </Icons>
                 </Nav>
                 <Switch>
-                    <Route path = "/signup">
-                        <Signup/>
-                    </Route>
-                    <Route path = "/events">
-                        <Events/>
-                    </Route>
-                    <Route path = "/profile">
-                        <Profile/>
-                    </Route>
-                    <Route path = "/home">
-                        <Home/>
-                    </Route>
-                    <Route path = "/groups">
-                        <Groups/>
-                    </Route>
-                    <Route path = "/create">
-                        <Create/>
-                    </Route>
-                    <Route path = "/">
-                        <LoginPage/>
-                    </Route>
+                    <ProtectedRoute path="/signup" component={Signup} />
+                    <ProtectedRoute path="/events" component={Events} />
+                    <ProtectedRoute path="/profile" component={Profile} />
+                    <ProtectedRoute path="/home" component={Home} />
+                    <ProtectedRoute path="/groups" component={Groups} />
+                    <ProtectedRoute path="/create" component={Create} />
+                    <ProtectedRoute path="/groupdetails" component={GroupDetails} />
+                    <ProtectedRoute path="/eventdetails" component={EventDetails} />
+                    <LoginRoute path="/" component={LoginPage} />
                 </Switch>
             </div>
 

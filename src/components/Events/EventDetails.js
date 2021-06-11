@@ -49,7 +49,7 @@ function EventDetails(props) {
     )
     }
     const mapStateToProps = (state) => {
-        return {event: state.viewableEvent};
+        return {event: state.events.viewableEvent};
     }
 
     export default connect(mapStateToProps)(EventDetails);

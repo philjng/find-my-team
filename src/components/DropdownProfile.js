@@ -4,8 +4,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {AccountCircle} from "@material-ui/icons";
 import {DropButton} from "./DropdownAdd";
 import {Link} from "react-router-dom";
+import {logoutAction} from "../actions/user.action";
+import {connect} from "react-redux";
 
-export const DropdownProfile = () => {
+const mapStateToProps = (state) => {
+    return {
+        userId: state.user.user_id,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleLogout: () => dispatch(logoutAction())
+    };
+};
+
+const DropdownProfile = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -14,6 +28,7 @@ export const DropdownProfile = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+        props.handleLogout();
     };
 
     return (
@@ -38,3 +53,5 @@ export const DropdownProfile = () => {
         </div>
     );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(DropdownProfile);

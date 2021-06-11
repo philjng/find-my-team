@@ -1,10 +1,22 @@
+import { Button, Typography } from "@material-ui/core";
+import { connect } from "react-redux";
+import { logoutAction } from "../actions/user.action";
 
-function Home() {
-    return (
-        <div>
-            <h1>TODO: Home Page</h1>
-        </div>
-    )
+function Home(props) {
+  return (
+    <div>
+      <Typography>
+        Hi user {props.userId}
+      </Typography>
+    </div>
+  );
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    userId: state.user.user_id,
+  };
+};
+
+
+export default connect(mapStateToProps)(Home);

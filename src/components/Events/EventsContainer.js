@@ -39,8 +39,8 @@ function EventsContainer(props) {
 
 const mapStateToProps = (state) => {
     return {
-        events: state.events,
-        viewableEvents: state.viewableEvents
+        events: state.events.events,
+        viewableEvents: state.events.viewableEvents
     };
 }
 
