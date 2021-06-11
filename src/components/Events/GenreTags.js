@@ -3,7 +3,7 @@ function GenreTags(props) {
     return (
         <Container>
             {props.genre.map( (gen) => 
-            <Button>{gen}</Button>)}
+            <Button key={gen}>{gen}</Button>)}
         </Container>
     )
 

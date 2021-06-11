@@ -1,6 +1,6 @@
 import Event from './Event.js';
 import {connect} from 'react-redux';
-import {viewUpcomingEventsOnly, viewAllEvents} from '../../actions';
+import {viewUpcomingEventsOnly, viewAllEvents} from '../../actions/events';
 import {Container, Button, List, ListItem, Box} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 

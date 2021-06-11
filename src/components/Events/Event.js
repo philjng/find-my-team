@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {viewEventDetails} from "../../actions";
+import {viewEventDetails} from "../../actions/events";
 import {Link} from 'react-router-dom';
 import {Container, Typography, Box, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
