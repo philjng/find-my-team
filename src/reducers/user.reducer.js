@@ -1,4 +1,9 @@
-const userReducer = (state = {}, action) => {
+const mockState = {
+  isAuth: true,
+  user_id: 1
+}
+
+const userReducer = (state = mockState, action) => {
   switch (action.type) {
     case "LOGIN":
       return {
