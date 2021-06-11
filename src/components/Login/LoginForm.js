@@ -48,9 +48,6 @@ function LoginForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({username, password});
-
-    // navigate to home page
-
   };
 
   const classes = useStyles();
