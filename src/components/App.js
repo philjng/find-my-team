@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Link } from "react-router-dom";
 import Create from "./Create.js";
-import EventDetails from "./EventDetails.js";
-import Events from "./Events.js";
+import EventDetails from "./Events/EventDetails.js";
+import Events from "./Events/Events.js";
 import GroupDetails from "./GroupDetails.js";
 import Groups from "./Groups.js";
 import Landing from "./Landing.js";
@@ -52,46 +52,16 @@ function App() {
           </ul>
         </nav>
         <Switch>
-          <LoginRoute
-            path="/login"
-            component={LoginPage}
-          />
-          <ProtectedRoute
-            path="/signup"
-            component={Signup}
-          />
-          <ProtectedRoute
-            path="/events"
-            component={Events}
-          />
-          <ProtectedRoute
-            path="/profile"
-            component={Profile}
-          />
-          <ProtectedRoute
-            path="/home"
-            component={Home}
-          />
-          <ProtectedRoute
-            path="/groups"
-            component={Groups}
-          />
-          <ProtectedRoute
-            path="/create"
-            component={Create}
-          />
-          <ProtectedRoute
-            path="/groupdetails"
-            component={GroupDetails}
-          />
-          <ProtectedRoute
-            path="/eventdetails"
-            component={EventDetails}
-          />
-          <ProtectedRoute
-            path="/"
-            component={Landing}
-          />
+          <LoginRoute path="/login" component={LoginPage} />
+          <ProtectedRoute path="/signup" component={Signup} />
+          <ProtectedRoute path="/events" component={Events} />
+          <ProtectedRoute path="/profile" component={Profile} />
+          <ProtectedRoute path="/home" component={Home} />
+          <ProtectedRoute path="/groups" component={Groups} />
+          <ProtectedRoute path="/create" component={Create} />
+          <ProtectedRoute path="/groupdetails" component={GroupDetails} />
+          <ProtectedRoute path="/eventdetails" component={EventDetails} />
+          <ProtectedRoute path="/" component={Landing} />
         </Switch>
       </div>
     </Router>
