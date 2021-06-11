@@ -26,9 +26,11 @@ const DropdownProfile = (props) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleClose = (e) => {
         setAnchorEl(null);
-        props.handleLogout();
+        if (e.target.innerText === "Logout") {
+            props.handleLogout();
+        }
     };
 
     return (
@@ -48,7 +50,7 @@ const DropdownProfile = (props) => {
             >
                 <MenuItem onClick={handleClose}><Link to = "/profile" >My profile</Link></MenuItem>
                 <MenuItem onClick={handleClose}><Link to = "/settings" >Settings</Link></MenuItem>
-                <MenuItem onClick={handleClose}><Link to = "/" >Logout</Link></MenuItem>
+                <MenuItem onClick={(e) => handleClose(e)}><Link to = "/" >Logout</Link></MenuItem>
             </Menu>
         </div>
     );

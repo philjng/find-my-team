@@ -1,6 +1,5 @@
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import { logoutAction } from "../actions/user.action";
 
 function Home(props) {
   return (
