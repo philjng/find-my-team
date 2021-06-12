@@ -10,6 +10,7 @@ const Box1 = styled(Box) ({
 const Typography1 = styled(Typography) ({
     padding: '0.25rem',
 })
+
 function EventDescription(props) {
     return (
         <Container>

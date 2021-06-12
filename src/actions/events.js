@@ -16,3 +16,4 @@ export const viewAllEvents = () =>{
         type: 'VIEW_ALL_EVENTS'
     }
 }
+  
