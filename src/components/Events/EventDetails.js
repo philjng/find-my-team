@@ -7,20 +7,19 @@ import {Container, Typography, Box} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 
 const Box1 = styled(Box)({
-    border: '2px solid black', 
+    border: '2px solid #3f51b5', 
     backgroundColor: 'white',
     alignContent: 'center'
 });
 
 const Box2 = styled(Box)({
-    border: '1px solid grey', 
-    backgroundColor: 'white',
+    border: '1px solid #3f51b5', 
+    backgroundColor: '#f7fcfc',
     width: '80%',
     margin: 'auto',
     marginTop: '1rem',
     maxHeight: '25%',
-    overflow: 'auto',
-    backgroundColor: '#d3d3d3'
+    overflow: 'auto'
 });
 
 function EventDetails(props) {
