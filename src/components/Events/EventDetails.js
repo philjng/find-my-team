@@ -3,7 +3,7 @@ import GenreTags from './GenreTags.js';
 import EventDescription from './EventDescription.js';
 import EventParticipants from './EventParticipants.js';
 import EventComments from './EventComments';
-import {Container, Typography, Box} from "@material-ui/core";
+import {Container, Typography, Box, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 
 const Box1 = styled(Box)({
@@ -22,11 +22,16 @@ const Box2 = styled(Box)({
     overflow: 'auto'
 });
 
+const Button1 = styled(Button)({
+    float: 'right'
+})
+
 function EventDetails(props) {
     return (
         <Container>
             <Typography variant="h1">{props.event.name}</Typography>
             <Container>
+                <Button1>Join</Button1>
                 <Typography variant="h5">{props.event.location}</Typography>
                 <Typography variant="h5">{props.event.date.toUTCString()}</Typography>
             </Container>

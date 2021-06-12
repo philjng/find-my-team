@@ -16,4 +16,11 @@ export const viewAllEvents = () =>{
         type: 'VIEW_ALL_EVENTS'
     }
 }
-  
+
+export const participantJoin = (user, event) =>{
+    return {
+        type: 'PARTICIPANT_JOIN',
+        user: user, 
+        event: event
+    }
+  }

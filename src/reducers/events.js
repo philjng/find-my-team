@@ -5,6 +5,9 @@ const events_test_data = [{name: "Soccer game", location: "Empire Field, Vancouv
 
 
 const eventsReducer = (events = events_test_data, action) => {
+    if (action.type === 'PARTICIPANT JOIN') {
+        console.log("TODO: Participant Join");
+    }
     return events;
 }
 
