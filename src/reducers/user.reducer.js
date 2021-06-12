@@ -1,3 +1,8 @@
+const mockState = {
+  isAuth: true,
+  user_id: 1
+}
+
 const userReducer = (state = {}, action) => {
   switch (action.type) {
     case "LOGIN":

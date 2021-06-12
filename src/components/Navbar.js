@@ -32,20 +32,18 @@ const Icons = styled.div`
 //Followed React Router quick-start tutorial at https://reactrouter.com/web/guides/quick-start
 export const Navbar = () => {
     return (
-            <div>
-                <Nav>
-                    <Links>
-                        <NavLink to = "/home"><h3>FindMyTeam</h3></NavLink>
-                        <NavLink to = "/events">All Events</NavLink>
-                        <NavLink to = "/groups">Groups</NavLink>
-                    </Links>
-                    <Icons>
-                        <DropdownAdd/>
-                        <DropdownProfile/>
-                    </Icons>
-                </Nav>
-
-            </div>
-
+        <div>
+            <Nav>
+                <Links>
+                    <NavLink to = "/home"><h3>FindMyTeam</h3></NavLink>
+                    <NavLink to = "/events">All Events</NavLink>
+                    <NavLink to = "/groups">Groups</NavLink>
+                </Links>
+                <Icons>
+                    <DropdownAdd/>
+                    <DropdownProfile/>
+                </Icons>
+            </Nav>
+        </div>
     )
 }
