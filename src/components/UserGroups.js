@@ -15,6 +15,7 @@ export const UserGroups = () => {
         <Card className={classes.card}>
             <CardContent>
                 <Typography variant="h6">Your Groups</Typography>
+                <Typography>You are not currently in any groups!</Typography>
             </CardContent>
         </Card>
     )

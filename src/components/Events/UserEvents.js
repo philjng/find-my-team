@@ -13,8 +13,7 @@ const useStyles = makeStyles(()=> ({
 const UserEvents = (props) => {
     const classes = useStyles()
 
-    console.log("props: ", props);
-
+    // can potentially just take in EventsContainer to use after refactor
     return (
         <Box>
             <Card className={classes.card}>
