@@ -77,5 +77,5 @@ const toggleViewableEventsReducer = (viewableEvents = events_test_data, action) 
 export default combineReducers({
     events: eventsReducer,
     viewableEvent: viewEventDetailReducer,
-    viewableEvents: toggleViewableEventsReducer
+    viewableEvents: toggleViewableEventsReducer,
 });

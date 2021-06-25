@@ -17,10 +17,19 @@ export const viewAllEvents = () =>{
     }
 }
 
-export const participantJoin = (user, event) =>{
+export const participantJoin = (user, event) => {
     return {
         type: 'PARTICIPANT_JOIN',
         user: user, 
         event: event
     }
   }
+
+export const addComment = (user, event, text) => {
+    return {
+        type: 'ADD_COMMENT',
+        user: user,
+        event: event,
+        text: text
+    }
+}
