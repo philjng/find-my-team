@@ -9,6 +9,7 @@ function LoginRoute({ component: Component, ...rest }) {
         if ({...rest}.isAuth) {
           return (
             <Redirect
+              push
               to={{ pathname: "/home", state: { from: props.location } }}
             />
           );
