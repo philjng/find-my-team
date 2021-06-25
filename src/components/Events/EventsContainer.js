@@ -23,6 +23,8 @@ const SCContainer = styled(Container)({
 });
 
 function EventsContainer(props) {
+  console.log(props.events);
+  console.log(props.viewableEvents);
   return (
     <SCContainer className="events_container">
       <Box1>

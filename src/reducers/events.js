@@ -4,18 +4,44 @@ const events_test_data = [{name: "Soccer game", location: "Empire Field, Vancouv
                           {name: "MTG Tournament", location: "Vancouver Convention Centre", date: new Date("2020-01-04"), genre: ['games', 'card games', 'tournaments', 'magic'], creator: {name: "Joan Smith"}, participants: [{name: "Daniel Boyce"}, {name: "Carol Wisnewski"}, {name: "Samuel Zubrus"}, {name: "Gary Lee"}, {name: "Andrew Gergich"}, {name: "Jennifer Quincey"}, {name: "Joel Quincey"}, {name: "Joel Harland"}, {name: "Carla Gregg"}], description: "Magic The Gathering tournament. Winner takes home $25,000 grand prize", comments: []}];
 
 
+
+
+const addParticipant = (user, event, events) => {
+        let j = -1;
+        for (let i = 0; i < events.length; i++) {
+            if (JSON.stringify(events[i]) === JSON.stringify(event)) {
+                j = i;
+            }
+        }
+        event.participants = event.participants.concat(user);
+        if (j !== -1) {
+            events[j] = event;
+        } else {
+            console.log("ERROR");
+        }
+}
+
 const eventsReducer = (events = events_test_data, action) => {
-    if (action.type === 'PARTICIPANT JOIN') {
-        console.log("TODO: Participant Join");
+    if (action.type === 'PARTICIPANT_JOIN') {
+        let retEvent = { ...action.event};
+        let user = action.user;
+        addParticipant(user, retEvent, events_test_data);
+        return events_test_data;
     }
     return events;
 }
 
 const viewEventDetailReducer = (viewableEvent = null, action) => {
-    if (action.type === 'VIEW_EVENT_DETAILS') {
-        return action.value;
+    switch (action.type) {
+        case 'VIEW_EVENT_DETAILS':
+            return action.value;
+        case 'PARTICIPANT_JOIN':
+            let event = {...action.event};
+            event.participants = event.participants.concat(action.user);
+            return event;
+        default:
+            return viewableEvent;
     }
-    return viewableEvent;
 }
 
 const toggleViewableEventsReducer = (viewableEvents = events_test_data, action) => {

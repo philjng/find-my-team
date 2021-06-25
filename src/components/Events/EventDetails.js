@@ -5,6 +5,7 @@ import EventParticipants from './EventParticipants.js';
 import EventComments from './EventComments';
 import {Container, Typography, Box, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
+import { participantJoin} from '../../actions/events.js';
 
 const Box1 = styled(Box)({
     border: '2px solid #3f51b5', 
@@ -27,11 +28,12 @@ const Button1 = styled(Button)({
 })
 
 function EventDetails(props) {
+    console.log("rerender");
     return (
         <Container>
             <Typography variant="h1">{props.event.name}</Typography>
             <Container>
-                <Button1>Join</Button1>
+                <Button1 onClick = {() => props.participantJoin({name: "Fake Name"}, props.event)}>Join</Button1>
                 <Typography variant="h5">{props.event.location}</Typography>
                 <Typography variant="h5">{props.event.date.toUTCString()}</Typography>
             </Container>
@@ -56,4 +58,4 @@ function EventDetails(props) {
         return {event: state.events.viewableEvent};
     }
 
-    export default connect(mapStateToProps)(EventDetails);
+    export default connect(mapStateToProps, {participantJoin})(EventDetails);
