@@ -33,7 +33,7 @@ function EventDetails(props) {
         <Container>
             <Typography variant="h1">{props.event.name}</Typography>
             <Container>
-                <Button1 onClick = {() => props.participantJoin({name: "Fake Name"}, props.event)}>Join</Button1>
+                <Button1 onClick = {() => props.participantJoin({name: props.userId}, props.event)}>Join</Button1>
                 <Typography variant="h5">{props.event.location}</Typography>
                 <Typography variant="h5">{props.event.date.toUTCString()}</Typography>
             </Container>
@@ -55,7 +55,8 @@ function EventDetails(props) {
     )
     }
     const mapStateToProps = (state) => {
-        return {event: state.events.viewableEvent};
+        return {event: state.events.viewableEvent,
+            userId: state.user.user_id};
     }
 
     export default connect(mapStateToProps, {participantJoin})(EventDetails);

@@ -13,7 +13,15 @@ const addParticipant = (user, event, events) => {
                 j = i;
             }
         }
-        event.participants = event.participants.concat(user);
+        let containsUser = false;
+        for (let i = 0; i < event.participants.length; i++) {
+            if (JSON.stringify(event.participants[i]) === JSON.stringify(user)) {
+                containsUser = true;
+            }
+        }
+        if (!containsUser) {
+            event.participants = event.participants.concat(user);
+        }
         if (j !== -1) {
             events[j] = event;
         } else {
@@ -37,7 +45,15 @@ const viewEventDetailReducer = (viewableEvent = null, action) => {
             return action.value;
         case 'PARTICIPANT_JOIN':
             let event = {...action.event};
-            event.participants = event.participants.concat(action.user);
+            let containsUser = false;
+            for (let i = 0; i < event.participants.length; i++) {
+                if (JSON.stringify(event.participants[i]) === JSON.stringify(action.user)) {
+                    containsUser = true;
+                }
+            }
+            if (!containsUser) {
+                event.participants = event.participants.concat(action.user);
+            }
             return event;
         default:
             return viewableEvent;
