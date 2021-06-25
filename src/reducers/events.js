@@ -29,14 +29,48 @@ const addParticipant = (user, event, events) => {
         }
 }
 
+const addComment = (user, text, event, events) => {
+    let j = -1;
+        for (let i = 0; i < events.length; i++) {
+            if (JSON.stringify(events[i]) === JSON.stringify(event)) {
+                j = i;
+            }
+            console.log(event);
+            event.comments = event.comments.concat({user: {name: user}, text: text});
+            if (j !== -1) {
+                events[j] = event;
+            } else {
+                console.log("error");
+            }
+        }
+}
+
 const eventsReducer = (events = events_test_data, action) => {
-    if (action.type === 'PARTICIPANT_JOIN') {
-        let retEvent = { ...action.event};
-        let user = action.user;
-        addParticipant(user, retEvent, events_test_data);
-        return events_test_data;
+    switch(action.type) {
+        case 'PARTICIPANT_JOIN':
+            let retEvent = { ...action.event};
+            let user = action.user;
+            addParticipant(user, retEvent, events_test_data);
+            return events_test_data;
+        case  'ADD_COMMENT':
+            console.log("events reducer called");
+            let event = { ...action.event};
+            let comment_user = action.user;
+            let text = action.text;
+            addComment(comment_user, text, event, events);
+            return events_test_data;
+        default:
+            return events;
     }
-    return events;
+}
+
+const commentTextReducer = (text = "", action) => {
+    if (action.type === 'EDIT_TEXT') {
+        return action.text;
+    } else {
+        return text;
+    }
+
 }
 
 const viewEventDetailReducer = (viewableEvent = null, action) => {
@@ -55,6 +89,13 @@ const viewEventDetailReducer = (viewableEvent = null, action) => {
                 event.participants = event.participants.concat(action.user);
             }
             return event;
+        case 'ADD_COMMENT':
+            console.log("eventDetail reducer called");
+            let commEvent = { ...action.event};
+            let comment_user = action.user;
+            let text = action.text;
+            commEvent.comments = commEvent.comments.concat({user: {name: comment_user}, text: text});
+            return commEvent;
         default:
             return viewableEvent;
     }
@@ -78,4 +119,5 @@ export default combineReducers({
     events: eventsReducer,
     viewableEvent: viewEventDetailReducer,
     viewableEvents: toggleViewableEventsReducer,
+    commentText: commentTextReducer
 });

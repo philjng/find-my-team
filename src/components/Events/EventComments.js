@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {Container, List, ListItem, Typography, TextField, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
-import {addComment} from '../../actions/events.js';
+import {addComment, editText} from '../../actions/events.js';
 
 const ListItem1 = styled(ListItem) ({
     border: '1px solid black',
@@ -26,7 +26,17 @@ const Button1 = styled(Button) ({
     margin: '1rem'
 })
 
+
 function EventComments(props) {
+
+    const submitComment = () => {
+        props.addComment(props.userId, props.event, props.text);
+    }
+
+    const changeText = (event) => {
+        props.editText(event.target.value);
+    }
+
     return (
         <Container>
             <Typography variant = "h5">Comments</Typography>
@@ -40,8 +50,8 @@ function EventComments(props) {
                 </ListItem1>)}
             </List>
             <Container>
-                <TextField1 multiline rowsMax={5} defaultValue="Write comments here"></TextField1>
-                <Button1>Submit</Button1>
+                <TextField1 multiline rowsMax={5} placeholder="Write comments here" onChange={changeText}></TextField1>
+                <Button1 onClick={submitComment}>Submit</Button1>
             </Container>
         </Container>
     )
@@ -50,7 +60,8 @@ function EventComments(props) {
 
 const mapStateToProps = (state) => {
     return {event: state.events.viewableEvent,
-            userId: state.user.user_id};
+            userId: state.user.user_id,
+            text: state.events.commentText};
 }
 
-export default connect(mapStateToProps, {addComment})(EventComments);
+export default connect(mapStateToProps, {addComment: addComment, editText: editText})(EventComments);
