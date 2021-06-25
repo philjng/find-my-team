@@ -7,6 +7,7 @@ import {
   IconButton,
   Typography,
   FormControl,
+  Link,
 } from "@material-ui/core";
 
 import LockOpenIcon from "@material-ui/icons/LockOpen";
@@ -15,8 +16,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AccountCircle, Visibility, VisibilityOff } from "@material-ui/icons";
 
 import { useState } from "react";
-import { loginAction } from "../../actions/user.action";
+import { loginAction } from "../../actions/user";
 import { useDispatch } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -36,33 +38,30 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
+    setUsername(event.target.value);
+  };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
+    setPassword(event.target.value);
+  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({username, password});
-    dispatch(loginAction(username + "_id"))
+    console.log({ username, password });
+    dispatch(loginAction(username + "_id"));
   };
 
   const classes = useStyles();
   return (
     <Container maxWidth="xs">
       <Box className={classes.box}>
-        <LockOpenIcon
-          fontSize="large"
-          color="primary"
-        />
+        <LockOpenIcon fontSize="large" color="primary" />
         <Typography className={classes.margin} color="primary">
           Welcome back!
         </Typography>
@@ -123,6 +122,9 @@ function LoginForm() {
           >
             Login
           </Button>
+          <Link component={RouterLink} to="/signup" variant="body2">
+            Sign Up
+          </Link>
         </FormControl>
       </Box>
     </Container>

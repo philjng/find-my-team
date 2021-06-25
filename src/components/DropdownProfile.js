@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {AccountCircle} from "@material-ui/icons";
 import {DropButton} from "./DropdownAdd";
 import {Link} from "react-router-dom";
-import {logoutAction} from "../actions/user.action";
+import {logoutAction} from "../actions/user";
 import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
