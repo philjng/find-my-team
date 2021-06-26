@@ -2,7 +2,7 @@ import {Container, Typography} from "@material-ui/core";
 import { connect } from "react-redux";
 import {styled} from "@material-ui/styles";
 import UserEvents from "./Events/UserEvents";
-import {UserGroups} from "./UserGroups";
+import {UserGroups} from "./Groups/UserGroups";
 
 const PageContainer = styled(Container)({
 })
