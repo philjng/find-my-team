@@ -5,4 +5,5 @@ const CreateGroupPage = () => {
         </div>
     )
 }
+
 export default CreateGroupPage;
