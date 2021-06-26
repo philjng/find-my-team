@@ -1,31 +1,46 @@
 const initialState = {
-  isAuth: false,
-  user_id: 0,
-  userEvents: [],
-  userGroups: []
+    isAuth: false,
+    user_id: 0,
+    userEvents: [],
+    userGroups: []
 };
 
 const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "LOGIN":
-      localStorage.setItem("user", {
-        isAuth: true,
-        user_id: action.payload.user_id,
-      });
-      return {
-        ...state,
-        isAuth: true,
-        user_id: action.payload.user_id,
-      };
-    case "LOGOUT":
-      localStorage.removeItem("user")
-      return {
-        ...state,
-        isAuth: false,
-        user_id: null,
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case "LOGIN":
+            localStorage.setItem("user", {
+                isAuth: true,
+                user_id: action.payload.user_id,
+            });
+            return {
+                ...state,
+                isAuth: true,
+                user_id: action.payload.user_id,
+            };
+        case "LOGOUT":
+            localStorage.removeItem("user")
+            return {
+                ...state,
+                isAuth: false,
+                user_id: null,
+            };
+        case "ADD_GROUP": {
+            return {
+                ...state,
+                userGroups: [
+                    ...state.userGroups,
+                    action.payload
+                ]
+            }
+        }
+        case "REMOVE_GROUP": {
+            return {
+                ...state,
+                userGroups: state.userGroups.filter(group => group.groupId !== action.payload.groupId)
+            }
+        }
+        default:
+            return state;
+    }
 };
 export default userReducer;

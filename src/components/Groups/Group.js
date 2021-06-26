@@ -1,13 +1,23 @@
 import {Card, CardContent, Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
+import {connect} from "react-redux";
+import {addGroup, removeGroup} from "../../actions/user";
 
 const GroupCard = styled(Card)({
-    backgroundColor: `#ebfaf7`,
+    backgroundColor: `#d6f5ef`,
     margin: `1rem`
 })
 
-export const Group = (props) => {
+const Group = (props) => {
+    const joinGroup = (group) => {
+        props.addGroup(group)
+    }
+
+    const removeGroup = (group) => {
+        props.removeGroup(group)
+    }
+
     return (
         <GroupCard>
             <CardContent>
@@ -28,10 +38,17 @@ export const Group = (props) => {
                         View Group
                     </SCLink>
                 </Button2>
-                <Button2 disableElevation size="small" variant="contained">
-                    Join Group
+                <Button2
+                    disableElevation
+                    size="small"
+                    variant="contained"
+                    onClick={() => {props.isMember ? removeGroup(props.group) : joinGroup(props.group)}}
+                >
+                    {props.isMember ? "Remove Group" : "Join Group" }
                 </Button2>
             </CardContent>
         </GroupCard>
     )
 }
+
+export default connect(null, {addGroup, removeGroup})(Group)

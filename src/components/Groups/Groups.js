@@ -1,9 +1,9 @@
 import {Box1} from "../Events/EventsContainer";
-import {UserGroups} from "./UserGroups";
+import UserGroups from "./UserGroups";
 import {Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import { connect } from "react-redux";
-import {Group} from "./Group";
+import Group from "./Group";
 
 
 const GroupsPage= styled(Container)({
@@ -16,16 +16,19 @@ const GroupsPage= styled(Container)({
 const AllGroups = styled(Box1)({
     padding: `1rem`,
     minWidth: `50vw`,
-    backgroundColor: `#f7fdfc`
+    backgroundColor: `#ebfaf7`
 })
 
 const GroupsContainer = (props) => {
+    const filtered = props.groups.filter(
+        (group) => !props.userGroups.map((group) => group.groupId).includes(group.groupId))
+
     return (
         <GroupsPage>
             <AllGroups>
                 <Typography variant="h6">All Groups</Typography>
-                {props.groups.map((group) => (
-                    <Group group={group}/>
+                {filtered.map((group) => (
+                    <Group group={group} isMember={false}/>
                     ))}
             </AllGroups>
             <UserGroups/>
@@ -35,7 +38,8 @@ const GroupsContainer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        groups: state.groups.groups
+        groups: state.groups.groups,
+        userGroups: state.user.userGroups
     }
 }
 

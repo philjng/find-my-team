@@ -12,3 +12,17 @@ export const logoutAction = () => {
     type: "LOGOUT",
   };
 };
+
+export const addGroup = (data) => {
+  return {
+    type: "ADD_GROUP",
+    payload: data
+  }
+}
+
+export const removeGroup = (data) => {
+  return {
+    type: "REMOVE_GROUP",
+    payload: data
+  }
+}
