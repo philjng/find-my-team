@@ -43,8 +43,8 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userGroups: {
-                    ...state.userGroups.owned,
-                    joined: state.userGroups.filter(group => group.groupId !== action.payload.groupId)
+                    ...state.userGroups,
+                    joined: state.userGroups.joined.filter(group => group.groupId !== action.payload.groupId)
                 }
             }
         }
