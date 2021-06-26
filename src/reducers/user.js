@@ -31,7 +31,7 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userGroups: {
-                    ...state.userGroups.owned,
+                    ...state.userGroups,
                     joined: [
                         ...state.userGroups.joined,
                         action.payload
