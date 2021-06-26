@@ -12,7 +12,7 @@ const addParticipant = (user, event, events) => {
         if (!JSON.stringify(event.participants).includes(JSON.stringify(user))) {
             event.participants = event.participants.concat(user);
         }
-        if (eventIndex+1) {
+        if (eventIndex !== -1) {
             events[eventIndex] = event;
         } else {
             console.log("ERROR");
@@ -22,7 +22,7 @@ const addParticipant = (user, event, events) => {
 const addComment = (user, text, event, events) => {
     let eventIndex = events.findIndex((element) => {return _.isEqual(element,event)});
         event.comments = event.comments.concat({user: {name: user}, text: text});
-            if (eventIndex+1) {
+            if (eventIndex !== -1) {
                 events[eventIndex] = event;
             } else {
                 console.log("error");
