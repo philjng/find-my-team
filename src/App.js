@@ -13,6 +13,7 @@ import LoginRoute from "./LoginRoute";
 import LoginPage from "./components/Login/LoginPage";
 import SignUpPage from "./components/Login/SignUpPage";
 import { connect } from "react-redux";
+import CreateGroupPage from "./components/Groups/CreateGroup";
 
 function App(props) {
   return (
@@ -24,6 +25,7 @@ function App(props) {
         <ProtectedRoute path="/home" component={Home} />
         <ProtectedRoute path="/groups" component={Groups} />
         <ProtectedRoute path="/create" component={Create} />
+        <ProtectedRoute path="/create-group" component={CreateGroupPage} />
         <ProtectedRoute path="/groupdetails" component={GroupDetails} />
         <ProtectedRoute path="/eventdetails" component={EventDetails} />
         <Route path='/signup'>
