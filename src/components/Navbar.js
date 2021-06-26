@@ -7,8 +7,8 @@ import {DropdownAdd} from "./DropdownAdd";
 import DropdownProfile from "./DropdownProfile";
 
 const Nav = styled.nav`
-  background-color: #3f51b5;
-  color: #fff;
+  background-color: #2c698d;
+  color: #f7fdfc;
   display: flex;
   justify-content: space-between;
 `

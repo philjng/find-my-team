@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import { Container, Typography, Button } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
-const Typography1 = styled(Typography)({
+export const Typography1 = styled(Typography)({
   padding: "0.25rem",
 });
 
-const Button2 = styled(Button)({
+export const Button2 = styled(Button)({
   background: "#d3d3d3",
   margin: "0.5rem",
 });
 
-const SCLink = styled(Link)({
+export const SCLink = styled(Link)({
   textDecoration: "none",
 });
 

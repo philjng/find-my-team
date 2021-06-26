@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
-const Box1 = styled(Box)({
+export const Box1 = styled(Box)({
   border: "2px solid black",
   backgroundColor: "white",
   borderRadius: "4px",
