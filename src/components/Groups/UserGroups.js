@@ -1,33 +1,35 @@
 import {Card, CardContent, Typography} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import Group from "./Group";
 
+const UserGroup = styled(Card)({
+    margin: `1rem`,
+    backgroundColor: `#ebfaf7`,
+})
 
-const useStyles = makeStyles(()=> ({
-    card: {
-        margin: "1rem",
-        backgroundColor: "#ebfaf7",
-    }
-}))
+export const CardHeader = styled(Typography)({
+    marginBottom: `1rem`
+})
 
-const UserGroups = (props) => {
-    const classes = useStyles()
+const UserGroupsContainer = (props) => {
 
     return (
-        <Card className={classes.card}>
+        <UserGroup>
             <CardContent>
-                <Typography variant="h6">Your Groups</Typography>
-                {(props.userGroups.length === 0) &&
+                <CardHeader variant="h5">Your Groups</CardHeader>
+                <Typography variant="h6">Groups you own</Typography>
+                <Typography variant="h6">Groups you joined</Typography>
+                {(props.userGroups.joined.length === 0) &&
                 <Typography>You are not currently in any groups!</Typography>}
-                {props.userGroups.map((group) => (
+                {props.userGroups.joined.map((group) => (
                     <Group group={group} isMember={true}/>
                 ))}
             </CardContent>
-        </Card>
+        </UserGroup>
     )
 }
 
 const mapStateToProps = (state) => ({userGroups: state.user.userGroups})
 
-export default connect(mapStateToProps)(UserGroups)
+export default connect(mapStateToProps)(UserGroupsContainer)

@@ -2,7 +2,10 @@ const initialState = {
     isAuth: false,
     user_id: 0,
     userEvents: [],
-    userGroups: []
+    userGroups: {
+        owned: [],
+        joined: []
+    }
 };
 
 const userReducer = (state = initialState, action) => {
@@ -27,16 +30,22 @@ const userReducer = (state = initialState, action) => {
         case "ADD_GROUP": {
             return {
                 ...state,
-                userGroups: [
-                    ...state.userGroups,
-                    action.payload
-                ]
+                userGroups: {
+                    ...state.userGroups.owned,
+                    joined: [
+                        ...state.userGroups.joined,
+                        action.payload
+                    ]
+                }
             }
         }
         case "REMOVE_GROUP": {
             return {
                 ...state,
-                userGroups: state.userGroups.filter(group => group.groupId !== action.payload.groupId)
+                userGroups: {
+                    ...state.userGroups.owned,
+                    joined: state.userGroups.filter(group => group.groupId !== action.payload.groupId)
+                }
             }
         }
         default:

@@ -1,6 +1,6 @@
 import {Box1} from "../Events/EventsContainer";
-import UserGroups from "./UserGroups";
-import {Container, Typography} from "@material-ui/core";
+import UserGroups, {CardHeader} from "./UserGroups";
+import {Container} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import { connect } from "react-redux";
 import Group from "./Group";
@@ -21,12 +21,12 @@ const AllGroups = styled(Box1)({
 
 const GroupsContainer = (props) => {
     const filtered = props.groups.filter(
-        (group) => !props.userGroups.map((group) => group.groupId).includes(group.groupId))
+        (group) => !props.userGroups.joined.map((group) => group.groupId).includes(group.groupId))
 
     return (
         <GroupsPage>
             <AllGroups>
-                <Typography variant="h6">All Groups</Typography>
+                <CardHeader variant="h5">All Groups</CardHeader>
                 {filtered.map((group) => (
                     <Group group={group} isMember={false}/>
                     ))}
