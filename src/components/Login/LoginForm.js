@@ -54,7 +54,7 @@ function LoginForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({ username, password });
-    dispatch(loginAction(username + "_id"));
+    dispatch(loginAction(username));
   };
 
   const classes = useStyles();

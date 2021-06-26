@@ -1,7 +1,7 @@
 function Create() {
 return (
     <div>
-        <h1>TODO: Create Page</h1>
+        <h1>TODO: Create Event page</h1>
     </div>
 )
 }

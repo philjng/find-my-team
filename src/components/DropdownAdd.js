@@ -36,8 +36,8 @@ export const DropdownAdd = () => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 transformOrigin={{ horizontal: "right" }}
             >
-                <MenuItem onClick={handleClose}><Link to = "/create" >Create event</Link></MenuItem>
-                <MenuItem onClick={handleClose}><Link to = "/create" >Create group</Link></MenuItem>
+                <MenuItem onClick={handleClose}><Link to = "/create" >Create New Event</Link></MenuItem>
+                <MenuItem onClick={handleClose}><Link to = "/create-group" >Create New Group</Link></MenuItem>
             </Menu>
         </div>
     );

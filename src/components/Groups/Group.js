@@ -1,4 +1,4 @@
-import {Card, CardContent, Container, Typography} from "@material-ui/core";
+import {Card, CardContent} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 import {connect} from "react-redux";
