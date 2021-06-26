@@ -9,12 +9,14 @@ import {Group} from "./Group";
 const GroupsPage= styled(Container)({
     display: `flex`,
     justifyContent: `space-between`,
-    padding: `4rem 0`
+    padding: `4rem 0`,
+    backgroundColor: `#f7fdfc`
 })
 
 const AllGroups = styled(Box1)({
     padding: `1rem`,
-    minWidth: `50vw`
+    minWidth: `50vw`,
+    backgroundColor: `#f7fdfc`
 })
 
 const GroupsContainer = (props) => {

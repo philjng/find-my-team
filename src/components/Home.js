@@ -5,10 +5,12 @@ import UserEvents from "./Events/UserEvents";
 import {UserGroups} from "./Groups/UserGroups";
 
 const PageContainer = styled(Container)({
+    backgroundColor: `#f7fdfc`,
+    padding: 0,
 })
 
 const WelcomeText = styled(Typography)({
-    margin: '1rem',
+    padding: '1rem',
     textAlign: 'center',
 })
 

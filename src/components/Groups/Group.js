@@ -3,7 +3,7 @@ import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 
 const GroupCard = styled(Card)({
-    backgroundColor: `#f7fcfc`,
+    backgroundColor: `#ebfaf7`,
     margin: `1rem`
 })
 
@@ -25,7 +25,7 @@ export const Group = (props) => {
                         to="/groupdetails"
                         onClick={() => {}}
                     >
-                        Details
+                        View Group
                     </SCLink>
                 </Button2>
                 <Button2 disableElevation size="small" variant="contained">

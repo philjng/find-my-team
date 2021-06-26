@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles(()=> ({
     card: {
         margin: "1rem",
-        backgroundColor: "#f7fcfc",
+        backgroundColor: "#ebfaf7",
     }
 }))
 

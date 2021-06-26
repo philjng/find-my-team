@@ -6,7 +6,7 @@ import Event from "./Event";
 const useStyles = makeStyles(()=> ({
     card: {
         margin: "50px",
-        backgroundColor: "#f7fcfc",
+        backgroundColor: "#ebfaf7",
     }
 }))
 

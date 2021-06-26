@@ -1,9 +1,11 @@
-const mockState = {
-  isAuth: true,
-  user_id: 1,
+const initialState = {
+  isAuth: false,
+  user_id: 0,
+  userEvents: [],
+  userGroups: []
 };
 
-const userReducer = (state = {}, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
       localStorage.setItem("user", {
