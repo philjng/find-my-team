@@ -5,7 +5,7 @@ import EventParticipants from './EventParticipants.js';
 import EventComments from './EventComments';
 import {Container, Typography, Box, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
-import { participantJoin} from '../../actions/events.js';
+import {participantJoin} from '../../actions/events.js';
 
 const Box1 = styled(Box)({
     border: '2px solid #3f51b5', 

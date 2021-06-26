@@ -7,42 +7,43 @@ const events_test_data = [{name: "Soccer game", location: "Empire Field, Vancouv
 
 
 const addParticipant = (user, event, events) => {
-        let j = -1;
-        for (let i = 0; i < events.length; i++) {
-            if (JSON.stringify(events[i]) === JSON.stringify(event)) {
-                j = i;
-            }
-        }
-        let containsUser = false;
-        for (let i = 0; i < event.participants.length; i++) {
-            if (JSON.stringify(event.participants[i]) === JSON.stringify(user)) {
-                containsUser = true;
-            }
-        }
-        if (!containsUser) {
+        // let j = -1;
+        // for (let i = 0; i < events.length; i++) {
+        //     if (JSON.stringify(events[i]) === JSON.stringify(event)) {
+        //         j = i;
+        //     }
+        // }
+        let eventIndex = events.findIndex((element) => {return JSON.stringify(element) === JSON.stringify(event)});
+        let containsUser = event.participants.findIndex((element) => {return JSON.stringify(element) === JSON.stringify(user)});
+        // for (let i = 0; i < event.participants.length; i++) {
+        //     if (JSON.stringify(event.participants[i]) === JSON.stringify(user)) {
+        //         containsUser = true;
+        //     }
+        // }
+
+        if (containsUser === -1) {
             event.participants = event.participants.concat(user);
         }
-        if (j !== -1) {
-            events[j] = event;
+        if (eventIndex+1) {
+            events[eventIndex] = event;
         } else {
             console.log("ERROR");
         }
 }
 
 const addComment = (user, text, event, events) => {
-    let j = -1;
-        for (let i = 0; i < events.length; i++) {
-            if (JSON.stringify(events[i]) === JSON.stringify(event)) {
-                j = i;
-            }
-            console.log(event);
-            event.comments = event.comments.concat({user: {name: user}, text: text});
-            if (j !== -1) {
-                events[j] = event;
+    // let j = -1;
+    //     for (let i = 0; i < events.length; i++) {
+    //         if (JSON.stringify(events[i]) === JSON.stringify(event)) {
+    //             j = i;
+    //         }
+    let eventIndex = events.findIndex((element) => {return JSON.stringify(element) === JSON.stringify(event)});
+        event.comments = event.comments.concat({user: {name: user}, text: text});
+            if (eventIndex+1) {
+                events[eventIndex] = event;
             } else {
                 console.log("error");
             }
-        }
 }
 
 const eventsReducer = (events = events_test_data, action) => {
@@ -79,13 +80,14 @@ const viewEventDetailReducer = (viewableEvent = null, action) => {
             return action.value;
         case 'PARTICIPANT_JOIN':
             let event = {...action.event};
-            let containsUser = false;
-            for (let i = 0; i < event.participants.length; i++) {
-                if (JSON.stringify(event.participants[i]) === JSON.stringify(action.user)) {
-                    containsUser = true;
-                }
-            }
-            if (!containsUser) {
+            // let containsUser = false;
+            // for (let i = 0; i < event.participants.length; i++) {
+            //     if (JSON.stringify(event.participants[i]) === JSON.stringify(action.user)) {
+            //         containsUser = true;
+            //     }
+            // }
+            let containsUser = event.participants.findIndex((element) => {return JSON.stringify(element) === JSON.stringify(action.user)});
+            if (containsUser === -1) {
                 event.participants = event.participants.concat(action.user);
             }
             return event;
