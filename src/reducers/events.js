@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 
+const _ = require('lodash');
 const events_test_data = [{
     name: "Soccer game",
     location: "Empire Field, Vancouver",
@@ -35,15 +36,80 @@ const events_test_data = [{
     }];
 
 
+const addParticipant = (user, event, events) => {
+    let eventIndex = events.findIndex((element) => {
+        return _.isEqual(element, event)
+    });
+    if (!JSON.stringify(event.participants).includes(JSON.stringify(user))) {
+        event.participants = event.participants.concat(user);
+    }
+    if (eventIndex !== -1) {
+        events[eventIndex] = event;
+    } else {
+        console.log("ERROR");
+    }
+}
+
+const addComment = (user, text, event, events) => {
+    let eventIndex = events.findIndex((element) => {
+        return _.isEqual(element, event)
+    });
+    event.comments = event.comments.concat({user: {name: user}, text: text});
+    if (eventIndex !== -1) {
+        events[eventIndex] = event;
+    } else {
+        console.log("error");
+    }
+}
+
 const eventsReducer = (events = events_test_data, action) => {
-    return events;
+    switch (action.type) {
+        case 'PARTICIPANT_JOIN':
+            let retEvent = {...action.event};
+            let user = action.user;
+            addParticipant(user, retEvent, events_test_data);
+            return events_test_data;
+        case  'ADD_COMMENT':
+            console.log("events reducer called");
+            let event = {...action.event};
+            let comment_user = action.user;
+            let text = action.text;
+            addComment(comment_user, text, event, events);
+            return events_test_data;
+        default:
+            return events;
+    }
+}
+
+const commentTextReducer = (text = "", action) => {
+    if (action.type === 'EDIT_TEXT') {
+        return action.text;
+    } else {
+        return text;
+    }
+
 }
 
 const viewEventDetailReducer = (viewableEvent = null, action) => {
-    if (action.type === 'VIEW_EVENT_DETAILS') {
-        return action.value;
+    switch (action.type) {
+        case 'VIEW_EVENT_DETAILS':
+            return action.value;
+        case 'PARTICIPANT_JOIN':
+            let event = {...action.event};
+            if (!JSON.stringify(event.participants).includes(JSON.stringify(action.user))) {
+                event.participants = event.participants.concat(action.user);
+            }
+            return event;
+        case 'ADD_COMMENT':
+            console.log("eventDetail reducer called");
+            let commEvent = {...action.event};
+            let comment_user = action.user;
+            let text = action.text;
+            commEvent.comments = commEvent.comments.concat({user: {name: comment_user}, text: text});
+            return commEvent;
+        default:
+            return viewableEvent;
     }
-    return viewableEvent;
 }
 
 const toggleViewableEventsReducer = (viewableEvents = events_test_data, action) => {
@@ -63,5 +129,6 @@ const toggleViewableEventsReducer = (viewableEvents = events_test_data, action) 
 export default combineReducers({
     events: eventsReducer,
     viewableEvent: viewEventDetailReducer,
-    viewableEvents: toggleViewableEventsReducer
+    viewableEvents: toggleViewableEventsReducer,
+    commentText: commentTextReducer
 });
