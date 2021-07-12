@@ -7,6 +7,7 @@ import SportsSoccerTwoToneIcon from "@material-ui/icons/SportsSoccerTwoTone";
 import SportsTennisTwoToneIcon from "@material-ui/icons/SportsTennisTwoTone";
 import SportsVolleyballTwoToneIcon from "@material-ui/icons/SportsVolleyballTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
+import SportListItem from "./SportListItem";
 
 const useStyles = makeStyles((theme) => ({
   sports_list: {
@@ -17,54 +18,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SportsList() {
+function SportsList(props) {
   const classes = useStyles();
   return (
     <div className={classes.sports_list}>
       <h2>Favourite Sports</h2>
       <List>
-        <ListItem>
-          <ListItemIcon>
-            <SportsBasketballTwoToneIcon fontSize="large"></SportsBasketballTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Basketball" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <SportsSoccerTwoToneIcon fontSize="large"></SportsSoccerTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Soccer" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <SportsRugbyTwoToneIcon fontSize="large"></SportsRugbyTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Rugby" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <SportsTennisTwoToneIcon fontSize="large"></SportsTennisTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Tennis" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <SportsVolleyballTwoToneIcon fontSize="large"></SportsVolleyballTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Volleyball" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <SportsHockeyTwoToneIcon fontSize="large"></SportsHockeyTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Hockey" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <SportsFootballTwoToneIcon fontSize="large"></SportsFootballTwoToneIcon>
-          </ListItemIcon>
-          <ListItemText primary="Football" />
-        </ListItem>
+        <SportListItem sportType="Basketball" />
+        <SportListItem sportType="Football" />
+        <SportListItem sportType="Hockey" />
+        <SportListItem sportType="Rugby" />
+        <SportListItem sportType="Tennis" />
+        <SportListItem sportType="Volleyball" />
+        <SportListItem sportType="Soccer" />
       </List>
     </div>
   );
