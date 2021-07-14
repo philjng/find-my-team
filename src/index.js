@@ -8,6 +8,7 @@ import rootReducer from "./reducers/rootReducer";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { loadState, saveState } from "./localStorage";
+import { AuthProvider } from "./context/AuthContext";
 
 const persistedState = loadState();
 const store = createStore(
@@ -26,7 +27,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

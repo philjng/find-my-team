@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "./components/Navbar";
 import { Route, Switch } from "react-router-dom";
-import ProtectedRoute from "./ProtectRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import Events from "./components/Events/Events";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
@@ -12,13 +12,15 @@ import EventDetails from "./components/Events/EventDetails";
 import LoginRoute from "./LoginRoute";
 import LoginPage from "./components/Login/LoginPage";
 import SignUpPage from "./components/Login/SignUpPage";
-import { connect } from "react-redux";
 import CreateGroupPage from "./components/Groups/CreateGroup";
+import { useAuth } from "./context/AuthContext";
 
-function App(props) {
+function App() {
+  const { currentUser } = useAuth();
+
   return (
     <div className="App">
-      {props.isAuth && <Navbar />}
+      {currentUser && <Navbar />}
       <Switch>
         <ProtectedRoute path="/events" component={Events} />
         <ProtectedRoute path="/profile" component={Profile} />
@@ -28,7 +30,7 @@ function App(props) {
         <ProtectedRoute path="/create-group" component={CreateGroupPage} />
         <ProtectedRoute path="/groupdetails" component={GroupDetails} />
         <ProtectedRoute path="/eventdetails" component={EventDetails} />
-        <Route path='/signup'>
+        <Route path="/signup">
           <SignUpPage />
         </Route>
         <LoginRoute path="/" component={LoginPage} />
@@ -37,9 +39,4 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isAuth: state.user.isAuth,
-  };
-};
-export default connect(mapStateToProps)(App);
+export default App;
