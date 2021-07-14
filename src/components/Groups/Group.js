@@ -3,6 +3,7 @@ import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 import {connect} from "react-redux";
 import {addGroup, removeGroup} from "../../actions/user";
+import {viewGroup} from "../../actions/groups";
 
 const GroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,
@@ -33,7 +34,7 @@ const Group = (props) => {
                 <Button2 disableElevation size="small" variant="contained">
                     <SCLink
                         to="/groupdetails"
-                        onClick={() => {}}
+                        onClick={() => props.viewGroup(props.group)}
                     >
                         View Group
                     </SCLink>
@@ -51,4 +52,4 @@ const Group = (props) => {
     )
 }
 
-export default connect(null, {addGroup, removeGroup})(Group)
+export default connect(null, {addGroup, removeGroup, viewGroup})(Group)

@@ -4,3 +4,10 @@ export const createGroup = (data) => {
         payload: data
     }
 }
+
+export const viewGroup = (data) => {
+    return {
+        type: "VIEW_GROUP",
+        payload: data
+    }
+}

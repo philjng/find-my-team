@@ -8,13 +8,13 @@ import {styled} from "@material-ui/styles";
 import {participantJoin} from '../../actions/events.js';
 
 const Box1 = styled(Box)({
-    border: '2px solid #3f51b5', 
+    border: '2px solid #3f51b5',
     backgroundColor: 'white',
     alignContent: 'center'
 });
 
 const Box2 = styled(Box)({
-    border: '1px solid #3f51b5', 
+    border: '1px solid #3f51b5',
     backgroundColor: '#f7fcfc',
     width: '80%',
     margin: 'auto',
@@ -28,12 +28,11 @@ const Button1 = styled(Button)({
 })
 
 function EventDetails(props) {
-    console.log("rerender");
     return (
         <Container>
             <Typography variant="h1">{props.event.name}</Typography>
             <Container>
-                <Button1 onClick = {() => props.participantJoin({name: props.userId}, props.event)}>Join</Button1>
+                <Button1 onClick={() => props.participantJoin({name: props.userId}, props.event)}>Join</Button1>
                 <Typography variant="h5">{props.event.location}</Typography>
                 <Typography variant="h5">{props.event.date.toUTCString()}</Typography>
             </Container>
@@ -45,18 +44,21 @@ function EventDetails(props) {
                     <EventDescription description={props.event.description}/>
                 </Box2>
                 <Box2>
-                    <EventParticipants participants = {props.event.participants}/>
+                    <EventParticipants participants={props.event.participants}/>
                 </Box2>
                 <Box2>
-                    <EventComments comments = {props.event.comments}/>
+                    <EventComments comments={props.event.comments}/>
                 </Box2>
             </Box1>
         </Container>
     )
-    }
-    const mapStateToProps = (state) => {
-        return {event: state.events.viewableEvent,
-            userId: state.user.user_id};
-    }
+}
 
-    export default connect(mapStateToProps, {participantJoin})(EventDetails);
+const mapStateToProps = (state) => {
+    return {
+        event: state.events.viewableEvent,
+        userId: state.user.user_id
+    };
+}
+
+export default connect(mapStateToProps, {participantJoin})(EventDetails);

@@ -60,7 +60,8 @@ const groups_mock_data = {
             createdAt: new Date("2021-07-02"),
             groupSize: 11
         }
-    ]
+    ],
+    group: {}
 }
 
 export const groupsReducer = (state = groups_mock_data, action) => {
@@ -87,6 +88,13 @@ export const groupsReducer = (state = groups_mock_data, action) => {
                     ...state.groups,
 
                 ]
+            }
+        }
+        case "VIEW_GROUP": {
+            console.log("viewing group: ", action.payload)
+            return {
+                ...state,
+                group: action.payload
             }
         }
         default: {
