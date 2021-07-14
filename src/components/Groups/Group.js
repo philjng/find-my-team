@@ -26,7 +26,7 @@ const Group = (props) => {
                     {props.group.name}
                 </Typography1>
                 <Typography1 variant="body1">
-                    Group type: {props.group.interests.join(", ")}
+                    Tags: {props.group.tags.join(", ")}
                 </Typography1>
                 <Typography1 variant="body2">
                     Number of members: {props.group.groupSize}

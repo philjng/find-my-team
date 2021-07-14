@@ -1,6 +1,7 @@
 const initialState = {
     isAuth: false,
     user_id: 0,
+    name: "user0",
     userEvents: [],
     userGroups: {
         owned: [],
@@ -14,11 +15,13 @@ const userReducer = (state = initialState, action) => {
             localStorage.setItem("user", {
                 isAuth: true,
                 user_id: action.payload.user_id,
+                name: "user0"
             });
             return {
                 ...state,
                 isAuth: true,
                 user_id: action.payload.user_id,
+                name: "user0"
             };
         case "LOGOUT":
             localStorage.removeItem("user")
@@ -26,6 +29,7 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 isAuth: false,
                 user_id: null,
+                name: null,
             };
         case "ADD_GROUP": {
             return {

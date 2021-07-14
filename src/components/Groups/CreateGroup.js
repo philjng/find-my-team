@@ -12,7 +12,7 @@ import {
 import {styled} from "@material-ui/styles";
 import {CardHeader} from "./UserGroups";
 import React, {useState} from "react";
-import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "../../genres";
+import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "../../tags";
 import {connect} from "react-redux";
 import {createGroup} from "../../actions/groups";
 import {Link, useHistory} from "react-router-dom";
@@ -65,10 +65,10 @@ const CreateGroupPage = (props) => {
             setDescription("No description.");
         }
         props.createGroup({
-            author: props.userId,
+            authorId: props.userId,
             name: groupName,
             description: description,
-            interests: filtered
+            tags: filtered
         })
         setDescription("");
         history.push("/groups");
@@ -102,7 +102,7 @@ const CreateGroupPage = (props) => {
                         />
                     </FormControl>
                     <FormGroup>
-                        <Typography>Group interests:</Typography>
+                        <Typography>Group tags:</Typography>
                         <FormControlLabel
                             control={<Checkbox checked={checkbox.Basketball} onChange={handleCheckboxChange} name="Basketball" />}
                             label={BASKETBALL}
@@ -161,6 +161,9 @@ const CreateGroupPage = (props) => {
     )
 }
 
-const mapStateToProps = (state) => ({userId: state.user.user_id})
+const mapStateToProps = (state) => ({
+    userId: state.user.user_id,
+    user: state.user.name
+})
 
 export default connect(mapStateToProps, {createGroup})(CreateGroupPage);

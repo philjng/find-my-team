@@ -1,19 +1,19 @@
 import {Box1} from "../Events/EventsContainer";
 import UserGroups, {CardHeader} from "./UserGroups";
-import {Container} from "@material-ui/core";
+import {Box, Card, Container} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import { connect } from "react-redux";
 import Group from "./Group";
 
 
-const GroupsPage= styled(Container)({
+const GroupsPage = styled(Container)({
     display: `flex`,
     justifyContent: `space-between`,
     padding: `4rem 0`,
     backgroundColor: `#f7fdfc`
 })
 
-const AllGroups = styled(Box1)({
+const AllGroups = styled(Card)({
     padding: `1rem`,
     minWidth: `50vw`,
     backgroundColor: `#ebfaf7`
