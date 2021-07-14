@@ -9,7 +9,7 @@ import {
   Typography,
   Button,
   Snackbar,
-  Slide
+  Slide,
 } from "@material-ui/core";
 import {
   AccountCircle,
@@ -18,13 +18,13 @@ import {
   PersonAdd,
   Email,
 } from "@material-ui/icons";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import { useState } from "react";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import { styled } from "@material-ui/styles";
 import { useAuth } from "../../context/AuthContext";
 import { connect } from "react-redux";
-import { logoutAction } from "../../actions/user";
+import { signUpAction } from "../../actions/user";
 
 const SCBox = styled(Box)({
   marginTop: "80px",
@@ -52,18 +52,6 @@ function SignUpForm(props) {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [open, setOpen] = useState(false);
-
-  function SlideTransition(props) {
-    return <Slide {...props} direction="down" />;
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const handleFirstNameChange = (event) => {
     setForm({
@@ -111,23 +99,31 @@ function SignUpForm(props) {
     setShowPassword(!showPassword);
   };
 
+  function SlideTransition(props) {
+    return <Slide {...props} direction="down" />;
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   async function handleSubmit(event) {
     event.preventDefault();
-    // verify email format
-    // verify email not taken already
-    // verify username is not taken
-    // verify password is confirmed
     // verify fields only use whitelist characters (alphanumeric?)
     if (form.password !== form.confirmPassword) {
-      return setError("Passwords do not match")
+      return setError("Passwords do not match");
     }
-    
+
     try {
       setError("");
       setOpen(false);
       setLoading(true);
       await signup(form.emailAddress, form.password);
-      props.handleLogout();
+      props.handleSignUp();
       history.push("/");
     } catch (error) {
       setError(error.message);
@@ -146,11 +142,7 @@ function SignUpForm(props) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         TransitionComponent={SlideTransition}
         action={
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            onClick={handleClose}
-          >
+          <IconButton aria-label="close" color="inherit" onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         }
@@ -297,7 +289,7 @@ function SignUpForm(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleLogout: () => dispatch(logoutAction()),
+    handleSignUp: (data) => dispatch(signUpAction(data)),
   };
 };
 

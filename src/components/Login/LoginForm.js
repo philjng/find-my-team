@@ -45,18 +45,6 @@ function LoginForm(props) {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
 
-  function SlideTransition(props) {
-    return <Slide {...props} direction="down" />;
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -67,6 +55,18 @@ function LoginForm(props) {
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  function SlideTransition(props) {
+    return <Slide {...props} direction="down" />;
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   async function handleSubmit(event) {

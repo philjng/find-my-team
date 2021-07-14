@@ -19,6 +19,10 @@ const userReducer = (state = initialState, action) => {
         ...state,
         user_id: null,
       };
+    case "SIGNUP":
+      return {
+        ...state,
+      };
     case "ADD_GROUP": {
       return {
         ...state,
