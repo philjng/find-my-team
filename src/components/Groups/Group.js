@@ -15,7 +15,7 @@ const Group = (props) => {
     }
 
     const removeGroup = (group) => {
-        props.removeGroup(group)
+        window.confirm("Leave the group?") && props.removeGroup(group)
     }
 
     return (
@@ -44,7 +44,7 @@ const Group = (props) => {
                     variant="contained"
                     onClick={() => {props.isMember ? removeGroup(props.group) : joinGroup(props.group)}}
                 >
-                    {props.isMember ? "Remove Group" : "Join Group" }
+                    {props.isMember ? "Leave Group" : "Join Group" }
                 </Button2>
             </CardContent>
         </GroupCard>
