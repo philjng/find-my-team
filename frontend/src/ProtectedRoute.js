@@ -1,16 +1,17 @@
 import { Redirect, Route } from "react-router";
 import { useAuth } from "./context/AuthContext";
 
-function LoginRoute({ component: Component, ...rest }) {
+function ProtectedRoute({ component: Component, ...rest }) {
   const { currentUser } = useAuth();
 
   return (
     <Route
       {...rest}
       render={(props) => {
-        return currentUser ? <Redirect to="/home" /> : <Component {...props} />;
+        return currentUser ? <Component {...props} /> : <Redirect to="/" />;
       }}
     />
   );
 }
-export default LoginRoute;
+
+export default ProtectedRoute;

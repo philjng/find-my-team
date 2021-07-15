@@ -2,13 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b32a3a99-c2a9-4dc2-99bf-b54a36f1a487" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/ProtectedRoute.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/context/AuthContext.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/firebase.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/DropdownAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DropdownAdd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/LoginRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/LoginRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/ProtectRoute.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/DropdownProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DropdownProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/CreateGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/CreateGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/GroupDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/GroupDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/Groups.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/Groups.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/UserGroups.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/UserGroups.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login/LoginForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login/SignUpForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login/SignUpForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/reducers/user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
