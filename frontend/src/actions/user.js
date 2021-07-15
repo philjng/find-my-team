@@ -13,16 +13,25 @@ export const logoutAction = () => {
   };
 };
 
+export const signUpAction = (data) => {
+  return {
+    type: "SIGNUP",
+    payload: {
+      ...data,
+    },
+  };
+};
+
 export const addGroup = (data) => {
   return {
     type: "ADD_GROUP",
-    payload: data
-  }
-}
+    payload: data,
+  };
+};
 
 export const removeGroup = (data) => {
   return {
     type: "REMOVE_GROUP",
-    payload: data
-  }
-}
+    payload: data,
+  };
+};
