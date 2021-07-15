@@ -27,7 +27,7 @@ function Event(props) {
         Location: {props.info.location}
       </Typography1>
       <Typography1 variant="body2" className="event_date">
-        Date: {props.info.date.toUTCString()}
+        Date: {props.info.startTime}
       </Typography1>
       <Button2 disableElevation size="small" variant="contained">
         <SCLink

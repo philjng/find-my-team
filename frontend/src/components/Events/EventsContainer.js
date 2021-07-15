@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
+let axios = require('axios');
+
 export const Box1 = styled(Box)({
   border: "2px solid black",
   backgroundColor: "white",
@@ -22,19 +24,35 @@ const SCContainer = styled(Container)({
   textAlign: "center",
 });
 
+
 function EventsContainer(props) {
+
+  const viewAll = (func) => {
+    axios.get(`http://localhost:3001/events`).then( res => {
+      props.all(res.data);
+    }  
+    )
+  }
+
+  const viewUpcoming = (func) => {
+    axios.get(`http://localhost:3001/events`).then( res => {
+      props.upcoming(res.data);
+    }  
+    )
+  }
   return (
     <SCContainer className="events_container">
       <Box1>
         <ButtonGroup variant="text" aria-label="contained primary button group">
-          <Button onClick={props.all}>All</Button>
-          <Button onClick={props.upcoming}>Upcoming</Button>
+          <Button onClick={viewAll}>All</Button>
+          <Button onClick={viewUpcoming}>Upcoming</Button>
         </ButtonGroup>
         <List
           disablePadding={true}
           dense={true}
           style={{ maxHeight: "50%", overflow: "auto" }}
         >
+          {console.log(props.viewableEvents)}
           {props.viewableEvents.map((event) => (
             <>
               <ListItem key={JSON.stringify(event)}>

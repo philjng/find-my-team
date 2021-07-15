@@ -34,11 +34,11 @@ function EventDetails(props) {
             <Container>
                 <Button1 onClick={() => props.participantJoin({name: props.userId}, props.event)}>Join</Button1>
                 <Typography variant="h5">{props.event.location}</Typography>
-                <Typography variant="h5">{props.event.date.toUTCString()}</Typography>
+                <Typography variant="h5">{props.event.startTime}</Typography>
             </Container>
             <Box1>
                 <Container>
-                    <GenreTags genre={props.event.genre}/>
+                    <GenreTags genreTags={props.event.genreTags}/>
                 </Container>
                 <Box2>
                     <EventDescription description={props.event.description}/>
