@@ -1,5 +1,6 @@
 const initialState = {
   user_id: 0,
+  name: "user_0",
   userEvents: [],
   userGroups: {
     owned: [],
@@ -13,11 +14,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user_id: action.payload.user_id,
+        name: "user_0",
       };
     case "LOGOUT":
       return {
         ...state,
         user_id: null,
+        name: null
       };
     case "SIGNUP":
       return {

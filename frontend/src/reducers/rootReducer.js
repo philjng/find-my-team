@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import user from "./user"
 import events from "./events"
-import {groupsReducer} from "./groups";
+import {groups} from "./groups";
 
 const rootReducer = combineReducers({
   user,
   events: events,
-  groups: groupsReducer
+  groups: groups
 });
 
 export default rootReducer;

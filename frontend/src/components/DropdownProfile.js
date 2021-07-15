@@ -1,12 +1,12 @@
 import React from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { AccountCircle } from "@material-ui/icons";
-import { DropButton } from "./DropdownAdd";
-import { Link } from "react-router-dom";
-import { logoutAction } from "../actions/user";
-import { connect } from "react-redux";
-import { useAuth } from "../context/AuthContext";
+import {AccountCircle} from "@material-ui/icons";
+import {DropButton} from "./DropdownAdd";
+import {Link} from "react-router-dom";
+import {logoutAction} from "../actions/user";
+import {connect} from "react-redux";
+import {useAuth} from "../context/AuthContext";
 
 const mapStateToProps = (state) => {
   return {
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const DropdownProfile = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { logout } = useAuth();
+  const {logout} = useAuth();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,41 +34,32 @@ const DropdownProfile = (props) => {
       try {
         await logout();
         props.handleLogout();
-      } catch {}
+      } catch {
+      }
     }
   };
 
   return (
     <div>
-      <DropButton
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <AccountCircle />
+      <DropButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        <AccountCircle/>
       </DropButton>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={(e) => handleClose(e)}
         getContentAnchorEl={null}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ horizontal: "right" }}
+        anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+        transformOrigin={{vertical: "top", horizontal: "right"}}
       >
-        <MenuItem onClick={handleClose}>
-          <Link to="/profile">My Profile</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to="/settings">Settings</Link>
-        </MenuItem>
-        <MenuItem onClick={(e) => handleClose(e)}>
-          <Link to="/">Logout</Link>
-        </MenuItem>
+        <MenuItem onClick={(e) => handleClose(e)}><Link to="/profile">My Profile</Link></MenuItem>
+        <MenuItem onClick={(e) => handleClose(e)}><Link to="/settings">Settings</Link></MenuItem>
+        <MenuItem onClick={(e) => handleClose(e)}><Link to="/">Logout</Link></MenuItem>
       </Menu>
     </div>
   );
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropdownProfile);
