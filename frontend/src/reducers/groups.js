@@ -76,7 +76,7 @@ const groups_mock_data = {
     group: {}
 }
 
-export const groupsReducer = (state = groups_mock_data, action) => {
+export const groups = (state = groups_mock_data, action) => {
     switch (action.type) {
         case "GET_GROUPS": {
             return {
