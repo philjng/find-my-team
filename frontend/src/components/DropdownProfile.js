@@ -43,13 +43,13 @@ const DropdownProfile = (props) => {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                onClose={(e) => handleClose(e)}
                 getContentAnchorEl={null}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
-                <MenuItem onClick={handleClose}><Link to = "/profile" >My Profile</Link></MenuItem>
-                <MenuItem onClick={handleClose}><Link to = "/settings" >Settings</Link></MenuItem>
+                <MenuItem onClick={(e) => handleClose(e)}><Link to = "/profile" >My Profile</Link></MenuItem>
+                <MenuItem onClick={(e) => handleClose(e)}><Link to = "/settings" >Settings</Link></MenuItem>
                 <MenuItem onClick={(e) => handleClose(e)}><Link to = "/" >Logout</Link></MenuItem>
             </Menu>
         </div>

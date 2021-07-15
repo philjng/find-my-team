@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b32a3a99-c2a9-4dc2-99bf-b54a36f1a487" name="Default Changelist" comment="" />
+    <list default="true" id="b32a3a99-c2a9-4dc2-99bf-b54a36f1a487" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DropdownAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DropdownAdd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DropdownProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DropdownProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/CreateGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/CreateGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/GroupDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/GroupDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/Groups.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/Groups.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Groups/UserGroups.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Groups/UserGroups.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -88,7 +96,7 @@
       <workItem from="1626216945500" duration="1208000" />
       <workItem from="1626223075312" duration="12795000" />
       <workItem from="1626304077357" duration="5271000" />
-      <workItem from="1626310766665" duration="898000" />
+      <workItem from="1626310766665" duration="1962000" />
     </task>
     <servers />
   </component>

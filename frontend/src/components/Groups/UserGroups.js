@@ -23,7 +23,7 @@ const UserGroupsContainer = (props) => {
                 {(props.userGroups.joined.length === 0) &&
                 <Typography>You are not currently in any groups!</Typography>}
                 {props.userGroups.joined.map((group) => (
-                    <Group group={group} isMember={true}/>
+                    <Group group={group} isMember={true} key={group.name+group.authorId}/>
                 ))}
             </CardContent>
         </UserGroup>

@@ -2,7 +2,8 @@ import {
     Box,
     Button,
     Card,
-    CardContent, Checkbox,
+    CardContent,
+    Checkbox,
     FormControl,
     FormControlLabel,
     FormGroup,
@@ -15,7 +16,7 @@ import React, {useState} from "react";
 import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "../../tags";
 import {connect} from "react-redux";
 import {createGroup} from "../../actions/groups";
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const CreateGroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,

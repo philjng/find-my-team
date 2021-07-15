@@ -93,7 +93,7 @@ function GroupDetails(props) {
                     <Image>
                         <img
                             src="https://i.ytimg.com/vi/NVuL7mLqT6g/maxresdefault.jpg"
-                            alt="stock image"
+                            alt="default"
                             style={{
                                 width: "100%",
                                 height: "auto"

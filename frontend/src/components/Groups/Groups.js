@@ -1,6 +1,5 @@
-import {Box1} from "../Events/EventsContainer";
 import UserGroups, {CardHeader} from "./UserGroups";
-import {Box, Card, Container} from "@material-ui/core";
+import {Card, Container} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import { connect } from "react-redux";
 import Group from "./Group";
