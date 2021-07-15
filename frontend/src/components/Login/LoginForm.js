@@ -164,7 +164,7 @@ function LoginForm(props) {
               Login
             </Button>
             <Link component={RouterLink} to="/signup" variant="body2">
-              Sign Up
+              Need an account? Sign Up
             </Link>
           </FormControl>
         </Box>
