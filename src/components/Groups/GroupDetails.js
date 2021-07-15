@@ -1,10 +1,19 @@
 import {connect} from 'react-redux';
-import {Box, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
+import {Avatar, Box, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
+
+export const FlexBox = styled(Box)({
+    display: `flex`,
+})
+
+export const VerticalContent = styled(CardContent)({
+    display: `flex`,
+    flexDirection: `column`,
+    justifyContent: `center`
+})
 
 const GroupPage = styled(Container)({
     backgroundColor: `#f7fdfc`,
-
 })
 
 const GroupCard = styled(Card)({
@@ -23,12 +32,33 @@ const LeftBox = styled(Box)({
     justifyContent: `space-between`
 })
 
-const GroupDescription = styled(Box)({
-    alignSelf: `flex-end`
-})
-
 const Image = styled(CardMedia)({
     width: `50%`
+})
+
+const SecondBox = styled(FlexBox)({
+    justifyContent: `space-between`,
+    margin: `1rem`,
+})
+
+const EventCard = styled(Card)({
+    backgroundColor: `#d6f5ef`,
+    flexGrow: `2`,
+    marginRight: `1rem`
+})
+
+const MembersCard = styled(Card)({
+    backgroundColor: `#d6f5ef`,
+})
+
+const Member = styled(FlexBox)({
+    margin: `0.5rem 0`,
+})
+
+const Name = styled(Typography)({
+    marginLeft: `0.5rem`,
+    marginTop: `0.5rem`,
+    verticalAlign: `center`
 })
 
 function GroupDetails(props) {
@@ -48,10 +78,10 @@ function GroupDetails(props) {
                                 <Box fontWeight="fontWeightLight">{props.group.groupSize + " members"}</Box>
                             </Typography>
                         </Box>
-                        <GroupDescription>
+                        <Box>
                             <Typography variant="h6">Group Description</Typography>
                             {props.group.description}
-                        </GroupDescription>
+                        </Box>
                         <Box>
                             <Typography variant="h6">Tags</Typography>
                             <Typography>
@@ -72,6 +102,27 @@ function GroupDetails(props) {
                     </Image>
                 </GroupContent>
             </GroupCard>
+            <SecondBox>
+                <EventCard>
+                    <VerticalContent>
+                        <Typography variant="h6">Events</Typography>
+                        {/*TODO: set up group related events listing*/}
+                        <Typography align="center">This group has no events.</Typography>
+                    </VerticalContent>
+                </EventCard>
+                <MembersCard>
+                    <VerticalContent>
+                        <Typography variant="h6">{"Members (" + props.group.groupSize + ")"}</Typography>
+                        {/*TODO: set up user names and icons*/}
+                        {props.group.memberIds.map((id) => (
+                            <Member>
+                                <Avatar/>
+                                <Name align="center">No Name</Name>
+                            </Member>
+                        ))}
+                    </VerticalContent>
+                </MembersCard>
+            </SecondBox>
         </GroupPage>
     )
 }
