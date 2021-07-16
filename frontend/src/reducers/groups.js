@@ -8,8 +8,8 @@ const groups_mock_data = {
     groups: [
         {
             groupId: 1,
-            authorId: 2,
-            author: "kuroko",
+            creatorId: 2,
+            creator: "kuroko",
             name: "Generation of miracles",
             description: "We are the best basketball players",
             tags: [BASKETBALL],
@@ -19,8 +19,8 @@ const groups_mock_data = {
         },
         {
             groupId: 2,
-            authorId: 3,
-            author: "bance",
+            creatorId: 3,
+            creator: "bance",
             name: "dumbos",
             description: "We are the best",
             tags: [BASKETBALL, TENNIS],
@@ -30,8 +30,8 @@ const groups_mock_data = {
         },
         {
             groupId: 3,
-            authorId: 4,
-            author: "usain bolt",
+            creatorId: 4,
+            creator: "usain bolt",
             name: "Track stars",
             description: "We are the fastest runners",
             tags: [RUNNING],
@@ -41,8 +41,8 @@ const groups_mock_data = {
         },
         {
             groupId: 4,
-            authorId: 5,
-            author: "jay",
+            creatorId: 5,
+            creator: "jay",
             name: "Are you aero?",
             description: "real cyclists only",
             tags: [BIKING],
@@ -52,8 +52,8 @@ const groups_mock_data = {
         },
         {
             groupId: 5,
-            authorId: 6,
-            author: "dude perfect",
+            creatorId: 6,
+            creator: "dude perfect",
             name: "Ultimate frisbee club",
             description: "It's a sport!",
             tags: [FRISBEE],
@@ -63,8 +63,8 @@ const groups_mock_data = {
         },
         {
             groupId: 6,
-            authorId: 7,
-            author: "justin phan",
+            creatorId: 7,
+            creator: "justin phan",
             name: "Ronaldo fan club",
             description: "ronaldo #1",
             tags: [SOCCER],
@@ -90,7 +90,7 @@ export const groups = (state = groups_mock_data, action) => {
                 groups: [
                     {
                         groupId: state.groups[state.groups.length],
-                        authorId: action.payload.authorId,
+                        creatorId: action.payload.creatorId,
                         name: action.payload.name,
                         description: action.payload.description,
                         tags: action.payload.tags,
