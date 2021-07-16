@@ -66,7 +66,7 @@ const CreateGroupPage = (props) => {
         const keys = Object.keys(checkbox)
         const filtered = keys.filter((key) => checkbox[key])
         props.createGroup({
-            creatorId: user.uid,
+            creatorId: currentUser.uid,
             creator: props.user,
             name: groupName,
             description: description.trim() === "" ? "No description." : description,
