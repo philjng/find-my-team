@@ -45,39 +45,21 @@ router.post("/", function (req, res, next) {
   });
 });
 
-// router.patch("/comment", function (req, res, next) {
-//   Event.findOneAndUpdate({_id: req.body._id}, 
-//     {$push: {comments: req.body.comment}}, )
-//     .then(() => res.send('success'))
-//     .catch((err) => {
-//       res.status(500).send({message: err.message});
-//     })
-// })
-
-// router.patch("/participant", function (req, res, next) {
-//   Event.findOneAndUpdate({_id: req.body._id}, 
-//     {$push: {participants: req.body.participant}}, )
-//     .then(() => res.send('success'))
-//     .catch((err) => {
-//       res.status(500).send({message: err.message});
-//     })
-// })
-
 router.patch("/comment", function (req, res, next) {
   Event.findOneAndUpdate({_id: req.body._id}, 
     {$push: {comments: req.body.comment}}, )
-    .then(() => res.send({}))
+    .then(() => res.send('success'))
     .catch((err) => {
-      res.send({});
+      res.status(500).send({message: err.message});
     })
 })
 
 router.patch("/participant", function (req, res, next) {
   Event.findOneAndUpdate({_id: req.body._id}, 
     {$push: {participants: req.body.participant}}, )
-    .then(() => res.send({}))
+    .then(() => res.send('success'))
     .catch((err) => {
-      res.send({});
+      res.status(500).send({message: err.message});
     })
 })
 

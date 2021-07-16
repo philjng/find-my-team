@@ -52,7 +52,6 @@ function EventsContainer(props) {
           dense={true}
           style={{ maxHeight: "50%", overflow: "auto" }}
         >
-          {console.log(props.viewableEvents)}
           {props.viewableEvents.map((event) => (
             <>
               <ListItem key={JSON.stringify(event)}>

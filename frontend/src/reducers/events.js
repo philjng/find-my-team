@@ -3,7 +3,6 @@ import {combineReducers} from 'redux';
 const _ = require('lodash');
 
 const addParticipant = (user, event, events) => {
-    console.log(events);
     let eventIndex = events.findIndex((element) => {
         return _.isEqual(element, event)
     });
@@ -70,7 +69,6 @@ const viewEventDetailReducer = (viewableEvent = null, action) => {
             }
             return event;
         case 'ADD_COMMENT':
-            console.log("eventDetail reducer called");
             let commEvent = {...action.event};
             let comment_user = action.user;
             let text = action.text;
