@@ -41,7 +41,7 @@ function EventComments(props) {
     const changeText = (event) => {
         props.editText(event.target.value);
     }
-
+    console.log(props.comments);
 
     return (
         <Container>
