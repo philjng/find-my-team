@@ -42,7 +42,7 @@ const ButtonGroup = styled(Box)({
 })
 
 const CreateGroupPage = (props) => {
-    const user = useAuth().currentUser
+    const { currentUser } = useAuth()
     const [groupName, setGroupName] = useState("");
     const [description, setDescription] = useState("");
     const [checkbox, setCheckbox] = useState({
