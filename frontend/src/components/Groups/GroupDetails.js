@@ -62,7 +62,6 @@ const Name = styled(Typography)({
 })
 
 function GroupDetails(props) {
-    console.log("what is group: ", props)
     return (
         <GroupPage>
             <GroupCard>
