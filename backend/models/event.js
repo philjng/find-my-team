@@ -15,7 +15,7 @@ const EventSchema = new Schema({
   status: String,
   createdAt: Date,
   updatedAt: Date,
-  comments: [Schema.Types.ObjectId]
+  comments: [Object]
 });
 
 const Event = mongoose.model("Event", EventSchema);

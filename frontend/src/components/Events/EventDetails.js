@@ -40,6 +40,7 @@ function EventDetails(props) {
                                 console.log(err);})
         }
     }
+
     return (
         <Container>
             <Typography variant="h1">{props.event.name}</Typography>

@@ -45,27 +45,15 @@ router.post("/", function (req, res, next) {
   });
 });
 
-// router.patch("/comment", function (req, res, next) {
-//   Event.findByIdAndUpdate(req.body._id, 
-//     {$push: {comments: req.body.comment}},
-//     (error, result) => {
-//       if (error) {
-//         res.status(error.code).send(error);
-
-//       } else {
-//         res.send(result)
-//       }
-
-//     }
-//     )
-//     .then(() => {
-//       console.log("success");
-//       res.send(req);})
-//     .catch((err) => {
-//       console.log("failure");
-//       res.send(err);
-//     })
-// })
+router.patch("/comment", function (req, res, next) {
+  Event.findOneAndUpdate({_id: req.body._id}, 
+    {$push: {comments: req.body.comment}}, )
+    .then(() => res.send({}))
+    .catch((err) => {
+      console.log(err);
+      res.send({});
+    })
+})
 
 router.patch("/participant", function (req, res, next) {
   Event.findOneAndUpdate({_id: req.body._id}, 

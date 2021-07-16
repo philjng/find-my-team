@@ -2,6 +2,9 @@ import {connect} from 'react-redux';
 import {Container, List, ListItem, Typography, TextField, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {addComment, editText} from '../../actions/events.js';
+import firebase from "firebase/app";
+import "firebase/auth";
+let axios = require('axios');
 
 const ListItem1 = styled(ListItem) ({
     border: '1px solid black',
@@ -30,12 +33,15 @@ const Button1 = styled(Button) ({
 function EventComments(props) {
 
     const submitComment = () => {
-        props.addComment(props.userId, props.event, props.text);
+        axios.patch('http://localhost:3001/events/comment', {_id: props.event._id, comment: {user: firebase.auth().currentUser.email, text: props.text}}).then(() => {
+            props.addComment(firebase.auth().currentUser.email, props.event, props.text, props.events);
+        }).catch((err) => console.log(err))
     }
 
     const changeText = (event) => {
         props.editText(event.target.value);
     }
+
 
     return (
         <Container>
@@ -44,7 +50,7 @@ function EventComments(props) {
                 {props.comments.map( (comment) =>
                 <ListItem1 key={JSON.stringify(comment)}>
                     <Container>
-                        <Typography1 variant = "body2" >{comment.user.name}</Typography1>
+                        <Typography1 variant = "body2" >{comment.user}</Typography1>
                         <Typography variant = "body1">{comment.text}</Typography>
                     </Container>
                 </ListItem1>)}
@@ -61,7 +67,8 @@ function EventComments(props) {
 const mapStateToProps = (state) => {
     return {event: state.events.viewableEvent,
             userId: state.user.user_id,
-            text: state.events.commentText};
+            text: state.events.commentText,
+            events: state.events.events};
 }
 
 export default connect(mapStateToProps, {addComment: addComment, editText: editText})(EventComments);
