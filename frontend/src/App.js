@@ -3,7 +3,7 @@ import { Navbar } from "./components/Navbar";
 import { Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Events from "./components/Events/Events";
-import Profile from "./components/Profile";
+import Profile from "./components/Profile/Profile";
 import Home from "./components/Home";
 import Groups from "./components/Groups/Groups";
 import Create from "./components/Create";
