@@ -6,6 +6,8 @@ import EventComments from './EventComments';
 import {Container, Typography, Box, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {participantJoin} from '../../actions/events.js';
+import firebase from "firebase/app";
+import "firebase/auth";
 let axios = require('axios');
 
 const Box1 = styled(Box)({
@@ -31,10 +33,7 @@ const Button1 = styled(Button)({
 function EventDetails(props) {
 
     const addParticipant = () => {
-        console.log(props.user);
-        console.log(props.event._id);
-        console.log(props.userId);
-        axios.patch('http://localhost:3001/events/participant', {_id: props.event._id, participant: props.userId}).then(() => {
+        axios.patch('http://localhost:3001/events/participant', {_id: props.event._id, participant: firebase.auth().currentUser.uid}).then(() => {
         console.log("then statement called");
         props.participantJoin({name: props.userId}, props.event);
     }).catch( (err) => {console.log("there was an error")})

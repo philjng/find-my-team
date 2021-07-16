@@ -10,7 +10,7 @@ const EventSchema = new Schema({
   endTime: Date,
   location: String,
   participantSize: Number,
-  participants: [Schema.Types.ObjectId],
+  participants: [String],
   group: Schema.Types.ObjectId,
   status: String,
   createdAt: Date,
