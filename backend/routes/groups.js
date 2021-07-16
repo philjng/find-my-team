@@ -5,7 +5,17 @@ const Group = require("../models/group");
 
 /* GET groups listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  Group.find()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .send({
+          message: error.message || "There was an error while getting groups",
+        });
+    });
 });
 
 /* POST endpoint */

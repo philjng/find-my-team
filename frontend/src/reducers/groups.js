@@ -81,7 +81,7 @@ export const groups = (state = groups_mock_data, action) => {
         case "GET_GROUPS": {
             return {
                 ...state,
-                groups: groups_mock_data
+                groups: action.payload
             }
         }
         case "CREATE_GROUP": {
