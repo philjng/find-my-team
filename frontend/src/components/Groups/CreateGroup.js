@@ -56,20 +56,22 @@ const CreateGroupPage = (props) => {
     const history = useHistory();
 
     const handleSubmit = () => {
+        // TODO: add more functionality for creating a group
         if (groupName.trim() === "") {
             window.alert("Group name is required.");
             return;
         }
         const keys = Object.keys(checkbox)
         const filtered = keys.filter((key) => checkbox[key])
-        if (description.trim() === "") {
-            setDescription("No description.");
-        }
         props.createGroup({
-            authorId: props.userId,
+            creatorId: props.userId,
+            creator: props.user,
             name: groupName,
-            description: description,
-            tags: filtered
+            description: description.trim() === "" ? "No description." : description,
+            tags: filtered,
+            createdAt: new Date(),
+            memberIds: [props.userId],
+            groupSize: 1
         })
         setDescription("");
         history.push("/groups");

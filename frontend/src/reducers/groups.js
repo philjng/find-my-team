@@ -91,11 +91,13 @@ export const groups = (state = groups_mock_data, action) => {
                     {
                         groupId: state.groups[state.groups.length],
                         creatorId: action.payload.creatorId,
+                        creator: action.payload.creator,
                         name: action.payload.name,
                         description: action.payload.description,
                         tags: action.payload.tags,
-                        createdAt: new Date(),
-                        groupSize: 1
+                        createdAt: action.payload.createdAt,
+                        memberIds: action.payload.memberIds,
+                        groupSize: action.payload.groupSize
                     },
                     ...state.groups,
 
