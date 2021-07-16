@@ -14,7 +14,7 @@ router.post("/", function(req, res, next){
   newGroup.save((error) => {
     if (error) {
       res
-        .status(error.code)
+        .status(500)
         .send({ message: error.message || "POST group failed" });
     } else {
       res.send(newGroup);

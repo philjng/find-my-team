@@ -7,7 +7,7 @@ const headers = {
 export const createGroup = (data) => async dispatch => {
     try {
         axios.post(
-          `http://localhost:3001/cards`,
+          `http://localhost:3001/groups`,
           data,
           {headers}
         )
