@@ -74,7 +74,7 @@ function GroupDetails(props) {
                                 </Box>
                             </Typography>
                             <Typography>
-                                <Box fontWeight="fontWeightLight">{"Created by " + props.group.author}</Box>
+                                <Box fontWeight="fontWeightLight">{"Created by " + props.group.creator}</Box>
                                 <Box fontWeight="fontWeightLight">{props.group.groupSize + " members"}</Box>
                             </Typography>
                         </Box>
