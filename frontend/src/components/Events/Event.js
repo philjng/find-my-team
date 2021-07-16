@@ -18,10 +18,11 @@ export const SCLink = styled(Link)({
 });
 
 function Event(props) {
+  console.log(props);
   return (
     <Container disableGutters={true} className="event_container">
       <Typography1 variant="h5" className="event_name">
-        {props.info.name}
+        {props.info.title}
       </Typography1>
       <Typography1 variant="body1" className="event_location">
         Location: {props.info.location}

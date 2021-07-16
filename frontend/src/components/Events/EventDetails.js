@@ -33,10 +33,12 @@ const Button1 = styled(Button)({
 function EventDetails(props) {
 
     const addParticipant = () => {
-        axios.patch('http://localhost:3001/events/participant', {_id: props.event._id, participant: firebase.auth().currentUser.uid}).then(() => {
-        console.log("then statement called");
-        props.participantJoin({name: props.userId}, props.event);
-    }).catch( (err) => {console.log("there was an error")})
+        if (!JSON.stringify(props.event.participants).includes(JSON.stringify({uid: firebase.auth().currentUser.uid, email:firebase.auth().currentUser.email}))) {
+            axios.patch('http://localhost:3001/events/participant', {_id: props.event._id, participant: {uid: firebase.auth().currentUser.uid, email:firebase.auth().currentUser.email}}).then(() => {
+                props.participantJoin({uid: firebase.auth().currentUser.uid, email:firebase.auth().currentUser.email}, props.event, props.events);
+            }).catch( (err) => {console.log("there was an error");
+                                console.log(err);})
+        }
     }
     return (
         <Container>
@@ -68,7 +70,8 @@ const mapStateToProps = (state) => {
     return {
         event: state.events.viewableEvent,
         userId: state.user.user_id,
-        user: state.user
+        user: state.user,
+        events: state.events.viewableEvents
     };
 }
 

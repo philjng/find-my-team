@@ -69,13 +69,9 @@ router.post("/", function (req, res, next) {
 
 router.patch("/participant", function (req, res, next) {
   Event.findOneAndUpdate({_id: req.body._id}, 
-    {$push: {participants: req.body.participant}})
-    .then((res) => {
-      console.log("success");
-      console.log(res);
-      res.send({});})
+    {$push: {participants: req.body.participant}}, )
+    .then(() => res.send({}))
     .catch((err) => {
-      console.log("failure")
       console.log(err);
       res.send({});
     })
