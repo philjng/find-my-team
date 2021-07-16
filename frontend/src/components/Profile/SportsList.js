@@ -1,11 +1,4 @@
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import SportsBasketballTwoToneIcon from "@material-ui/icons/SportsBasketballTwoTone";
-import SportsFootballTwoToneIcon from "@material-ui/icons/SportsFootballTwoTone";
-import SportsHockeyTwoToneIcon from "@material-ui/icons/SportsHockeyTwoTone";
-import SportsRugbyTwoToneIcon from "@material-ui/icons/SportsRugbyTwoTone";
-import SportsSoccerTwoToneIcon from "@material-ui/icons/SportsSoccerTwoTone";
-import SportsTennisTwoToneIcon from "@material-ui/icons/SportsTennisTwoTone";
-import SportsVolleyballTwoToneIcon from "@material-ui/icons/SportsVolleyballTwoTone";
+import { List } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SportListItem from "./SportListItem";
 
