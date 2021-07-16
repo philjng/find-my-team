@@ -19,15 +19,17 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
+  let startDate = new Date(req.body.start + " UTC");
+  let endDate = new Date(req.body.end + " UTC");
   const newEvent = new Event({
     creator: mongoose.Types.ObjectId("51c35e5ced18cb901d000001"),
-    title: "title",
-    description: "description",
-    genreTags: ["basketball"],
-    startTime: new Date(),
-    endTime: new Date(),
-    location: "location",
-    participantSize: "0",
+    title: req.body.title,
+    description: req.body.description,
+    genreTags: req.body.tags,
+    startTime: new Date(startDate.toISOString()),
+    endTime: new Date(endDate.toISOString()),
+    location: req.body.location,
+    participantSize: "1",
     participants: [],
     group: mongoose.Types.ObjectId("51c35e5ced18cb901d000001"),
     status: "status",
@@ -37,6 +39,7 @@ router.post("/", function (req, res, next) {
   newEvent.save((error) => {
     if (error) {
       console.log("Ooops, something happened to event POST");
+      console.log(error);
       res.send(error)
     } else {
       console.log("POST event successful");
