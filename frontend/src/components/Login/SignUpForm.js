@@ -10,6 +10,12 @@ import {
   Button,
   Snackbar,
   Slide,
+  Select,
+  MenuItem,
+  ListItemText,
+  Checkbox,
+  Input,
+  InputLabel,
 } from "@material-ui/core";
 import {
   AccountCircle,
@@ -25,6 +31,9 @@ import { styled } from "@material-ui/styles";
 import { useAuth } from "../../context/AuthContext";
 import { connect } from "react-redux";
 import { signUpAction } from "../../actions/user";
+import { TAGS } from "../../tags";
+
+const axios = require("axios");
 
 const SCBox = styled(Box)({
   marginTop: "80px",
@@ -37,7 +46,7 @@ const SCButton = styled(Button)({
   margin: "16px 0px",
 });
 
-function SignUpForm(props) {
+function SignUpForm() {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -46,6 +55,7 @@ function SignUpForm(props) {
     password: "",
     confirmPassword: "",
   });
+  const [tags, setTags] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const { signup } = useAuth();
   const [error, setError] = useState("");
@@ -95,6 +105,10 @@ function SignUpForm(props) {
     });
   };
 
+  const handleTagsChange = (event) => {
+    setTags(event.target.value);
+  };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -122,8 +136,18 @@ function SignUpForm(props) {
       setError("");
       setOpen(false);
       setLoading(true);
-      await signup(form.emailAddress, form.password);
-      props.handleSignUp();
+      let response = await signup(form.emailAddress, form.password);
+      await axios.post(`http://localhost:3001/users`, {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        tags: tags,
+        emailAddress: form.emailAddress,
+        username: form.username,
+        eventsJoined: [],
+        eventsCreated: [],
+        groups: [],
+        _id: response.user.uid,
+      });
       history.push("/");
     } catch (error) {
       setError(error.message);
@@ -216,6 +240,32 @@ function SignUpForm(props) {
               ),
             }}
           />
+          <FormControl margin="normal">
+            <InputLabel variant="outlined" id="tags-checkbox-label">
+              Interested Sports Tags
+            </InputLabel>
+            <Select
+              variant="outlined"
+              labelId="tags-checkbox-label"
+              id="tags-checkbox"
+              multiple
+              label="Interested Sports Tags"
+              value={tags}
+              onChange={handleTagsChange}
+              inputProps={<Input />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={{
+                getContentAnchorEl: null,
+              }}
+            >
+              {TAGS.map((tag) => (
+                <MenuItem key={tag} value={tag}>
+                  <Checkbox checked={tags.indexOf(tag) > -1} />
+                  <ListItemText primary={tag} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             variant="outlined"
             margin="normal"
@@ -243,7 +293,7 @@ function SignUpForm(props) {
           />
           <TextField
             variant="outlined"
-            margin="none"
+            margin="normal"
             required
             fullWidth
             name="confirm-password"
@@ -278,7 +328,7 @@ function SignUpForm(props) {
           </SCButton>
           <Box pt={0.25}>
             <Link component={RouterLink} to="/" variant="body2">
-              Login instead
+              Already have an account? Login instead
             </Link>
           </Box>
         </FormControl>
