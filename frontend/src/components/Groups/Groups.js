@@ -3,6 +3,8 @@ import {Card, Container} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import { connect } from "react-redux";
 import Group from "./Group";
+import {getGroups} from "../../actions/groups";
+import {useEffect} from "react";
 
 
 const GroupsPage = styled(Container)({
@@ -19,6 +21,10 @@ const AllGroups = styled(Card)({
 })
 
 const GroupsContainer = (props) => {
+    useEffect(() => {
+        props.getGroups()
+    }, [])
+
     const joinedGroupIds = props.userGroups.joined.map((group) => group.groupId)
     const filtered = props.groups.filter(
         (group) => !joinedGroupIds.includes(group.groupId))
@@ -43,4 +49,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(GroupsContainer);
+export default connect(mapStateToProps, {getGroups})(GroupsContainer);

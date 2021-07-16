@@ -17,6 +17,7 @@ import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "
 import {connect} from "react-redux";
 import {createGroup} from "../../actions/groups";
 import {useHistory} from "react-router-dom";
+import {useAuth} from "../../context/AuthContext";
 
 const CreateGroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,
@@ -41,6 +42,7 @@ const ButtonGroup = styled(Box)({
 })
 
 const CreateGroupPage = (props) => {
+    const { currentUser } = useAuth()
     const [groupName, setGroupName] = useState("");
     const [description, setDescription] = useState("");
     const [checkbox, setCheckbox] = useState({
@@ -56,20 +58,22 @@ const CreateGroupPage = (props) => {
     const history = useHistory();
 
     const handleSubmit = () => {
+        // TODO: add more functionality for creating a group
         if (groupName.trim() === "") {
             window.alert("Group name is required.");
             return;
         }
         const keys = Object.keys(checkbox)
         const filtered = keys.filter((key) => checkbox[key])
-        if (description.trim() === "") {
-            setDescription("No description.");
-        }
         props.createGroup({
-            authorId: props.userId,
+            creatorId: user.uid,
+            creator: props.user,
             name: groupName,
-            description: description,
-            tags: filtered
+            description: description.trim() === "" ? "No description." : description,
+            tags: filtered,
+            createdAt: new Date(),
+            memberIds: [props.userId],
+            groupSize: 1
         })
         setDescription("");
         history.push("/groups");

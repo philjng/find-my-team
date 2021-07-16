@@ -9,7 +9,8 @@ const UserSchema = new Schema({
   username: String,
   eventsJoined: [Schema.Types.ObjectId],
   eventsCreated: [Schema.Types.ObjectId],
-  groups: [Schema.Types.ObjectId],
+  groupsJoined: [Schema.Types.ObjectId],
+  groupsCreated: [Schema.Types.ObjectId],
   _id: String,
 });
 

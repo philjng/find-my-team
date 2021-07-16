@@ -1,11 +1,16 @@
 const initialState = {
   user_id: 0,
   name: "user_0",
-  userEvents: [],
+  userEvents: {
+    created: [],
+    joined: []
+  },
   userGroups: {
-    owned: [],
+    created: [],
     joined: [],
   },
+  tags: [],
+  emailAddress: null
 };
 
 const userReducer = (state = initialState, action) => {
