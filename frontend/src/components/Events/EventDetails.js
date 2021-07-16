@@ -6,6 +6,7 @@ import EventComments from './EventComments';
 import {Container, Typography, Box, Button} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {participantJoin} from '../../actions/events.js';
+let axios = require('axios');
 
 const Box1 = styled(Box)({
     border: '2px solid #3f51b5',
@@ -28,11 +29,21 @@ const Button1 = styled(Button)({
 })
 
 function EventDetails(props) {
+
+    const addParticipant = () => {
+        console.log(props.user);
+        console.log(props.event._id);
+        console.log(props.userId);
+        axios.patch('http://localhost:3001/events/participant', {_id: props.event._id, participant: props.userId}).then(() => {
+        console.log("then statement called");
+        props.participantJoin({name: props.userId}, props.event);
+    }).catch( (err) => {console.log("there was an error")})
+    }
     return (
         <Container>
             <Typography variant="h1">{props.event.name}</Typography>
             <Container>
-                <Button1 onClick={() => props.participantJoin({name: props.userId}, props.event)}>Join</Button1>
+                <Button1 onClick={addParticipant}>Join</Button1>
                 <Typography variant="h5">{props.event.location}</Typography>
                 <Typography variant="h5">{props.event.startTime}</Typography>
             </Container>
@@ -57,7 +68,8 @@ function EventDetails(props) {
 const mapStateToProps = (state) => {
     return {
         event: state.events.viewableEvent,
-        userId: state.user.user_id
+        userId: state.user.user_id,
+        user: state.user
     };
 }
 
