@@ -48,8 +48,7 @@ export const updateMemberList = (data) => async dispatch => {
           {headers}
         )
           .then((res) => {
-              // for some reason doing a dispatch here duplicates the group 
-              return( {
+              dispatch( {
                   type: "UPDATE_MEMBER_LIST",
                   payload: res.data
               })

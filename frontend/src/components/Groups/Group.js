@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch) => ({
     addGroup: (group) => dispatch(addGroup(group)),
     removeGroup: (group) => dispatch(removeGroup(group)),
     viewGroup: (group) => dispatch(viewGroup(group)),
-    updateMemberList: (group, userId) => dispatch(updateMemberList(group, userId))
+    updateMemberList: (group) => dispatch(updateMemberList(group))
 })
 
 export default connect(null, mapDispatchToProps)(Group)
