@@ -1,4 +1,5 @@
 import axios from "axios"
+import {getCreatedGroups} from "./user";
 
 const headers = {
     "Content-Type": "application/json"
@@ -31,6 +32,9 @@ export const createGroup = (data) => async dispatch => {
                   type: "CREATE_GROUP",
                   payload: res.data
               })
+          })
+          .then(() => {
+              dispatch(getCreatedGroups(data.creatorId))
           })
     } catch (e) {
         dispatch( {
