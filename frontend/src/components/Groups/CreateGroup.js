@@ -72,9 +72,10 @@ const CreateGroupPage = (props) => {
             description: description.trim() === "" ? "No description." : description,
             tags: filtered,
             createdAt: new Date(),
-            memberIds: [props.userId],
+            memberIds: [currentUser.uid],
             groupSize: 1
         })
+        // TODO: create action for user to update createdGroups
         setDescription("");
         history.push("/groups");
     }

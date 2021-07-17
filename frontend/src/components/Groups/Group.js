@@ -3,7 +3,8 @@ import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 import {connect} from "react-redux";
 import {addGroup, removeGroup} from "../../actions/user";
-import {viewGroup} from "../../actions/groups";
+import {updateMemberList, viewGroup} from "../../actions/groups";
+import {useAuth} from "../../context/AuthContext";
 
 const GroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,
@@ -11,12 +12,27 @@ const GroupCard = styled(Card)({
 })
 
 const Group = (props) => {
+    // TODO: remove and use store data
+    const { currentUser } = useAuth()
+
     const joinGroup = (group) => {
+        const memberIds = [...group.memberIds, currentUser.uid]
         props.addGroup(group)
+        props.updateMemberList({
+            ...group,
+            memberIds: memberIds,
+            groupSize: memberIds.length
+        })
     }
 
     const removeGroup = (group) => {
+        const memberIds = group.memberIds.filter((id) => id !== currentUser.uid)
         window.confirm("Leave the group?") && props.removeGroup(group)
+        props.updateMemberList({
+            ...group,
+            memberIds: memberIds,
+            groupSize: memberIds.length
+        })
     }
 
     return (
@@ -39,17 +55,24 @@ const Group = (props) => {
                         View Group
                     </SCLink>
                 </Button2>
-                <Button2
+                {!props.isCreator && <Button2
                     disableElevation
                     size="small"
                     variant="contained"
                     onClick={() => {props.isMember ? removeGroup(props.group) : joinGroup(props.group)}}
                 >
                     {props.isMember ? "Leave Group" : "Join Group" }
-                </Button2>
+                </Button2>}
             </CardContent>
         </GroupCard>
     )
 }
 
-export default connect(null, {addGroup, removeGroup, viewGroup})(Group)
+const mapDispatchToProps = (dispatch) => ({
+    addGroup: (group) => dispatch(addGroup(group)),
+    removeGroup: (group) => dispatch(removeGroup(group)),
+    viewGroup: (group) => dispatch(viewGroup(group)),
+    updateMemberList: (group) => dispatch(updateMemberList(group))
+})
+
+export default connect(null, mapDispatchToProps)(Group)

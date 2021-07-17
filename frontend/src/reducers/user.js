@@ -14,6 +14,7 @@ const initialState = {
   profile: {}
 };
 
+// TODO: set user state once when app loads to match useAuth data
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
@@ -49,6 +50,24 @@ const userReducer = (state = initialState, action) => {
           ),
         },
       };
+    }
+    case "GET_CREATED_GROUPS": {
+      return {
+        ...state,
+        userGroups: {
+          ...state.userGroups,
+          created: action.payload
+        }
+      }
+    }
+    case "GET_JOINED_GROUPS": {
+      return {
+        ...state,
+        userGroups: {
+          ...state.userGroups,
+          joined: action.payload
+        }
+      }
     }
     case "GET_USER": {
       return {

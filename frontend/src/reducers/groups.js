@@ -1,13 +1,14 @@
 import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS} from "../tags";
 
 const initialState = {
-    groups: []
+    groups: [],
+    group: {}
 }
 
 const groups_mock_data = {
     groups: [
         {
-            groupId: 1,
+            _id: 1,
             creatorId: 2,
             creator: "kuroko",
             name: "Generation of miracles",
@@ -18,7 +19,7 @@ const groups_mock_data = {
             groupSize: 10,
         },
         {
-            groupId: 2,
+            _id: 2,
             creatorId: 3,
             creator: "bance",
             name: "dumbos",
@@ -29,7 +30,7 @@ const groups_mock_data = {
             groupSize: 13
         },
         {
-            groupId: 3,
+            _id: 3,
             creatorId: 4,
             creator: "usain bolt",
             name: "Track stars",
@@ -40,7 +41,7 @@ const groups_mock_data = {
             groupSize: 1
         },
         {
-            groupId: 4,
+            _id: 4,
             creatorId: 5,
             creator: "jay",
             name: "Are you aero?",
@@ -51,7 +52,7 @@ const groups_mock_data = {
             groupSize: 3
         },
         {
-            groupId: 5,
+            _id: 5,
             creatorId: 6,
             creator: "dude perfect",
             name: "Ultimate frisbee club",
@@ -62,7 +63,7 @@ const groups_mock_data = {
             groupSize: 12
         },
         {
-            groupId: 6,
+            _id: 6,
             creatorId: 7,
             creator: "justin phan",
             name: "Ronaldo fan club",
@@ -76,7 +77,7 @@ const groups_mock_data = {
     group: {}
 }
 
-export const groups = (state = groups_mock_data, action) => {
+export const groups = (state = initialState, action) => {
     switch (action.type) {
         case "GET_GROUPS": {
             return {
@@ -89,7 +90,7 @@ export const groups = (state = groups_mock_data, action) => {
                 ...state,
                 groups: [
                     {
-                        groupId: action.payload._id,
+                        _id: action.payload._id,
                         creatorId: action.payload.creatorId,
                         creator: action.payload.creator,
                         name: action.payload.name,
@@ -104,8 +105,16 @@ export const groups = (state = groups_mock_data, action) => {
                 ]
             }
         }
+        case "UPDATE_MEMBER_LIST": {
+            let updatedGroups = state.groups;
+            const index = updatedGroups.findIndex((group) => group._id === action.payload._id);
+            updatedGroups[index] = action.payload;
+            return {
+                ...state,
+                groups: [...updatedGroups]
+            }
+        }
         case "VIEW_GROUP": {
-            console.log("viewing group: ", action.payload)
             return {
                 ...state,
                 group: action.payload
