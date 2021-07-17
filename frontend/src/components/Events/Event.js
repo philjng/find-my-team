@@ -21,13 +21,13 @@ function Event(props) {
   return (
     <Container disableGutters={true} className="event_container">
       <Typography1 variant="h5" className="event_name">
-        {props.info.name}
+        {props.info.title}
       </Typography1>
       <Typography1 variant="body1" className="event_location">
         Location: {props.info.location}
       </Typography1>
       <Typography1 variant="body2" className="event_date">
-        Date: {props.info.date.toUTCString()}
+        Date: {props.info.startTime}
       </Typography1>
       <Button2 disableElevation size="small" variant="contained">
         <SCLink
