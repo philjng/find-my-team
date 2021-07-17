@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-<<<<<<< HEAD
 import {
   Card,
   CardContent,
@@ -27,8 +26,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUser } from "../../actions/user";
 import SportsList from "./SportsList";
-=======
->>>>>>> 73bfb80c604cd12d998807c6b057625250777e4b
 
 const useStyles = makeStyles((theme) => ({
   profile: {

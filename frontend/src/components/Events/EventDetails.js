@@ -11,21 +11,6 @@ import "firebase/auth";
 let axios = require("axios");
 
 const Box1 = styled(Box)({
-<<<<<<< HEAD
-    border: '2px solid #3f51b5',
-    backgroundColor: 'white',
-    alignContent: 'center'
-});
-
-const Box2 = styled(Box)({
-    border: '1px solid #3f51b5',
-    backgroundColor: '#f7fcfc',
-    width: '80%',
-    margin: 'auto',
-    marginTop: '1rem',
-    maxHeight: '25%',
-    overflow: 'auto'
-=======
   border: "2px solid #3f51b5",
   backgroundColor: "white",
   alignContent: "center",
@@ -39,7 +24,6 @@ const Box2 = styled(Box)({
   marginTop: "1rem",
   maxHeight: "25%",
   overflow: "auto",
->>>>>>> 73bfb80c604cd12d998807c6b057625250777e4b
 });
 
 const Button1 = styled(Button)({
