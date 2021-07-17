@@ -20,7 +20,6 @@ router.get('/', function(req, res, next) {
 
 /* GET user created groups */
 router.get('/created', function(req, res, next) {
-  console.log("output: ", req.query.userId);
   Group.find({creatorId: req.query.userId})
     .then((data) => {
       res.send(data);

@@ -39,14 +39,14 @@ const Group = (props) => {
                         View Group
                     </SCLink>
                 </Button2>
-                <Button2
+                {!props.isCreator && <Button2
                     disableElevation
                     size="small"
                     variant="contained"
                     onClick={() => {props.isMember ? removeGroup(props.group) : joinGroup(props.group)}}
                 >
                     {props.isMember ? "Leave Group" : "Join Group" }
-                </Button2>
+                </Button2>}
             </CardContent>
         </GroupCard>
     )

@@ -25,9 +25,10 @@ const GroupsContainer = (props) => {
         props.getGroups()
     }, [])
 
-    const joinedGroupIds = props.userGroups.joined.map((group) => group.groupId)
+    const joinedGroupIds = props.userGroups.joined.map((group) => group._id);
+    const createdGroupIds = props.userGroups.created.map((group) => group._id)
     const filtered = props.groups.filter(
-        (group) => !joinedGroupIds.includes(group.groupId))
+        (group) => !(joinedGroupIds.includes(group._id) || createdGroupIds.includes(group._id)))
 
     return (
         <GroupsPage>

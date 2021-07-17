@@ -51,6 +51,15 @@ const userReducer = (state = initialState, action) => {
         },
       };
     }
+    case "GET_CREATED_GROUPS": {
+      return {
+        ...state,
+        userGroups: {
+          ...state.userGroups,
+          created: action.payload
+        }
+      }
+    }
     default:
       return state;
   }
