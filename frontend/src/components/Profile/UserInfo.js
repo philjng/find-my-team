@@ -72,12 +72,12 @@ function UserInfo(props) {
   const PLACEHOLDER_IMAGE = "/images/evil_lebron.jpg";
 
   const [initialForm, setInitialForm] = useState(props.profile);
-  const [form, setForm] = useState({tags: [], ...props.profile});
+  const [form, setForm] = useState({ tags: [], ...props.profile });
   const [userFound, setUserFound] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const { getUser } = props
+  const { getUser, profile } = props;
 
   const handleFormChange = (property) => (event) => {
     setForm({
@@ -114,12 +114,8 @@ function UserInfo(props) {
   };
 
   useEffect(() => {
-    getUser(id)
-    setForm(props.profile)
-    setInitialForm(props.profile)
-  }, [id]);
-
-  console.log(form);
+    getUser(id);
+  }, []);
 
   return (
     <>
@@ -222,7 +218,9 @@ function UserInfo(props) {
                 >
                   {TAGS.map((tag) => (
                     <MenuItem key={tag} value={tag}>
-                      <Checkbox checked={(form?.tags.indexOf(tag) || 0) > -1} />
+                      <Checkbox
+                        checked={(form?.tags?.indexOf(tag) || 0) > -1}
+                      />
                       <ListItemText primary={tag} />
                     </MenuItem>
                   ))}
@@ -250,9 +248,11 @@ function UserInfo(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  profile: state.user.profile
-})
+const mapStateToProps = (state) => {
+  return {
+    profile: state.user.profile,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -260,4 +260,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo)
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);

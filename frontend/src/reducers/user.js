@@ -24,9 +24,7 @@ const userReducer = (state = initialState, action) => {
       };
     case "LOGOUT":
       return {
-        ...state,
-        user_id: null,
-        name: null
+        ...initialState
       };
     case "SIGNUP":
       return {
