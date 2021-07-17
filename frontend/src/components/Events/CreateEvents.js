@@ -58,6 +58,7 @@ function Create() {
     tags_cpy.push(tagText);
     console.log(tags_cpy);
     setTags(tags_cpy);
+    setTagText("");
   };
 
   const handleSubmit = () => {
@@ -76,6 +77,12 @@ function Create() {
       })
       .then((result) => {
         console.log("success");
+        setEventTitle("");
+        setEventLocation("");
+        setEventDescription("");
+        setEventStart("");
+        setEventEnd("");
+        setTags([]);
       })
       .catch((err) => console.log("err"));
   };
