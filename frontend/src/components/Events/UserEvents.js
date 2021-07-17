@@ -21,7 +21,7 @@ const UserEvents = (props) => {
                 <CardContent>
                     <Typography variant="h6">Up Next:</Typography>
                     <Box>
-                        <Event info={props.events[0]}></Event>
+                        {/* <Event info={props.events[0]}></Event> */}
                     </Box>
                 </CardContent>
             </NextEvent>

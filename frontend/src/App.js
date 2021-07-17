@@ -6,7 +6,7 @@ import Events from "./components/Events/Events";
 import Profile from "./components/Profile/Profile";
 import Home from "./components/Home";
 import Groups from "./components/Groups/Groups";
-import Create from "./components/Create";
+import Create from "./components/Events/CreateEvents";
 import GroupDetails from "./components/Groups/GroupDetails";
 import EventDetails from "./components/Events/EventDetails";
 import LoginRoute from "./LoginRoute";
@@ -23,7 +23,7 @@ function App() {
       {currentUser && <Navbar />}
       <Switch>
         <ProtectedRoute path="/events" component={Events} />
-        <ProtectedRoute path="/profile" component={Profile} />
+        <ProtectedRoute path="/profile/:id" component={Profile} />
         <ProtectedRoute path="/home" component={Home} />
         <ProtectedRoute path="/groups" component={Groups} />
         <ProtectedRoute path="/create" component={Create} />

@@ -67,3 +67,33 @@ export const getJoinedGroups = (data) => async dispatch => {
     })
   }
 }
+
+export const getUser = async (dispatch, id) => {
+  try {
+    const res = await axios.get(`http://localhost:3001/users/${id}`);
+    dispatch({
+      type: "GET_USER",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_USER",
+      payload: console.log(e),
+    });
+  }
+};
+
+export const editUserProfile = async (dispatch, id, data) => {
+  try {
+    const res = await axios.put(`http://localhost:3001/users/${id}`, data);
+    dispatch({
+      type: "GET_USER",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_USER",
+      payload: console.log(e),
+    });
+  }
+};

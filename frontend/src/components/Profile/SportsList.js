@@ -11,19 +11,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SportsList(props) {
+const sports = [
+  "Basketball",
+  "Football",
+  "Hockey",
+  "Rugby",
+  "Soccer",
+  "Tennis",
+  "Volleyball",
+];
+
+function SportsList() {
   const classes = useStyles();
+
   return (
     <div className={classes.sports_list}>
       <h2>Favourite Sports</h2>
       <List>
-        <SportListItem sportType="Basketball" />
-        <SportListItem sportType="Football" />
-        <SportListItem sportType="Hockey" />
-        <SportListItem sportType="Rugby" />
-        <SportListItem sportType="Tennis" />
-        <SportListItem sportType="Volleyball" />
-        <SportListItem sportType="Soccer" />
+        {sports.map((sport, index) => (
+          <SportListItem sportType={sport} key={index} />
+        ))}
       </List>
     </div>
   );

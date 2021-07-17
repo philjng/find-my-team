@@ -10,7 +10,8 @@ const initialState = {
     joined: [],
   },
   tags: [],
-  emailAddress: null
+  emailAddress: null,
+  profile: {}
 };
 
 // TODO: set user state once when app loads to match useAuth data
@@ -24,9 +25,7 @@ const userReducer = (state = initialState, action) => {
       };
     case "LOGOUT":
       return {
-        ...state,
-        user_id: null,
-        name: null
+        ...initialState
       };
     case "SIGNUP":
       return {
@@ -69,6 +68,14 @@ const userReducer = (state = initialState, action) => {
           joined: action.payload
         }
       }
+    }
+    case "GET_USER": {
+      return {
+        ...state,
+        profile: {
+          ...action.payload
+        }
+      };
     }
     default:
       return state;
