@@ -5,7 +5,7 @@ const Group = require("../models/group");
 
 /* GET groups listing. */
 router.get('/', function(req, res, next) {
-  Group.find()
+  Group.find().sort({createdAt:-1})
     .then((data) => {
       res.send(data);
     })
