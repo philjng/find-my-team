@@ -16,20 +16,22 @@ const Group = (props) => {
     const { currentUser } = useAuth()
 
     const joinGroup = (group) => {
+        const memberIds = [...group.memberIds, currentUser.uid]
         props.addGroup(group)
         props.updateMemberList({
             ...group,
-            memberIds: [...group.memberIds, currentUser.uid],
-            groupSize: group.groupSize + 1
+            memberIds: memberIds,
+            groupSize: memberIds.length
         })
     }
 
     const removeGroup = (group) => {
+        const memberIds = group.memberIds.filter((id) => id !== currentUser.uid)
         window.confirm("Leave the group?") && props.removeGroup(group)
         props.updateMemberList({
             ...group,
-            memberIds: group.memberIds.filter((id) => id !== currentUser.uid),
-            groupSize: group.groupSize - 1
+            memberIds: memberIds,
+            groupSize: memberIds.length
         })
     }
 

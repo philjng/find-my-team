@@ -106,7 +106,6 @@ export const groups = (state = initialState, action) => {
             }
         }
         case "UPDATE_MEMBER_LIST": {
-            console.log("new group: ", action.payload);
             let updatedGroups = state.groups;
             const index = updatedGroups.findIndex((group) => group._id = action.payload._id);
             updatedGroups[index] = action.payload;
