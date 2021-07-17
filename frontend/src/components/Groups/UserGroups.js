@@ -3,6 +3,8 @@ import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import Group from "./Group";
 import {useAuth} from "../../context/AuthContext";
+import {getCreatedGroups, getJoinedGroups} from "../../actions/user";
+import {useEffect} from "react";
 
 const UserGroup = styled(Card)({
     margin: `1rem`,
@@ -15,6 +17,11 @@ export const CardHeader = styled(Typography)({
 
 const UserGroupsContainer = (props) => {
     const userId = useAuth().currentUser.uid
+
+    useEffect(() => {
+        props.getCreatedGroups(userId);
+        // props.getJoinedGroups(userId);
+    }, [])
 
     return (
         <UserGroup>
@@ -39,4 +46,4 @@ const UserGroupsContainer = (props) => {
 
 const mapStateToProps = (state) => ({userGroups: state.user.userGroups})
 
-export default connect(mapStateToProps)(UserGroupsContainer)
+export default connect(mapStateToProps, {getCreatedGroups, getJoinedGroups})(UserGroupsContainer)

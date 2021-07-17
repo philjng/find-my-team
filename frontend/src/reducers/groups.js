@@ -1,7 +1,8 @@
 import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS} from "../tags";
 
 const initialState = {
-    groups: []
+    groups: [],
+    group: {}
 }
 
 const groups_mock_data = {
@@ -76,7 +77,7 @@ const groups_mock_data = {
     group: {}
 }
 
-export const groups = (state = groups_mock_data, action) => {
+export const groups = (state = initialState, action) => {
     switch (action.type) {
         case "GET_GROUPS": {
             return {
