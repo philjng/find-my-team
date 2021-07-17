@@ -25,6 +25,7 @@ import { TAGS } from "../../tags";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUser } from "../../actions/user";
+import SportsList from "./SportsList";
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -73,7 +74,6 @@ function UserInfo(props) {
 
   const [initialForm, setInitialForm] = useState({});
   const [form, setForm] = useState({ tags: [] });
-  const [userFound, setUserFound] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -98,7 +98,7 @@ function UserInfo(props) {
   const handleSaveChanges = () => {
     setOpen(true);
     setSnackbarMessage("Changes submitted");
-    editUserProfile(id, form)
+    editUserProfile(id, form);
     setIsEditing(false);
   };
 
@@ -116,12 +116,12 @@ function UserInfo(props) {
 
   useEffect(() => {
     getUser(id);
-  }, []);
+  }, [getUser, id]);
 
   useEffect(() => {
     setForm(profile);
     setInitialForm(profile);
-  }, [profile])
+  }, [profile]);
 
   return (
     <>
@@ -249,6 +249,7 @@ function UserInfo(props) {
             </FormControl>
           </CardContent>
         </SCCard>
+        <SportsList />
       </SCBox>
     </>
   );
