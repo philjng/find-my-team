@@ -22,7 +22,7 @@ router.post("/", function (req, res, next) {
   let startDate = new Date(req.body.start + " UTC");
   let endDate = new Date(req.body.end + " UTC");
   const newEvent = new Event({
-    creator: mongoose.Types.ObjectId("51c35e5ced18cb901d000001"),
+    creator: req.body.user.id,
     title: req.body.title,
     description: req.body.description,
     genreTags: req.body.tags,
@@ -30,7 +30,7 @@ router.post("/", function (req, res, next) {
     endTime: new Date(endDate.toISOString()),
     location: req.body.location,
     participantSize: "1",
-    participants: [],
+    participants: [req.body.user],
     group: mongoose.Types.ObjectId("51c35e5ced18cb901d000001"),
     status: "status",
     createdAt: new Date(),

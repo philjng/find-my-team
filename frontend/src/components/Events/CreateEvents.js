@@ -2,6 +2,8 @@ import {Card, CardContent, TextField, Box, Typography, Button} from "@material-u
 import {styled} from "@material-ui/styles";
 import {useState} from "react";
 import {CardHeader} from "../Groups/UserGroups";
+import firebase from "firebase/app";
+import "firebase/auth";
 let axios = require('axios');
 
 const CreateEventCard = styled(Card)({
@@ -29,7 +31,7 @@ function Create() {
 
     const handleSubmit = () => {
         axios.post('http://localhost:3001/events', {title: eventTitle, location: eventLocation, description: eventDescription, 
-                                                    start: eventStart, end: eventEnd, tags: tags})
+                                                    start: eventStart, end: eventEnd, tags: tags, user: {id: firebase.auth().currentUser.uid, email: firebase.auth().currentUser.email}})
             .then((result) => {
                 console.log('success');
             })
