@@ -19,6 +19,30 @@ const CreateEventCard = styled(Card)({
   width: `75%`,
 });
 
+const Input = styled(TextField)({
+  marginBottom: `1rem`
+})
+
+const Form = styled(Box)({
+  display: `flex`,
+  justifyContent: `space-around`
+})
+
+const ButtonBox = styled(Box)({
+  margin: 'auto'
+})
+
+const AddButton = styled(Button)({
+  marginTop: '0.4rem',
+  marginLeft: '1rem'
+})
+
+const SubmitButton = styled(Button)({
+  float: 'right',
+  width: '100%'
+})
+
+
 function Create() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
@@ -62,52 +86,69 @@ function Create() {
         <CardHeader align="center" variant="h5">
           Create Event
         </CardHeader>
+        <Form>
+          <Box>
         <Box>
           <Typography>Event Title</Typography>
-          <TextField
+          <Input variant="filled"
+                            size="small"
             value={eventTitle}
             onChange={(e) => setEventTitle(e.target.value)}
-          ></TextField>
+          ></Input>
         </Box>
         <Box>
           <Typography>Location</Typography>
-          <TextField
+          <Input variant="filled"
+                            size="small"
             value={eventLocation}
             onChange={(e) => setEventLocation(e.target.value)}
-          ></TextField>
+          ></Input>
         </Box>
         <Box>
           <Typography>Description</Typography>
-          <TextField
+          <Input
+          variant="filled"
+          multiline
+          rows={3}
             value={eventDescription}
             onChange={(e) => setEventDescription(e.target.value)}
-          ></TextField>
+          ></Input>
+        </Box>
         </Box>
         <Box>
+        <Box>
           <Typography>Start Time (ex. 10 November 2021 20:00)</Typography>
-          <TextField
+          <Input
+          variant="filled"
+          size="small"
             value={eventStart}
             onChange={(e) => setEventStart(e.target.value)}
-          ></TextField>
+          ></Input>
         </Box>
         <Box>
           <Typography>End Time (ex. 10 November 2021 20:00)</Typography>
-          <TextField
+          <Input
+          variant="filled"
+          size="small"
             value={eventEnd}
             onChange={(e) => setEventEnd(e.target.value)}
-          ></TextField>
+          ></Input>
         </Box>
         <Box>
           <Typography>Tags</Typography>
-          <TextField
+          <Input
+          variant="filled"
+          size="small"
             value={tagText}
             onChange={(e) => setTagText(e.target.value)}
-          ></TextField>
-          <Button onClick={addTag}>Add</Button>
+          ></Input>
+          <AddButton variant="contained" onClick={addTag}>Add</AddButton>
         </Box>
-        <Box>
-          <Button onClick={handleSubmit}>Submit</Button>
+        <ButtonBox>
+          <SubmitButton type="submit" color="primary" variant="contained" onClick={handleSubmit}>Submit</SubmitButton>
+          </ButtonBox>
         </Box>
+        </Form>
       </CardContent>
     </CreateEventCard>
   );
