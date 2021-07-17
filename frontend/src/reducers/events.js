@@ -82,7 +82,9 @@ const viewEventDetailReducer = (viewableEvent = null, action) => {
 const toggleViewableEventsReducer = (viewableEvents = [], action) => {
     switch (action.type) {
         case 'VIEW_UPCOMING_ONLY':
-            let retval = action.events.filter(viewableEvent => viewableEvent.date > new Date());
+            console.log(action.events[0].startTime);
+            console.log(new Date().toISOString());
+            let retval = action.events.filter(viewableEvent => new Date(viewableEvent.startTime) > new Date());
             return retval;
         case 'VIEW_ALL_EVENTS':
             return action.events;
