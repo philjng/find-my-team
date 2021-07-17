@@ -10,11 +10,12 @@ const EventSchema = new Schema({
   endTime: Date,
   location: String,
   participantSize: Number,
-  participants: [Schema.Types.ObjectId],
+  participants: [Object],
   group: Schema.Types.ObjectId,
   status: String,
   createdAt: Date,
   updatedAt: Date,
+  comments: [Object]
 });
 
 const Event = mongoose.model("Event", EventSchema);
