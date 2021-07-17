@@ -105,10 +105,10 @@ export const groups = (state = initialState, action) => {
                 ]
             }
         }
-        case "ADD_MEMBER": {
+        case "UPDATE_MEMBER_LIST": {
             console.log("new group: ", action.payload);
             let updatedGroups = state.groups;
-            const index = updatedGroups.findIndex((card) => card.name = action.payload.name);
+            const index = updatedGroups.findIndex((group) => group._id = action.payload._id);
             updatedGroups[index] = action.payload;
             return {
                 ...state,

@@ -3,7 +3,7 @@ import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 import {connect} from "react-redux";
 import {addGroup, removeGroup} from "../../actions/user";
-import {addMember, viewGroup} from "../../actions/groups";
+import {updateMemberList, viewGroup} from "../../actions/groups";
 import {useAuth} from "../../context/AuthContext";
 
 const GroupCard = styled(Card)({
@@ -17,7 +17,7 @@ const Group = (props) => {
 
     const joinGroup = (group) => {
         props.addGroup(group)
-        props.addMember({
+        props.updateMemberList({
             ...group,
             memberIds: [...group.memberIds, currentUser.uid],
             groupSize: group.groupSize + 1
@@ -26,6 +26,11 @@ const Group = (props) => {
 
     const removeGroup = (group) => {
         window.confirm("Leave the group?") && props.removeGroup(group)
+        props.updateMemberList({
+            ...group,
+            memberIds: group.memberIds.filter((id) => id !== currentUser.uid),
+            groupSize: group.groupSize - 1
+        })
     }
 
     return (
@@ -65,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
     addGroup: (group) => dispatch(addGroup(group)),
     removeGroup: (group) => dispatch(removeGroup(group)),
     viewGroup: (group) => dispatch(viewGroup(group)),
-    addMember: (group, userId) => dispatch(addMember(group, userId))
+    updateMemberList: (group, userId) => dispatch(updateMemberList(group, userId))
 })
 
 export default connect(null, mapDispatchToProps)(Group)

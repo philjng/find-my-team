@@ -40,7 +40,7 @@ export const createGroup = (data) => async dispatch => {
     }
 }
 
-export const addMember = (data) => async dispatch => {
+export const updateMemberList = (data) => async dispatch => {
     try {
         axios.put(
           `http://localhost:3001/groups/${data._id}`,
@@ -49,7 +49,7 @@ export const addMember = (data) => async dispatch => {
         )
           .then((res) => {
               dispatch( {
-                  type: "ADD_MEMBER",
+                  type: "UPDATE_MEMBER_LIST",
                   payload: res.data
               })
           })
