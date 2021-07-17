@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const DropdownProfile = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const {logout} = useAuth();
+  const {logout, currentUser} = useAuth();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,7 +54,7 @@ const DropdownProfile = (props) => {
         anchorOrigin={{vertical: "bottom", horizontal: "right"}}
         transformOrigin={{vertical: "top", horizontal: "right"}}
       >
-        <MenuItem onClick={(e) => handleClose(e)}><Link to="/profile">My Profile</Link></MenuItem>
+        <MenuItem onClick={(e) => handleClose(e)}><Link to={`/profile/${currentUser.uid}`}>My Profile</Link></MenuItem>
         <MenuItem onClick={(e) => handleClose(e)}><Link to="/settings">Settings</Link></MenuItem>
         <MenuItem onClick={(e) => handleClose(e)}><Link to="/">Logout</Link></MenuItem>
       </Menu>

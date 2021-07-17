@@ -10,7 +10,8 @@ const initialState = {
     joined: [],
   },
   tags: [],
-  emailAddress: null
+  emailAddress: null,
+  profile: {}
 };
 
 const userReducer = (state = initialState, action) => {
@@ -23,9 +24,7 @@ const userReducer = (state = initialState, action) => {
       };
     case "LOGOUT":
       return {
-        ...state,
-        user_id: null,
-        name: null
+        ...initialState
       };
     case "SIGNUP":
       return {
@@ -49,6 +48,14 @@ const userReducer = (state = initialState, action) => {
             (group) => group.groupId !== action.payload.groupId
           ),
         },
+      };
+    }
+    case "GET_USER": {
+      return {
+        ...state,
+        profile: {
+          ...action.payload
+        }
       };
     }
     default:

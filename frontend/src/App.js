@@ -23,7 +23,7 @@ function App() {
       {currentUser && <Navbar />}
       <Switch>
         <ProtectedRoute path="/events" component={Events} />
-        <ProtectedRoute path="/profile" component={Profile} />
+        <ProtectedRoute path="/profile/:id" component={Profile} />
         <ProtectedRoute path="/home" component={Home} />
         <ProtectedRoute path="/groups" component={Groups} />
         <ProtectedRoute path="/create" component={Create} />
