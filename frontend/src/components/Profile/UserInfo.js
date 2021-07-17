@@ -71,8 +71,8 @@ function UserInfo(props) {
   const classes = useStyles();
   const PLACEHOLDER_IMAGE = "/images/evil_lebron.jpg";
 
-  const [initialForm, setInitialForm] = useState(props.profile);
-  const [form, setForm] = useState({ tags: [], ...props.profile });
+  const [initialForm, setInitialForm] = useState({});
+  const [form, setForm] = useState({ tags: [] });
   const [userFound, setUserFound] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -116,6 +116,11 @@ function UserInfo(props) {
   useEffect(() => {
     getUser(id);
   }, []);
+
+  useEffect(() => {
+    setForm(profile);
+    setInitialForm(profile);
+  }, [profile])
 
   return (
     <>
