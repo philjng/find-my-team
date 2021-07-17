@@ -15,6 +15,7 @@ import {
   Box,
   Snackbar,
   IconButton,
+  Typography,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
@@ -138,17 +139,20 @@ function UserInfo(props) {
         }
       />
       <SCBox>
-        <div className={classes.profile}>
-          <Avatar
-            alt="Profile Picture"
-            src={PLACEHOLDER_IMAGE}
-            className={classes.profile_pic}
-          />
-          <h1 className={classes.name}>John Doe</h1>
-          <h3 className={classes.email}>john.doe@gmail.com</h3>
-        </div>
         <SCCard>
           <CardContent>
+            <Grid container align="center" direction="column">
+              <Grid item>
+                <Avatar
+                  alt="Profile Picture"
+                  src={PLACEHOLDER_IMAGE}
+                  className={classes.profile_pic}
+                />
+              </Grid>
+              <Grid item>
+                <Typography>{form.emailAddress}</Typography>
+              </Grid>
+            </Grid>
             <Grid container direction="row-reverse">
               <Grid item>
                 <Fab
