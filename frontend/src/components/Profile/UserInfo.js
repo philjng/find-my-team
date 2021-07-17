@@ -24,7 +24,7 @@ import { Check, Input } from "@material-ui/icons";
 import { TAGS } from "../../tags";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
-import { getUser } from "../../actions/user";
+import { editUserProfile, getUser } from "../../actions/user";
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -77,7 +77,7 @@ function UserInfo(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const { getUser, profile } = props;
+  const { getUser, editUserProfile, profile } = props;
 
   const handleFormChange = (property) => (event) => {
     setForm({
@@ -97,7 +97,8 @@ function UserInfo(props) {
 
   const handleSaveChanges = () => {
     setOpen(true);
-    setSnackbarMessage("You just clicked submit");
+    setSnackbarMessage("Changes submitted");
+    editUserProfile(id, form)
     setIsEditing(false);
   };
 
@@ -262,6 +263,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getUser: (data) => getUser(dispatch, data),
+    editUserProfile: (id, data) => editUserProfile(dispatch, id, data),
   };
 };
 
