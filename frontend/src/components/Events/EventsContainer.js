@@ -1,6 +1,6 @@
 import Event from "./Event.js";
 
-import {useEffect} from 'react';
+import { useEffect } from "react";
 import { connect } from "react-redux";
 import { viewUpcomingEventsOnly, viewAllEvents } from "../../actions/events";
 import {
@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
-let axios = require('axios');
+let axios = require("axios");
 
 export const Box1 = styled(Box)({
   border: "2px solid black",
@@ -26,25 +26,27 @@ const SCContainer = styled(Container)({
   textAlign: "center",
 });
 
-
 function EventsContainer(props) {
-
   const viewAll = () => {
-    axios.get(`http://localhost:3001/events`).then( res => {
-      props.all(res.data);
-    }  
-    ).catch((err) => console.log(err))
-  }
+    axios
+      .get(`http://localhost:3001/events`)
+      .then((res) => {
+        props.all(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const viewUpcoming = () => {
-    axios.get(`http://localhost:3001/events`).then( res => {
-      props.upcoming(res.data);
-    }  
-    ).catch((err) => console.log(err))
-  }
+    axios
+      .get(`http://localhost:3001/events`)
+      .then((res) => {
+        props.upcoming(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => viewAll(), []);
-    
+
   return (
     <SCContainer className="events_container">
       <Box1>
@@ -74,7 +76,7 @@ function EventsContainer(props) {
 const mapStateToProps = (state) => {
   return {
     events: state.events.events,
-    viewableEvents: state.events.viewableEvents
+    viewableEvents: state.events.viewableEvents,
   };
 };
 
