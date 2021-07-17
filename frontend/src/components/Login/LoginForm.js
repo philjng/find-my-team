@@ -8,17 +8,21 @@ import {
   Typography,
   FormControl,
   Link,
+  Snackbar,
+  Slide,
 } from "@material-ui/core";
 
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { AccountCircle, Visibility, VisibilityOff } from "@material-ui/icons";
+import { Email, Visibility, VisibilityOff } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { useState } from "react";
 import { loginAction } from "../../actions/user";
-import { useDispatch } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { Link as RouterLink, useHistory } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -32,13 +36,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginForm() {
-  const [username, setUsername] = useState("");
+function LoginForm(props) {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const history = useHistory();
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -49,85 +57,128 @@ function LoginForm() {
     setShowPassword(!showPassword);
   };
 
-  const dispatch = useDispatch();
+  function SlideTransition(props) {
+    return <Slide {...props} direction="down" />;
+  }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log({ username, password });
-    dispatch(loginAction(username));
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      setError("");
+      setOpen(false);
+      let response = await login(email, password);
+      props.handleLogin(response.user.uid);
+      history.push("/home");
+    } catch (error) {
+      setError(error.message);
+      setOpen(true);
+    }
+  }
+
   const classes = useStyles();
+
   return (
-    <Container maxWidth="xs">
-      <Box className={classes.box}>
-        <LockOpenIcon fontSize="large" color="primary" />
-        <Typography className={classes.margin} color="primary">
-          Welcome back!
-        </Typography>
-        <FormControl onSubmit={handleSubmit} fullWidth>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Username"
-            name="username"
-            autoFocus
-            value={username}
-            onChange={handleUsernameChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <IconButton disabled>
-                    <AccountCircle color="primary" />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <IconButton onClick={handleClickShowPassword}>
-                    {showPassword ? (
-                      <Visibility color="primary" />
-                    ) : (
-                      <VisibilityOff color="primary" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            className={classes.margin}
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-          >
-            Login
-          </Button>
-          <Link component={RouterLink} to="/signup" variant="body2">
-            Sign Up
-          </Link>
-        </FormControl>
-      </Box>
-    </Container>
+    <>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={error}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        TransitionComponent={SlideTransition}
+        action={
+          <IconButton aria-label="close" color="inherit" onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        }
+      />
+      <Container maxWidth="xs">
+        <Box className={classes.box}>
+          <LockOpenIcon fontSize="large" color="primary" />
+          <Typography className={classes.margin} color="primary">
+            Welcome back!
+          </Typography>
+          <FormControl fullWidth>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoFocus
+              value={email}
+              onChange={handleEmailChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment>
+                    <IconButton disabled>
+                      <Email color="primary" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment>
+                    <IconButton onClick={handleClickShowPassword}>
+                      {showPassword ? (
+                        <Visibility color="primary" />
+                      ) : (
+                        <VisibilityOff color="primary" />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              className={classes.margin}
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+            >
+              Login
+            </Button>
+            <Link component={RouterLink} to="/signup" variant="body2">
+              Need an account? Sign Up
+            </Link>
+          </FormControl>
+        </Box>
+      </Container>
+    </>
   );
 }
-export default LoginForm;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleLogin: (uid) => {
+      dispatch(loginAction(uid));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LoginForm);

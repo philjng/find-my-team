@@ -1,4 +1,4 @@
-import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS} from "../genres";
+import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS} from "../tags";
 
 const initialState = {
     groups: []
@@ -8,67 +8,80 @@ const groups_mock_data = {
     groups: [
         {
             groupId: 1,
-            author: 2,
+            creatorId: 2,
+            creator: "kuroko",
             name: "Generation of miracles",
             description: "We are the best basketball players",
-            interests: [BASKETBALL],
+            tags: [BASKETBALL],
             createdAt: new Date("2021-07-02"),
-            groupSize: 10
+            memberIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            groupSize: 10,
         },
         {
             groupId: 2,
-            author: 3,
+            creatorId: 3,
+            creator: "bance",
             name: "dumbos",
             description: "We are the best",
-            interests: [BASKETBALL, TENNIS],
+            tags: [BASKETBALL, TENNIS],
             createdAt: new Date("2021-07-02"),
+            memberIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
             groupSize: 13
         },
         {
             groupId: 3,
-            author: 4,
+            creatorId: 4,
+            creator: "usain bolt",
             name: "Track stars",
             description: "We are the fastest runners",
-            interests: [RUNNING],
+            tags: [RUNNING],
             createdAt: new Date("2021-07-02"),
+            memberIds: [4],
             groupSize: 1
         },
         {
             groupId: 4,
-            author: 5,
+            creatorId: 5,
+            creator: "jay",
             name: "Are you aero?",
             description: "real cyclists only",
-            interests: [BIKING],
+            tags: [BIKING],
             createdAt: new Date("2021-07-02"),
+            memberIds: [1, 2, 3],
             groupSize: 3
         },
         {
             groupId: 5,
-            author: 6,
+            creatorId: 6,
+            creator: "dude perfect",
             name: "Ultimate frisbee club",
             description: "It's a sport!",
-            interests: [FRISBEE],
+            tags: [FRISBEE],
             createdAt: new Date("2021-07-02"),
+            memberIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             groupSize: 12
         },
         {
             groupId: 6,
-            author: 7,
+            creatorId: 7,
+            creator: "justin phan",
             name: "Ronaldo fan club",
             description: "ronaldo #1",
-            interests: [SOCCER],
+            tags: [SOCCER],
             createdAt: new Date("2021-07-02"),
+            memberIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
             groupSize: 11
         }
-    ]
+    ],
+    group: {}
 }
 
-export const groupsReducer = (state = groups_mock_data, action) => {
+export const groups = (state = groups_mock_data, action) => {
     switch (action.type) {
         case "GET_GROUPS": {
             return {
                 ...state,
-                groups: groups_mock_data
+                groups: action.payload
             }
         }
         case "CREATE_GROUP": {
@@ -76,21 +89,30 @@ export const groupsReducer = (state = groups_mock_data, action) => {
                 ...state,
                 groups: [
                     {
-                        groupId: state.groups[state.groups.length],
-                        author: action.payload.author,
+                        groupId: action.payload._id,
+                        creatorId: action.payload.creatorId,
+                        creator: action.payload.creator,
                         name: action.payload.name,
                         description: action.payload.description,
-                        interests: action.payload.interests,
-                        createdAt: new Date(),
-                        groupSize: 1
+                        tags: action.payload.tags,
+                        createdAt: action.payload.createdAt,
+                        memberIds: action.payload.memberIds,
+                        groupSize: action.payload.groupSize
                     },
                     ...state.groups,
 
                 ]
             }
         }
+        case "VIEW_GROUP": {
+            console.log("viewing group: ", action.payload)
+            return {
+                ...state,
+                group: action.payload
+            }
+        }
         default: {
-            return state
+            return {...state}
         }
     }
 }

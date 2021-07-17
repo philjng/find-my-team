@@ -2,7 +2,8 @@ import {
     Box,
     Button,
     Card,
-    CardContent, Checkbox,
+    CardContent,
+    Checkbox,
     FormControl,
     FormControlLabel,
     FormGroup,
@@ -12,10 +13,11 @@ import {
 import {styled} from "@material-ui/styles";
 import {CardHeader} from "./UserGroups";
 import React, {useState} from "react";
-import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "../../genres";
+import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "../../tags";
 import {connect} from "react-redux";
 import {createGroup} from "../../actions/groups";
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import {useAuth} from "../../context/AuthContext";
 
 const CreateGroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,
@@ -40,6 +42,7 @@ const ButtonGroup = styled(Box)({
 })
 
 const CreateGroupPage = (props) => {
+    const { currentUser } = useAuth()
     const [groupName, setGroupName] = useState("");
     const [description, setDescription] = useState("");
     const [checkbox, setCheckbox] = useState({
@@ -55,20 +58,22 @@ const CreateGroupPage = (props) => {
     const history = useHistory();
 
     const handleSubmit = () => {
+        // TODO: add more functionality for creating a group
         if (groupName.trim() === "") {
             window.alert("Group name is required.");
             return;
         }
         const keys = Object.keys(checkbox)
         const filtered = keys.filter((key) => checkbox[key])
-        if (description.trim() === "") {
-            setDescription("No description.");
-        }
         props.createGroup({
-            author: props.userId,
+            creatorId: currentUser.uid,
+            creator: props.user,
             name: groupName,
-            description: description,
-            interests: filtered
+            description: description.trim() === "" ? "No description." : description,
+            tags: filtered,
+            createdAt: new Date(),
+            memberIds: [props.userId],
+            groupSize: 1
         })
         setDescription("");
         history.push("/groups");
@@ -102,7 +107,7 @@ const CreateGroupPage = (props) => {
                         />
                     </FormControl>
                     <FormGroup>
-                        <Typography>Group interests:</Typography>
+                        <Typography>Group tags:</Typography>
                         <FormControlLabel
                             control={<Checkbox checked={checkbox.Basketball} onChange={handleCheckboxChange} name="Basketball" />}
                             label={BASKETBALL}
@@ -161,6 +166,9 @@ const CreateGroupPage = (props) => {
     )
 }
 
-const mapStateToProps = (state) => ({userId: state.user.user_id})
+const mapStateToProps = (state) => ({
+    userId: state.user.user_id,
+    user: state.user.name
+})
 
 export default connect(mapStateToProps, {createGroup})(CreateGroupPage);

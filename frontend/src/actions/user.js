@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export const loginAction = (user_id) => {
   return {
     type: "LOGIN",
@@ -13,16 +15,40 @@ export const logoutAction = () => {
   };
 };
 
+export const signUpAction = (data) => {
+  return {
+    type: "SIGNUP",
+    payload: {
+      ...data,
+    },
+  };
+};
+
 export const addGroup = (data) => {
   return {
     type: "ADD_GROUP",
-    payload: data
-  }
-}
+    payload: data,
+  };
+};
 
 export const removeGroup = (data) => {
   return {
     type: "REMOVE_GROUP",
-    payload: data
+    payload: data,
+  };
+};
+
+export const getUser = async (dispatch, id) => {
+  try {
+    const res = await axios.get(`http://localhost:3001/users/${id}`);
+    dispatch({
+      type: "GET_USER",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_USER",
+      payload: console.log(e),
+    });
   }
-}
+};

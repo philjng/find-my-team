@@ -3,30 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import rootReducer from "./reducers/rootReducer";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { loadState, saveState } from "./localStorage";
-
-const persistedState = loadState();
-const store = createStore(
-  rootReducer,
-  persistedState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-
-store.subscribe(() => {
-  saveState({
-    user: store.getState().user
-  })
-})
+import { AuthProvider } from "./context/AuthContext";
+import store from "./store"
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

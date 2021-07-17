@@ -3,6 +3,7 @@ import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 import {connect} from "react-redux";
 import {addGroup, removeGroup} from "../../actions/user";
+import {viewGroup} from "../../actions/groups";
 
 const GroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,
@@ -15,7 +16,7 @@ const Group = (props) => {
     }
 
     const removeGroup = (group) => {
-        props.removeGroup(group)
+        window.confirm("Leave the group?") && props.removeGroup(group)
     }
 
     return (
@@ -25,7 +26,7 @@ const Group = (props) => {
                     {props.group.name}
                 </Typography1>
                 <Typography1 variant="body1">
-                    Group type: {props.group.interests.join(", ")}
+                    Tags: {props.group.tags.join(", ")}
                 </Typography1>
                 <Typography1 variant="body2">
                     Number of members: {props.group.groupSize}
@@ -33,7 +34,7 @@ const Group = (props) => {
                 <Button2 disableElevation size="small" variant="contained">
                     <SCLink
                         to="/groupdetails"
-                        onClick={() => {}}
+                        onClick={() => props.viewGroup(props.group)}
                     >
                         View Group
                     </SCLink>
@@ -44,11 +45,11 @@ const Group = (props) => {
                     variant="contained"
                     onClick={() => {props.isMember ? removeGroup(props.group) : joinGroup(props.group)}}
                 >
-                    {props.isMember ? "Remove Group" : "Join Group" }
+                    {props.isMember ? "Leave Group" : "Join Group" }
                 </Button2>
             </CardContent>
         </GroupCard>
     )
 }
 
-export default connect(null, {addGroup, removeGroup})(Group)
+export default connect(null, {addGroup, removeGroup, viewGroup})(Group)

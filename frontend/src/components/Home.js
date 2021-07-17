@@ -1,5 +1,5 @@
 import {Container, Typography} from "@material-ui/core";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {styled} from "@material-ui/styles";
 import UserEvents from "./Events/UserEvents";
 import UserGroups from "./Groups/UserGroups";
@@ -21,23 +21,24 @@ const HomeInfo = styled(Container)({
 
 
 function Home(props) {
-  return (
-    <PageContainer>
-        <WelcomeText variant="h5">
-            Welcome back, {props.userId}
-        </WelcomeText>
-        <HomeInfo>
-            <UserEvents/>
-            <UserGroups/>
-        </HomeInfo>
-    </PageContainer>
-  );
+    return (
+        <PageContainer>
+            <WelcomeText variant="h5">
+                Welcome back, {props.name}
+            </WelcomeText>
+            <HomeInfo>
+                <UserEvents/>
+                <UserGroups/>
+            </HomeInfo>
+        </PageContainer>
+    );
 }
 
 const mapStateToProps = (state) => {
-  return {
-    userId: state.user.user_id,
-  };
+    return {
+        userId: state.user.user_id,
+        name: state.user.name
+    };
 };
 
 
