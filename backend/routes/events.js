@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const Event = require("../models/event")
-var mongoose = require('mongoose');
+const Event = require("../models/event");
+var mongoose = require("mongoose");
 
 /* GET events listing. */
 router.get("/", function (req, res, next) {
@@ -10,11 +10,9 @@ router.get("/", function (req, res, next) {
       res.send(data);
     })
     .catch((error) => {
-      res
-        .status(500)
-        .send({
-          message: error.message || "There was an error while getting events",
-        });
+      res.status(500).send({
+        message: error.message || "There was an error while getting events",
+      });
     });
 });
 
@@ -40,7 +38,7 @@ router.post("/", function (req, res, next) {
     if (error) {
       console.log("Ooops, something happened to event POST");
       console.log(error);
-      res.send(error)
+      res.send(error);
     } else {
       console.log("POST event successful");
       res.send(req.body);
@@ -49,21 +47,25 @@ router.post("/", function (req, res, next) {
 });
 
 router.patch("/comment", function (req, res, next) {
-  Event.findOneAndUpdate({_id: req.body._id}, 
-    {$push: {comments: req.body.comment}}, )
-    .then(() => res.send('success'))
+  Event.findOneAndUpdate(
+    { _id: req.body._id },
+    { $push: { comments: req.body.comment } }
+  )
+    .then(() => res.send("success"))
     .catch((err) => {
-      res.status(500).send({message: err.message});
-    })
-})
+      res.status(500).send({ message: err.message });
+    });
+});
 
 router.patch("/participant", function (req, res, next) {
-  Event.findOneAndUpdate({_id: req.body._id}, 
-    {$push: {participants: req.body.participant}}, )
-    .then(() => res.send('success'))
+  Event.findOneAndUpdate(
+    { _id: req.body._id },
+    { $push: { participants: req.body.participant } }
+  )
+    .then(() => res.send("success"))
     .catch((err) => {
-      res.status(500).send({message: err.message});
-    })
-})
+      res.status(500).send({ message: err.message });
+    });
+});
 
 module.exports = router;
