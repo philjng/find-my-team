@@ -40,6 +40,27 @@ export const createGroup = (data) => async dispatch => {
     }
 }
 
+export const addMember = (data) => async dispatch => {
+    try {
+        axios.put(
+          `http://localhost:3001/groups/${data._id}`,
+          data,
+          {headers}
+        )
+          .then((res) => {
+              dispatch( {
+                  type: "ADD_MEMBER",
+                  payload: res.data
+              })
+          })
+    } catch (e) {
+        dispatch( {
+            type: "ERROR_GROUPS",
+            payload: console.log(e)
+        })
+    }
+}
+
 export const viewGroup = (data) => {
     return {
         type: "VIEW_GROUP",

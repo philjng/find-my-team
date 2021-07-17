@@ -20,7 +20,7 @@ const UserGroupsContainer = (props) => {
 
     useEffect(() => {
         props.getCreatedGroups(userId);
-        // props.getJoinedGroups(userId);
+        props.getJoinedGroups(userId);
     }, [])
 
     return (

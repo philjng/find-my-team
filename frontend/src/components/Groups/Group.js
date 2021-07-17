@@ -3,7 +3,8 @@ import {styled} from "@material-ui/styles";
 import {Button2, SCLink, Typography1} from "../Events/Event";
 import {connect} from "react-redux";
 import {addGroup, removeGroup} from "../../actions/user";
-import {viewGroup} from "../../actions/groups";
+import {addMember, viewGroup} from "../../actions/groups";
+import {useAuth} from "../../context/AuthContext";
 
 const GroupCard = styled(Card)({
     backgroundColor: `#d6f5ef`,
@@ -11,8 +12,16 @@ const GroupCard = styled(Card)({
 })
 
 const Group = (props) => {
+    // TODO: remove and use store data
+    const { currentUser } = useAuth()
+
     const joinGroup = (group) => {
         props.addGroup(group)
+        props.addMember({
+            ...group,
+            memberIds: [...group.memberIds, currentUser.uid],
+            groupSize: group.groupSize + 1
+        })
     }
 
     const removeGroup = (group) => {
@@ -52,4 +61,11 @@ const Group = (props) => {
     )
 }
 
-export default connect(null, {addGroup, removeGroup, viewGroup})(Group)
+const mapDispatchToProps = (dispatch) => ({
+    addGroup: (group) => dispatch(addGroup(group)),
+    removeGroup: (group) => dispatch(removeGroup(group)),
+    viewGroup: (group) => dispatch(viewGroup(group)),
+    addMember: (group, userId) => dispatch(addMember(group, userId))
+})
+
+export default connect(null, mapDispatchToProps)(Group)

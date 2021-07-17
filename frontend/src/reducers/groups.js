@@ -105,6 +105,16 @@ export const groups = (state = initialState, action) => {
                 ]
             }
         }
+        case "ADD_MEMBER": {
+            console.log("new group: ", action.payload);
+            let updatedGroups = state.groups;
+            const index = updatedGroups.findIndex((card) => card.name = action.payload.name);
+            updatedGroups[index] = action.payload;
+            return {
+                ...state,
+                groups: [...updatedGroups]
+            }
+        }
         case "VIEW_GROUP": {
             return {
                 ...state,
