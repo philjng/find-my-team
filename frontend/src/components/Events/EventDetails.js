@@ -65,7 +65,6 @@ function EventDetails(props) {
           console.log(err);
         });
     } else {
-      //TODO: Remove participant
       axios
         .patch("http://localhost:3001/events/removeParticipant", {
           _id: props.event._id,
