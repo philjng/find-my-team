@@ -6,6 +6,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
+// import {KeyboardTimePicker, KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import { styled } from "@material-ui/styles";
 import { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
@@ -124,19 +125,21 @@ function Create() {
         </Box>
         <Box>
         <Box>
-          <Typography>Start Time (ex. 10 November 2021 20:00)</Typography>
+          <Typography>Start Time</Typography>
           <Input
-          variant="filled"
-          size="small"
+            type="datetime-local"
+            variant="filled"
+            size="small"
             value={eventStart}
             onChange={(e) => setEventStart(e.target.value)}
           ></Input>
         </Box>
         <Box>
-          <Typography>End Time (ex. 10 November 2021 20:00)</Typography>
+          <Typography>End Time</Typography>
           <Input
-          variant="filled"
-          size="small"
+            type="datetime-local"
+            variant="filled"
+            size="small"
             value={eventEnd}
             onChange={(e) => setEventEnd(e.target.value)}
           ></Input>

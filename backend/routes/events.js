@@ -17,15 +17,16 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  let startDate = new Date(req.body.start + " UTC");
-  let endDate = new Date(req.body.end + " UTC");
+  console.log(req.body.start);
+  let startDate = new Date(req.body.start);
+  let endDate = new Date(req.body.end);
   const newEvent = new Event({
     creator: req.body.user.id,
     title: req.body.title,
     description: req.body.description,
     genreTags: req.body.tags,
-    startTime: new Date(startDate.toISOString()),
-    endTime: new Date(endDate.toISOString()),
+    startTime: new Date(startDate),
+    endTime: new Date(endDate),
     location: req.body.location,
     participantSize: "1",
     participants: [req.body.user],

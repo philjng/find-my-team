@@ -64,14 +64,14 @@ function EventDetails(props) {
         });
     }
   };
-
+ const startDate = new Date(props.event.startTime).toUTCString();
   return (
     <Container>
-      <Typography variant="h1">{props.event.name}</Typography>
+      <Typography variant="h1">{props.event.title}</Typography>
       <Container>
         <Button1 onClick={addParticipant}>Join</Button1>
-        <Typography variant="h5">{props.event.location}</Typography>
-        <Typography variant="h5">{props.event.startTime}</Typography>
+        <Typography variant="h4">{props.event.location}</Typography>
+        <Typography variant="h5">{startDate}</Typography>
       </Container>
       <Box1>
         <Container>
