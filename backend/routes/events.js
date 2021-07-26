@@ -17,7 +17,6 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  console.log(req.body.start);
   let startDate = new Date(req.body.start);
   let endDate = new Date(req.body.end);
   const newEvent = new Event({
@@ -68,5 +67,17 @@ router.patch("/participant", function (req, res, next) {
       res.status(500).send({ message: err.message });
     });
 });
+
+router.patch("/removeParticipant", function (req, res, next) {
+  Event.findOneAndUpdate(
+    { _id: req.body._id },
+    { $pull: { participants: req.body.participant } }
+  )
+    .then(() => res.send("success"))
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+});
+
 
 module.exports = router;

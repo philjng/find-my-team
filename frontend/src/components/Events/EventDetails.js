@@ -5,7 +5,7 @@ import EventParticipants from "./EventParticipants.js";
 import EventComments from "./EventComments";
 import { Container, Typography, Box, Button } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import { participantJoin } from "../../actions/events.js";
+import { participantJoin, participantLeave } from "../../actions/events.js";
 import firebase from "firebase/app";
 import "firebase/auth";
 let axios = require("axios");
@@ -28,6 +28,8 @@ const Box2 = styled(Box)({
 
 const Button1 = styled(Button)({
   float: "right",
+  backgroundColor: "blue",
+  color: "white"
 });
 
 function EventDetails(props) {
@@ -59,7 +61,31 @@ function EventDetails(props) {
           );
         })
         .catch((err) => {
-          console.log("there was an error");
+          console.log("there was an error joining");
+          console.log(err);
+        });
+    } else {
+      //TODO: Remove participant
+      axios
+        .patch("http://localhost:3001/events/removeParticipant", {
+          _id: props.event._id,
+          participant: {
+            uid: firebase.auth().currentUser.uid,
+            email: firebase.auth().currentUser.email,
+          },
+        })
+        .then(() => {
+          props.participantLeave(
+            {
+              uid: firebase.auth().currentUser.uid,
+              email: firebase.auth().currentUser.email,
+            },
+            props.event,
+            props.events
+          );
+        })
+        .catch((err) => {
+          console.log("there was an error leaving");
           console.log(err);
         });
     }
@@ -69,7 +95,7 @@ function EventDetails(props) {
     <Container>
       <Typography variant="h1">{props.event.title}</Typography>
       <Container>
-        <Button1 onClick={addParticipant}>Join</Button1>
+        <Button1 onClick={addParticipant}>Join/Leave</Button1>
         <Typography variant="h4">{props.event.location}</Typography>
         <Typography variant="h5">{startDate}</Typography>
       </Container>
@@ -100,4 +126,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { participantJoin })(EventDetails);
+export default connect(mapStateToProps, { participantJoin, participantLeave })(EventDetails);

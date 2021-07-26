@@ -28,6 +28,15 @@ export const participantJoin = (user, event, events) => {
   };
 };
 
+export const participantLeave = (user, event, events) => {
+  return {
+    type: "PARTICIPANT_LEAVE",
+    user: user, 
+    event: event,
+    events: events
+  };
+};
+
 export const addComment = (user, event, text, events) => {
   return {
     type: "ADD_COMMENT",

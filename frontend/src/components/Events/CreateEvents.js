@@ -54,10 +54,8 @@ function Create() {
   const [tags, setTags] = useState([]);
 
   const addTag = () => {
-    console.log(tags);
     let tags_cpy = [...tags];
     tags_cpy.push(tagText);
-    console.log(tags_cpy);
     setTags(tags_cpy);
     setTagText("");
   };
@@ -72,7 +70,7 @@ function Create() {
         end: eventEnd,
         tags: tags,
         user: {
-          id: firebase.auth().currentUser.uid,
+          uid: firebase.auth().currentUser.uid,
           email: firebase.auth().currentUser.email,
         },
       })

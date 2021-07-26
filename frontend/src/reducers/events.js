@@ -12,8 +12,29 @@ const addParticipant = (user, event, events) => {
   if (eventIndex !== -1) {
     events[eventIndex] = event;
   } else {
-    console.log("ERROR");
+    console.log("Addition Error");
   }
+};
+
+const removeParticipant = (user, event, events) => {
+  console.log(events);
+  console.log(event);
+  let eventIndex = events.findIndex((element) => {
+    return _.isEqual(element, event);
+  });
+  console.log(eventIndex);
+  if (JSON.stringify(event.participants).includes(JSON.stringify(user))) {
+    let participantIndex = event.participants.findIndex((element) => {
+      return _.isEqual(element, user);
+    });
+    event.participants.splice(participantIndex, 1);
+  }
+  if (eventIndex !== -1) {
+    events[eventIndex] = event;
+  } else {
+    console.log("Removal Error");
+  }
+
 };
 
 const addComment = (user, text, event, events) => {
@@ -30,12 +51,20 @@ const addComment = (user, text, event, events) => {
 
 const eventsReducer = (events = [], action) => {
   let retEvents;
+  let retEvent;
+  let user;
   switch (action.type) {
     case "PARTICIPANT_JOIN":
       retEvents = [...action.events];
-      let retEvent = { ...action.event };
-      let user = action.user;
+      retEvent = { ...action.event };
+      user = action.user;
       addParticipant(user, retEvent, retEvents);
+      return retEvents;
+    case "PARTICIPANT_LEAVE":
+      retEvents = [...action.events];
+      retEvent = { ...action.event };
+      user = action.user;
+      removeParticipant(user, retEvent, retEvents);
       return retEvents;
     case "ADD_COMMENT":
       retEvents = [...action.events];
@@ -58,17 +87,31 @@ const commentTextReducer = (text = "", action) => {
 };
 
 const viewEventDetailReducer = (viewableEvent = null, action) => {
+  let event;
   switch (action.type) {
     case "VIEW_EVENT_DETAILS":
       return action.value;
     case "PARTICIPANT_JOIN":
-      let event = { ...action.event };
+      event = { ...action.event };
       if (
         !JSON.stringify(event.participants).includes(
           JSON.stringify(action.user)
         )
       ) {
         event.participants = event.participants.concat(action.user);
+      }
+      return event;
+    case "PARTICIPANT_LEAVE":
+      event = { ...action.event};
+      if (
+        JSON.stringify(event.participants).includes(
+          JSON.stringify(action.user)
+        )
+      ) {
+        let participantIndex = event.participants.findIndex((element) => {
+          return _.isEqual(element, action.user);
+        });
+        event.participants.splice(participantIndex, 1);
       }
       return event;
     case "ADD_COMMENT":
