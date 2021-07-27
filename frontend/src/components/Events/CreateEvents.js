@@ -5,6 +5,8 @@ import {
   Box,
   Typography,
   Button,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 // import {KeyboardTimePicker, KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import { styled } from "@material-ui/styles";
@@ -12,6 +14,7 @@ import { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
 import firebase from "firebase/app";
 import "firebase/auth";
+import {connect} from 'react-redux';
 let axios = require("axios");
 
 const CreateEventCard = styled(Card)({
@@ -43,8 +46,12 @@ const SubmitButton = styled(Button)({
   width: '100%'
 })
 
+const Dropdown = styled(Select)({
+  width: '80%'
+})
 
-function Create() {
+
+function Create(props) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -52,6 +59,7 @@ function Create() {
   const [eventEnd, setEventEnd] = useState("");
   const [tagText, setTagText] = useState("");
   const [tags, setTags] = useState([]);
+  const [eventGroup, setEventGroup] = useState("");
 
   const addTag = () => {
     let tags_cpy = [...tags];
@@ -73,6 +81,7 @@ function Create() {
           uid: firebase.auth().currentUser.uid,
           email: firebase.auth().currentUser.email,
         },
+        group: eventGroup
       })
       .then((result) => {
         console.log("success");
@@ -82,6 +91,7 @@ function Create() {
         setEventStart("");
         setEventEnd("");
         setTags([]);
+        setEventGroup("");
       })
       .catch((err) => console.log(err));
   };
@@ -143,6 +153,18 @@ function Create() {
           ></Input>
         </Box>
         <Box>
+          <Typography>Group</Typography>
+          <Dropdown value = {eventGroup} onChange={(e) => setEventGroup(e.target.value)}>
+            <MenuItem value = {""} >Public</MenuItem>
+            {props.user.userGroups.created.map((group) => (
+              <MenuItem value={group._id}>{group.name}</MenuItem>
+            ))}
+            {props.user.userGroups.joined.map((group) => (
+              <MenuItem value={group._id}>{group.name}</MenuItem>
+            ))}
+          </Dropdown>
+        </Box>
+        <Box>
           <Typography>Tags</Typography>
           <Input
           variant="filled"
@@ -161,4 +183,10 @@ function Create() {
     </CreateEventCard>
   );
 }
-export default Create;
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+export default connect(mapStateToProps)(Create);

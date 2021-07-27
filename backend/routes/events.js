@@ -29,7 +29,7 @@ router.post("/", function (req, res, next) {
     location: req.body.location,
     participantSize: "1",
     participants: [req.body.user],
-    group: mongoose.Types.ObjectId("51c35e5ced18cb901d000001"),
+    group: mongoose.Types.ObjectId(req.body.group),
     status: "status",
     createdAt: new Date(),
     updatedAt: new Date(),
