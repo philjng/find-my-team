@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { BrowserRouter} from "react-router-dom";
 import GenreTags from "./GenreTags.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
@@ -30,6 +31,13 @@ const Button1 = styled(Button)({
   float: "right",
   backgroundColor: "blue",
   color: "white"
+});
+
+const Button2 = styled(Button)({
+  float: "right",
+  backgroundColor: "red",
+  color: "white",
+  margin: "1rem"
 });
 
 function EventDetails(props) {
@@ -89,9 +97,22 @@ function EventDetails(props) {
         });
     }
   };
+
+  const deleteEvent = () => {
+    console.log(props.event._id);
+    axios.patch("http://localhost:3001/events/delete", {
+      _id: props.event._id
+    }).then(
+      res => {
+        console.log(res);
+      props.history.push("/events");})
+      .catch(err => console.log(err))
+  }
+
  const startDate = new Date(props.event.startTime).toUTCString();
   return (
     <Container>
+      <Button2 onClick={deleteEvent}>Delete</Button2>
       <Typography variant="h1">{props.event.title}</Typography>
       <Container>
         <Button1 onClick={addParticipant}>Join/Leave</Button1>
