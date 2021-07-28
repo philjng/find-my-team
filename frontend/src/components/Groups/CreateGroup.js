@@ -54,7 +54,7 @@ const CreateGroupPage = (props) => {
         Tennis: false,
         Volleyball: false,
     });
-
+    
     const history = useHistory();
 
     const handleSubmit = () => {
