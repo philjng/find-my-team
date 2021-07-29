@@ -13,6 +13,7 @@ import LoginRoute from "./LoginRoute";
 import LoginPage from "./components/Login/LoginPage";
 import SignUpPage from "./components/Login/SignUpPage";
 import CreateGroupPage from "./components/Groups/CreateGroup";
+import Search from "./components/Search/Search";
 import { useAuth } from "./context/AuthContext";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <ProtectedRoute path="/create-group" component={CreateGroupPage} />
         <ProtectedRoute path="/groupdetails" component={GroupDetails} />
         <ProtectedRoute path="/eventdetails" component={EventDetails} />
+        <ProtectedRoute path="/search" component={Search} />
         <Route path="/signup">
           <SignUpPage />
         </Route>

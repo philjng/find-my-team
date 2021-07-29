@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import React from "react";
 import styled from "styled-components"
 import {DropdownAdd} from "./DropdownAdd";
+import SearchButton from "./SearchButton";
 
 import DropdownProfile from "./DropdownProfile";
 
@@ -42,6 +43,7 @@ export const Navbar = () => {
                 <Icons>
                     <DropdownAdd/>
                     <DropdownProfile/>
+                    <SearchButton/>
                 </Icons>
             </Nav>
         </div>
