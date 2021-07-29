@@ -44,6 +44,14 @@ export const createGroup = (data) => async dispatch => {
     }
 }
 
+export const deleteGroup = (data) => async dispatch => {
+    // try {
+    //     axios.delete(
+    //       ``
+    //     )
+    // }
+}
+
 export const updateMemberList = (data) => async dispatch => {
     try {
         axios.put(

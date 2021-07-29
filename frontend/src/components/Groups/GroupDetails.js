@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {Avatar, Box, Button, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
+import {useState} from "react";
 
 export const FlexBox = styled(Box)({
     display: `flex`,
@@ -10,10 +11,6 @@ export const VerticalContent = styled(CardContent)({
     display: `flex`,
     flexDirection: `column`,
     justifyContent: `center`
-})
-
-export const VerticalBox = styled(FlexBox)({
-    flexDirection: `column`,
 })
 
 const GroupPage = styled(Container)({
@@ -65,9 +62,21 @@ const Name = styled(Typography)({
     verticalAlign: `center`
 })
 
+const GroupOption = styled(Button)({
+    marginTop: `0.5rem`,
+    marginRight: `0.5rem`
+})
+
 function GroupDetails(props) {
     const isManager = props.group.creatorId === props.user.user_id
+    const [isMember, setIsMember] = useState(props.group.memberIds.includes(props.user.user_id))
+    const [isEditing, setIsEditing] = useState(false);
 
+    const handleDelete = () => {
+        window.confirm("Are you sure you want to delete this group? This action cannot be undone.")
+    }
+
+    // TODO: might want to abstract parts away and simplify this js file
     return (
         <GroupPage>
             <GroupCard>
@@ -77,15 +86,55 @@ function GroupDetails(props) {
                             <Typography variant="h4">
                                 <Box fontWeight="fontWeightBold">
                                     {props.group.name}
-                                    <Button disableElevation size="small" variant="contained">
-                                        button
-                                    </Button>
                                 </Box>
                             </Typography>
                             <Typography>
                                 <Box fontWeight="fontWeightLight">{"Managed by " + (isManager ? "You" : props.group.creator)}</Box>
                                 <Box fontWeight="fontWeightLight">{props.group.groupSize + (props.group.groupSize === 1 ? " member" : " members") }</Box>
                             </Typography>
+                            {isEditing ?
+                              <Box>
+                                  <GroupOption
+                                    disableElevation
+                                    size="small"
+                                    variant="contained"
+                                    onClick={() => setIsEditing(false)}
+                                  >
+                                      Cancel
+                                  </GroupOption>
+                                  <GroupOption
+                                    disableElevation
+                                    size="small"
+                                    variant="contained"
+                                    color="primary"
+                                  >
+                                      Update
+                                  </GroupOption>
+                                  <GroupOption
+                                    disableElevation
+                                    size="small"
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => handleDelete()}
+                                  >
+                                      Delete group
+                                  </GroupOption>
+                              </Box>
+                              : <GroupOption
+                              disableElevation
+                              size="small"
+                              variant="contained"
+                              onClick={() => {
+                                  if (isManager) {
+                                      setIsEditing(true);
+                                  }
+                                  else {
+                                      // isMember ? TODO: join or leave group
+                                  }
+                              }}
+                            >
+                                {isManager ? "Edit" : isMember ? "Leave Group" : "Join Group"}
+                            </GroupOption>}
                         </Box>
                         <Box>
                             <Typography variant="h6">Group Description</Typography>
@@ -112,6 +161,7 @@ function GroupDetails(props) {
                 </GroupContent>
             </GroupCard>
             <SecondBox>
+                {/*TODO: abstract out event card into it's own component with own fetching*/}
                 <EventCard>
                     <VerticalContent>
                         <Typography variant="h6">Events</Typography>
@@ -119,6 +169,7 @@ function GroupDetails(props) {
                         <Typography align="center">This group has no events.</Typography>
                     </VerticalContent>
                 </EventCard>
+                {/*TODO: abstract out members card into it's own component with own fetching*/}
                 <MembersCard>
                     <VerticalContent>
                         <Typography variant="h6">{"Members (" + props.group.groupSize + ")"}</Typography>
