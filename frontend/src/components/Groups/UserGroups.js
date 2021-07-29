@@ -16,12 +16,13 @@ export const CardHeader = styled(Typography)({
 })
 
 const UserGroupsContainer = (props) => {
+    const { getCreatedGroups, getJoinedGroups } = props;
     const userId = useAuth().currentUser.uid
 
     useEffect(() => {
-        props.getCreatedGroups(userId);
-        props.getJoinedGroups(userId);
-    }, [])
+        getCreatedGroups(userId);
+        getJoinedGroups(userId);
+    }, [getCreatedGroups, getJoinedGroups, userId])
 
     return (
         <UserGroup>
