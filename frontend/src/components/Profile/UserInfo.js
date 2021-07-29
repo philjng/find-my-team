@@ -88,7 +88,7 @@ function UserInfo(props) {
   };
   const handleFirstNameChange = handleFormChange("firstName");
   const handleLastNameChange = handleFormChange("lastName");
-  const handleUsernameChange = handleFormChange("username");
+  const handleDisplayNameChange = handleFormChange("displayName");
   const handleTagsChange = handleFormChange("tags");
   const { id } = useParams();
 
@@ -197,12 +197,12 @@ function UserInfo(props) {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
+                id="displayName"
+                label="Display Name"
+                name="displayName"
                 autoFocus
-                value={isEditing ? form.username : initialForm.username || ""}
-                onChange={handleUsernameChange}
+                value={isEditing ? form.displayName : initialForm.displayName || ""}
+                onChange={handleDisplayNameChange}
                 disabled={!isEditing}
               />
               <FormControl margin="normal">

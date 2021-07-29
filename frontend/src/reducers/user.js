@@ -1,6 +1,7 @@
 const initialState = {
   user_id: null,
-  name: "",
+  firstName: "",
+  lastName: "",
   displayName: "",
   userEvents: {
     created: [],
@@ -75,7 +76,8 @@ const userReducer = (state = initialState, action) => {
         ...state,
         user_id: action.payload._id,
         displayName: action.payload.username,
-        name: action.payload.firstName + " " + action.payload.lastName,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
         emailAddress: action.payload.emailAddress,
         tags: action.payload.tags
       };
