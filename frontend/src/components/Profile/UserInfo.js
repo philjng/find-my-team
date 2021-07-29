@@ -72,13 +72,13 @@ const SCBox = styled(Box)({
 function UserInfo(props) {
   const classes = useStyles();
   const PLACEHOLDER_IMAGE = "/images/evil_lebron.jpg";
-
+  
   const [initialForm, setInitialForm] = useState({});
   const [form, setForm] = useState({ tags: [] });
   const [isEditing, setIsEditing] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const { getUser, editUserProfile, profile } = props;
+  const { getUser, editUserProfile, user } = props;
 
   const handleFormChange = (property) => (event) => {
     setForm({
@@ -120,9 +120,9 @@ function UserInfo(props) {
   }, [getUser, id]);
 
   useEffect(() => {
-    setForm(profile);
-    setInitialForm(profile);
-  }, [profile]);
+    setForm(user);
+    setInitialForm(user);
+  }, [user]);
 
   return (
     <>
@@ -261,7 +261,7 @@ function UserInfo(props) {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.user.profile,
+    user: state.user,
   };
 };
 
