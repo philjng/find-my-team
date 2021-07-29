@@ -2,8 +2,9 @@ import {connect} from 'react-redux';
 import {Avatar, Box, Button, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {useState} from "react";
-import {deleteGroup} from "../../actions/groups";
+import {deleteGroup, updateMemberList} from "../../actions/groups";
 import {useHistory} from "react-router-dom";
+import {addGroup, removeGroup} from "../../actions/user";
 
 export const FlexBox = styled(Box)({
     display: `flex`,
@@ -74,16 +75,39 @@ export const DeleteButton = styled(GroupOption)({
 })
 
 function GroupDetails(props) {
+    const { user, group } = props;
     const history = useHistory();
 
-    const isManager = props.group.creatorId === props.user.user_id
-    const [isMember, setIsMember] = useState(props.group.memberIds.includes(props.user.user_id))
+    const isManager = props.group.creatorId === user.user_id
+    const [isMember, setIsMember] = useState(group.memberIds.includes(user.user_id))
     const [isEditing, setIsEditing] = useState(false);
 
     const handleDelete = () => {
         window.confirm("Are you sure you want to delete this group? This action cannot be undone.")
-        && props.deleteGroup(props.group._id)
+        && props.deleteGroup(group._id)
         && history.goBack();
+    }
+
+    const joinGroup = () => {
+        const memberIds = [...group.memberIds, user.user_id]
+        props.addGroup(group)
+        props.updateMemberList({
+            ...group,
+            memberIds: memberIds,
+            groupSize: memberIds.length
+        })
+        setIsMember(true);
+    }
+
+    const removeGroup = () => {
+        const memberIds = group.memberIds.filter((id) => id !== user.user_id)
+        window.confirm("Are you sure you want to leave the group?") && props.removeGroup(group)
+         && props.updateMemberList({
+            ...group,
+            memberIds: memberIds,
+            groupSize: memberIds.length
+        })
+        setIsMember(false)
     }
 
     // TODO: might want to abstract parts away and simplify this js file
@@ -95,12 +119,12 @@ function GroupDetails(props) {
                         <Box>
                             <Typography variant="h4">
                                 <Box fontWeight="fontWeightBold">
-                                    {props.group.name}
+                                    {group.name}
                                 </Box>
                             </Typography>
                             <Typography component={'span'}>
-                                <Box fontWeight="fontWeightLight">{"Managed by " + (isManager ? "You" : props.group.creator)}</Box>
-                                <Box fontWeight="fontWeightLight">{props.group.groupSize + (props.group.groupSize === 1 ? " member" : " members") }</Box>
+                                <Box fontWeight="fontWeightLight">{"Managed by " + (isManager ? "You" : group.creator)}</Box>
+                                <Box fontWeight="fontWeightLight">{group.groupSize + (group.groupSize === 1 ? " member" : " members") }</Box>
                             </Typography>
                             {isEditing ?
                               <Box>
@@ -139,7 +163,7 @@ function GroupDetails(props) {
                                       setIsEditing(true);
                                   }
                                   else {
-                                      // isMember ? TODO: join or leave group
+                                      isMember ? removeGroup() : joinGroup()
                                   }
                               }}
                             >
@@ -148,12 +172,12 @@ function GroupDetails(props) {
                         </Box>
                         <Box>
                             <Typography variant="h6">Group Description</Typography>
-                            {props.group.description}
+                            {group.description}
                         </Box>
                         <Box>
                             <Typography variant="h6">Tags</Typography>
                             <Typography>
-                                {props.group.tags.join(", ")}
+                                {group.tags.join(", ")}
                             </Typography>
                         </Box>
                     </LeftBox>
@@ -182,9 +206,9 @@ function GroupDetails(props) {
                 {/*TODO: abstract out members card into it's own component with own fetching*/}
                 <MembersCard>
                     <VerticalContent>
-                        <Typography variant="h6">{"Members (" + props.group.groupSize + ")"}</Typography>
+                        <Typography variant="h6">{"Members (" + group.groupSize + ")"}</Typography>
                         {/*TODO: set up user names and icons*/}
-                        {props.group.memberIds.map((id) => (
+                        {group.memberIds.map((id) => (
                             <Member key={id}>
                                 <Avatar/>
                                 <Name align="center">No Name</Name>
@@ -206,7 +230,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteGroup: (groupId) => dispatch(deleteGroup(groupId))
+        deleteGroup: (groupId) => dispatch(deleteGroup(groupId)),
+        addGroup: (group) => dispatch(addGroup(group)),
+        removeGroup: (group) => dispatch(removeGroup(group)),
+        updateMemberList: (group) => dispatch(updateMemberList(group))
     }
 }
 
