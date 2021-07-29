@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {Avatar, Box, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
+import {Avatar, Box, Button, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 
 export const FlexBox = styled(Box)({
@@ -10,6 +10,10 @@ export const VerticalContent = styled(CardContent)({
     display: `flex`,
     flexDirection: `column`,
     justifyContent: `center`
+})
+
+export const VerticalBox = styled(FlexBox)({
+    flexDirection: `column`,
 })
 
 const GroupPage = styled(Container)({
@@ -62,6 +66,8 @@ const Name = styled(Typography)({
 })
 
 function GroupDetails(props) {
+    const isManager = props.group.creatorId === props.user.user_id
+
     return (
         <GroupPage>
             <GroupCard>
@@ -71,11 +77,14 @@ function GroupDetails(props) {
                             <Typography variant="h4">
                                 <Box fontWeight="fontWeightBold">
                                     {props.group.name}
+                                    <Button disableElevation size="small" variant="contained">
+                                        button
+                                    </Button>
                                 </Box>
                             </Typography>
                             <Typography>
-                                <Box fontWeight="fontWeightLight">{"Created by " + props.group.creator}</Box>
-                                <Box fontWeight="fontWeightLight">{props.group.groupSize + " members"}</Box>
+                                <Box fontWeight="fontWeightLight">{"Managed by " + (isManager ? "You" : props.group.creator)}</Box>
+                                <Box fontWeight="fontWeightLight">{props.group.groupSize + (props.group.groupSize === 1 ? " member" : " members") }</Box>
                             </Typography>
                         </Box>
                         <Box>
@@ -129,6 +138,7 @@ function GroupDetails(props) {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.user,
         group: state.groups.group
     }
 }
