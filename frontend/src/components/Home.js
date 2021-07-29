@@ -3,9 +3,6 @@ import {connect} from "react-redux";
 import {styled} from "@material-ui/styles";
 import UserEvents from "./Events/UserEvents";
 import UserGroups from "./Groups/UserGroups";
-import {useEffect} from "react";
-import {getUser} from "../actions/user";
-import {useAuth} from "../context/AuthContext";
 
 const PageContainer = styled(Container)({
   backgroundColor: `#f7fdfc`,
@@ -24,12 +21,6 @@ const HomeInfo = styled(Container)({
 
 
 function Home(props) {
-  const { currentUser } = useAuth()
-
-  useEffect(() => {
-    props.getUser(currentUser.uid)
-  }, [])
-
   return (
     <PageContainer>
       <WelcomeText variant="h5">
@@ -49,11 +40,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUser: (data) => getUser(dispatch, data)
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);
