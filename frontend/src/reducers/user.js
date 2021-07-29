@@ -75,7 +75,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user_id: action.payload._id,
-        displayName: action.payload.username,
+        displayName: action.payload.displayName,
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         emailAddress: action.payload.emailAddress,
