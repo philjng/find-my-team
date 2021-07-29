@@ -79,17 +79,16 @@ router.patch("/removeParticipant", function (req, res, next) {
     });
 });
 
-router.patch("/delete", function(req, res, next) {
-  console.log(req.body._id)
-  Event.findOneAndDelete({_id: req.body._id})
-  .then((result) => {
-    console.log(result);
-    res.send(result);
-  })
+router.patch("/delete", function (req, res, next) {
+  console.log(req.body._id);
+  Event.findOneAndDelete({ _id: req.body._id })
+    .then((result) => {
+      console.log(result);
+      res.send(result);
+    })
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 });
-
 
 module.exports = router;

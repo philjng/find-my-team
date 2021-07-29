@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import GenreTags from "./GenreTags.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
@@ -30,14 +30,14 @@ const Box2 = styled(Box)({
 const Button1 = styled(Button)({
   float: "right",
   backgroundColor: "blue",
-  color: "white"
+  color: "white",
 });
 
 const Button2 = styled(Button)({
   float: "right",
   backgroundColor: "red",
   color: "white",
-  margin: "1rem"
+  margin: "1rem",
 });
 
 function EventDetails(props) {
@@ -100,16 +100,18 @@ function EventDetails(props) {
 
   const deleteEvent = () => {
     // TODO: Set up deletion permissions
-    axios.patch("http://localhost:3001/events/delete", {
-      _id: props.event._id
-    }).then(
-      res => {
+    axios
+      .patch("http://localhost:3001/events/delete", {
+        _id: props.event._id,
+      })
+      .then((res) => {
         console.log(res);
-      props.history.push("/events");})
-      .catch(err => console.log(err))
-  }
+        props.history.push("/events");
+      })
+      .catch((err) => console.log(err));
+  };
 
- const startDate = new Date(props.event.startTime).toUTCString();
+  const startDate = new Date(props.event.startTime).toUTCString();
   return (
     <Container>
       <Button2 onClick={deleteEvent}>Delete</Button2>
@@ -146,4 +148,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { participantJoin, participantLeave })(EventDetails);
+export default connect(mapStateToProps, { participantJoin, participantLeave })(
+  EventDetails
+);
