@@ -3,43 +3,56 @@ import {connect} from "react-redux";
 import {styled} from "@material-ui/styles";
 import UserEvents from "./Events/UserEvents";
 import UserGroups from "./Groups/UserGroups";
+import {getUser} from "../actions/user";
+import {useEffect} from "react";
+import {useAuth} from "../context/AuthContext";
 
 const PageContainer = styled(Container)({
-    backgroundColor: `#f7fdfc`,
-    padding: 0,
+  backgroundColor: `#f7fdfc`,
+  padding: 0,
 })
 
 const WelcomeText = styled(Typography)({
-    padding: '1rem',
-    textAlign: 'center',
+  padding: '1rem',
+  textAlign: 'center',
 })
 
 const HomeInfo = styled(Container)({
-    display: `flex`,
-    justifyContent: `space-around`
+  display: `flex`,
+  justifyContent: `space-around`
 })
 
 
 function Home(props) {
-    return (
-        <PageContainer>
-            <WelcomeText variant="h5">
-                Welcome back, {props.name}
-            </WelcomeText>
-            <HomeInfo>
-                <UserEvents/>
-                <UserGroups/>
-            </HomeInfo>
-        </PageContainer>
-    );
+  const { currentUser } = useAuth()
+
+  useEffect(() => {
+    props.getUser(currentUser.uid)
+  }, [])
+
+  return (
+    <PageContainer>
+      <WelcomeText variant="h5">
+        Welcome back, {props.user.displayName}
+      </WelcomeText>
+      <HomeInfo>
+        <UserEvents/>
+        <UserGroups/>
+      </HomeInfo>
+    </PageContainer>
+  );
 }
 
 const mapStateToProps = (state) => {
-    return {
-        userId: state.user.user_id,
-        name: state.user.name
-    };
+  return {
+    user: state.user
+  };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUser: (data) => getUser(dispatch, data),
+  };
+};
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

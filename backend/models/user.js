@@ -6,7 +6,7 @@ const UserSchema = new Schema({
   lastName: String,
   tags: [String],
   emailAddress: String,
-  username: String,
+  displayName: String,
   eventsJoined: [Schema.Types.ObjectId],
   eventsCreated: [Schema.Types.ObjectId],
   groupsJoined: [Schema.Types.ObjectId],
