@@ -51,7 +51,7 @@ function SignUpForm() {
     firstName: "",
     lastName: "",
     emailAddress: "",
-    username: "",
+    displayName: "",
     password: "",
     confirmPassword: "",
   });
@@ -84,10 +84,10 @@ function SignUpForm() {
     });
   };
 
-  const handleUsernameChange = (event) => {
+  const handleDisplayNameChange = (event) => {
     setForm({
       ...form,
-      username: event.target.value,
+      displayName: event.target.value,
     });
   };
 
@@ -142,7 +142,7 @@ function SignUpForm() {
         lastName: form.lastName,
         tags: tags,
         emailAddress: form.emailAddress,
-        username: form.username,
+        displayName: form.displayName,
         eventsJoined: [],
         eventsCreated: [],
         groups: [],
@@ -225,11 +225,11 @@ function SignUpForm() {
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            value={form.username}
-            onChange={handleUsernameChange}
+            id="displayName"
+            label="Display Name"
+            name="displayName"
+            value={form.displayName}
+            onChange={handleDisplayNameChange}
             InputProps={{
               endAdornment: (
                 <InputAdornment>

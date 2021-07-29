@@ -1,6 +1,8 @@
 const initialState = {
-  user_id: 0,
-  name: "user_0",
+  user_id: null,
+  firstName: "",
+  lastName: "",
+  displayName: "",
   userEvents: {
     created: [],
     joined: []
@@ -11,7 +13,6 @@ const initialState = {
   },
   tags: [],
   emailAddress: null,
-  profile: {}
 };
 
 // TODO: set user state once when app loads to match useAuth data
@@ -21,7 +22,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user_id: action.payload.user_id,
-        name: "user_0",
       };
     case "LOGOUT":
       return {
@@ -70,11 +70,16 @@ const userReducer = (state = initialState, action) => {
       }
     }
     case "GET_USER": {
+      /* TODO: not decided on yet, but currently user collection does not store userGroups nor events,
+          that is managed by groups api call */
       return {
         ...state,
-        profile: {
-          ...action.payload
-        }
+        user_id: action.payload._id,
+        displayName: action.payload.displayName,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        emailAddress: action.payload.emailAddress,
+        tags: action.payload.tags
       };
     }
     default:
