@@ -99,7 +99,7 @@ function EventDetails(props) {
   };
 
   const deleteEvent = () => {
-    console.log(props.event._id);
+    // TODO: Set up deletion permissions
     axios.patch("http://localhost:3001/events/delete", {
       _id: props.event._id
     }).then(
