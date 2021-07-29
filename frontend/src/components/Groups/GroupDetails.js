@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import {Avatar, Box, Button, Card, CardContent, CardMedia, Container, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {useState} from "react";
+import {deleteGroup} from "../../actions/groups";
+import {useHistory} from "react-router-dom";
 
 export const FlexBox = styled(Box)({
     display: `flex`,
@@ -67,13 +69,21 @@ const GroupOption = styled(Button)({
     marginRight: `0.5rem`
 })
 
+export const DeleteButton = styled(GroupOption)({
+    color: 'black'
+})
+
 function GroupDetails(props) {
+    const history = useHistory();
+
     const isManager = props.group.creatorId === props.user.user_id
     const [isMember, setIsMember] = useState(props.group.memberIds.includes(props.user.user_id))
     const [isEditing, setIsEditing] = useState(false);
 
     const handleDelete = () => {
         window.confirm("Are you sure you want to delete this group? This action cannot be undone.")
+        && props.deleteGroup(props.group._id)
+        && history.goBack();
     }
 
     // TODO: might want to abstract parts away and simplify this js file
@@ -88,7 +98,7 @@ function GroupDetails(props) {
                                     {props.group.name}
                                 </Box>
                             </Typography>
-                            <Typography>
+                            <Typography component={'span'}>
                                 <Box fontWeight="fontWeightLight">{"Managed by " + (isManager ? "You" : props.group.creator)}</Box>
                                 <Box fontWeight="fontWeightLight">{props.group.groupSize + (props.group.groupSize === 1 ? " member" : " members") }</Box>
                             </Typography>
@@ -110,7 +120,7 @@ function GroupDetails(props) {
                                   >
                                       Update
                                   </GroupOption>
-                                  <GroupOption
+                                  <DeleteButton
                                     disableElevation
                                     size="small"
                                     variant="contained"
@@ -118,7 +128,7 @@ function GroupDetails(props) {
                                     onClick={() => handleDelete()}
                                   >
                                       Delete group
-                                  </GroupOption>
+                                  </DeleteButton>
                               </Box>
                               : <GroupOption
                               disableElevation
@@ -175,7 +185,7 @@ function GroupDetails(props) {
                         <Typography variant="h6">{"Members (" + props.group.groupSize + ")"}</Typography>
                         {/*TODO: set up user names and icons*/}
                         {props.group.memberIds.map((id) => (
-                            <Member>
+                            <Member key={id}>
                                 <Avatar/>
                                 <Name align="center">No Name</Name>
                             </Member>
@@ -194,4 +204,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(GroupDetails);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteGroup: (groupId) => dispatch(deleteGroup(groupId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupDetails);

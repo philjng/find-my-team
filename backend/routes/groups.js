@@ -63,6 +63,19 @@ router.post("/", function(req, res, next){
   });
 });
 
+router.delete("/:id", function (req, res, next) {
+  Group.deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.send(req.params.id)
+    })
+    .catch((e) => {
+      console.log(e);
+      res
+        .status(500)
+        .send({ message: e.message || "DELETE group failed" })
+    })
+})
+
 /* PUT endpoint to update group */
 router.put("/:id", function (req, res, next) {
   // TODO: find new method - current one without the 'useFindAndModify' option set to false is deprecated

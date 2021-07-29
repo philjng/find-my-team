@@ -105,6 +105,12 @@ export const groups = (state = initialState, action) => {
                 ]
             }
         }
+        case "DELETE_GROUP": {
+            return {
+                ...state,
+                groups: state.groups.filter(group => group._id !== action.payload)
+            }
+        }
         case "UPDATE_MEMBER_LIST": {
             let updatedGroups = state.groups;
             const index = updatedGroups.findIndex((group) => group._id === action.payload._id);
