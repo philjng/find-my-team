@@ -1,5 +1,5 @@
 import Event from "./Event.js";
-
+import React from "react";
 import { useState } from "react";
 import {
   Container,
@@ -51,17 +51,18 @@ function EventsContainer(props) {
           style={{ maxHeight: "50%", overflow: "auto" }}
         >
           {filterEvents(props.events, filter).map((event) => (
-            <>
+            <React.Fragment key={event._id}>
               <ListItem>
-                <Event info={event} key={event._id} />
+                <Event info={event}/>
               </ListItem>
               <Divider variant="middle" component="li" />
-            </>
+            </React.Fragment>
           ))}
         </List>
       </Box1>
     </SCContainer>
   );
 }
+
 
 export default EventsContainer;
