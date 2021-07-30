@@ -44,6 +44,25 @@ export const createGroup = (data) => async dispatch => {
     }
 }
 
+export const deleteGroup = (groupId) => async dispatch => {
+    try {
+        axios.delete(
+          `http://localhost:3001/groups/${groupId}`
+        )
+          .then((res) => {
+              dispatch({
+                  type: "DELETE_GROUP",
+                  payload: res.data
+              })
+          })
+    } catch (e) {
+        dispatch( {
+            type: "ERROR_GROUPS",
+            payload: console.log(e)
+        })
+    }
+}
+
 export const updateMemberList = (data) => async dispatch => {
     try {
         axios.put(

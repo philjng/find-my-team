@@ -24,11 +24,12 @@ const HomeInfo = styled(Container)({
 
 
 function Home(props) {
+  const { getUser } = props;
   const { currentUser } = useAuth()
 
   useEffect(() => {
-    props.getUser(currentUser.uid)
-  }, [])
+    getUser(currentUser.uid)
+  }, [getUser, currentUser.uid])
 
   return (
     <PageContainer>

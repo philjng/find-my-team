@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
     })
 
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
   const value = {
     currentUser,
