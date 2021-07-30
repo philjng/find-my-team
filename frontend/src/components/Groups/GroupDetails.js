@@ -17,11 +17,10 @@ export const VerticalContent = styled(CardContent)({
 })
 
 const GroupPage = styled(Container)({
-    backgroundColor: `#f7fdfc`,
 })
 
 const GroupCard = styled(Card)({
-    backgroundColor: `#ebfaf7`,
+    backgroundColor: `#f7fdfc`,
     margin: `1rem`,
 })
 
@@ -46,13 +45,13 @@ const SecondBox = styled(FlexBox)({
 })
 
 const EventCard = styled(Card)({
-    backgroundColor: `#d6f5ef`,
+    backgroundColor: `#f7fdfc`,
     flexGrow: `2`,
     marginRight: `1rem`
 })
 
 const MembersCard = styled(Card)({
-    backgroundColor: `#d6f5ef`,
+    backgroundColor: `#f7fdfc`,
 })
 
 const Member = styled(FlexBox)({
@@ -68,10 +67,6 @@ const Name = styled(Typography)({
 const GroupOption = styled(Button)({
     marginTop: `0.5rem`,
     marginRight: `0.5rem`
-})
-
-export const DeleteButton = styled(GroupOption)({
-    color: 'black'
 })
 
 function GroupDetails(props) {
@@ -144,7 +139,7 @@ function GroupDetails(props) {
                                   >
                                       Update
                                   </GroupOption>
-                                  <DeleteButton
+                                  <GroupOption
                                     disableElevation
                                     size="small"
                                     variant="contained"
@@ -152,7 +147,7 @@ function GroupDetails(props) {
                                     onClick={() => handleDelete()}
                                   >
                                       Delete group
-                                  </DeleteButton>
+                                  </GroupOption>
                               </Box>
                               : <GroupOption
                               disableElevation

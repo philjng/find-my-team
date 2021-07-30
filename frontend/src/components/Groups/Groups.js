@@ -11,7 +11,6 @@ const GroupsPage = styled(Container)({
     display: `flex`,
     justifyContent: `space-between`,
     padding: `4rem 0`,
-    // backgroundColor: `#f7fdfc`
 })
 
 const AllGroups = styled(Card)({
