@@ -38,9 +38,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-app.use("/users", usersRouter);
-app.use("/events", eventsRouter);
-app.use("/groups", groupsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/events", eventsRouter);
+app.use("/api/groups", groupsRouter);
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, "frontend/build")));
