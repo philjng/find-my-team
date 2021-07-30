@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 import {getCreatedGroups} from "./user";
 
 const headers = {
@@ -90,3 +90,22 @@ export const viewGroup = (data) => {
         payload: data
     }
 }
+
+// export const searchGroups = async (dispatch, searchText) => {
+//     try {
+//       axios.get(`http://localhost:3001/groups/search/${searchText}`)
+//       .then((res) => {
+//         console.log(res.data);
+//         dispatch({
+//           type: "SEARCH_GROUPS",
+//           payload: res.data
+//         })
+//       })
+//     } catch (e) {
+//       dispatch({
+//         type: "ERROR_GROUPS",
+//         payload: console.log(e)
+//       })
+  
+//     }
+//   };

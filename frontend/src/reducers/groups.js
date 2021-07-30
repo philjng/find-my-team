@@ -1,5 +1,6 @@
 const initialState = {
     groups: [],
+    searchResults: [],
     group: {}
 }
 
@@ -52,6 +53,12 @@ export const groups = (state = initialState, action) => {
                 group: action.payload
             }
         }
+        // case "SEARCH_GROUPS": {
+        //     return {
+        //         ...state,
+        //         searchResults: action.payload
+        //     }
+        // }
         default: {
             return {...state}
         }

@@ -11,6 +11,7 @@ const GroupSchema = new Schema({
   memberIds: [String],
   groupSize: Number,
 });
+// GroupSchema.index({'$**': 'text'});
 
 const Group = mongoose.model("Group", GroupSchema);
 

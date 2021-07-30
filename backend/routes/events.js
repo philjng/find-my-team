@@ -29,8 +29,8 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.get("/search/:text", function (req, res, next) {
-  //TODO: Create search query
-  Event.find()
+  const searchText = req.params.text;
+  Event.find({$text: {$search: searchText}})
   .then((data) => {
     res.send(data);
   })

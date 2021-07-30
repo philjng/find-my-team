@@ -25,8 +25,8 @@ const eventReducer = (event = {}, action) => {
 };
 
 const searchResultsReducer = (searchResults = [], action) => {
-  if (action.type === "SEARCH EVENTS") {
-    return action.result;
+  if (action.type === "SEARCH_EVENTS") {
+    return action.payload;
   } else {
     return searchResults;
   }

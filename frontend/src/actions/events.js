@@ -137,10 +137,12 @@ export const getEvent = async (dispatch, id) => {
   }
 };
 
-export const searchEvents = (text) => async dispatch => {
+export const searchEvents = async (dispatch, searchText) => {
+  console.log("searchEvents action called");
   try {
-    axios.get(`http://localhost:3001/events/search${text}`)
+    axios.get(`http://localhost:3001/events/search/${searchText}`)
     .then((res) => {
+      console.log(res.data);
       dispatch({
         type: "SEARCH_EVENTS",
         payload: res.data
@@ -154,3 +156,4 @@ export const searchEvents = (text) => async dispatch => {
 
   }
 };
+
