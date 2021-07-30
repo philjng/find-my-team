@@ -1,12 +1,24 @@
 import {TextField, Container, Button} from "@material-ui/core";
-function Search() {
+import {useState} from "react";
+import {searchEvents} from "../../actions/events";
+import { connect } from "react-redux";
+function Search(props) {
+    const [searchText, setSearchText] = useState("");
+
+    const performSearch = () => {
+        console.log("TODO");
+    }
 
     return (
         <Container>
-            <TextField>This will be the search input</TextField>
-            <Button> Search </Button>
+            <TextField value={searchText} onChange={(e) => setSearchText(e.target.value)}>Search</TextField>
+            <Button onClick={performSearch}>Search</Button>
         </Container>
     )
 
 }
-export default Search;
+
+const mapStateToProps = (state) => {
+    return { searchResults: state.searchResults };
+  };
+  export default connect(mapStateToProps, { searchEvents })(Search);

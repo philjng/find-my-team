@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export const viewEventDetails = (event) => {
   return {
     type: "VIEW_EVENT_DETAILS",
@@ -43,4 +45,22 @@ export const editText = (text) => {
     type: "EDIT_TEXT",
     text: text,
   };
+};
+
+export const searchEvents = (text) => async dispatch => {
+  try {
+    axios.get(`http://localhost:3001/events/search${text}`)
+    .then((res) => {
+      dispatch({
+        type: "SEARCH_EVENTS",
+        payload: res.data
+      })
+    })
+  } catch (e) {
+    dispatch({
+      type: "ERROR_EVENTS",
+      payload: console.log(e)
+    })
+
+  }
 };

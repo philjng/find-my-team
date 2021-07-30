@@ -16,6 +16,18 @@ router.get("/", function (req, res, next) {
     });
 });
 
+router.get("/search/:text", function (req, res, next) {
+  Event.find()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message || "There was an error while getting events",
+      });
+    });
+});
+
 router.post("/", function (req, res, next) {
   let startDate = new Date(req.body.start + " UTC");
   let endDate = new Date(req.body.end + " UTC");

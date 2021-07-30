@@ -101,9 +101,18 @@ const toggleViewableEventsReducer = (viewableEvents = [], action) => {
   }
 };
 
+const searchResultsReducer = (searchResults = [], action) => {
+  if (action.type === "SEARCH EVENTS") {
+    return action.result;
+  } else {
+    return searchResults;
+  }
+}
+
 export default combineReducers({
   events: eventsReducer,
   viewableEvent: viewEventDetailReducer,
   viewableEvents: toggleViewableEventsReducer,
   commentText: commentTextReducer,
+  searchResults: searchResultsReducer
 });
