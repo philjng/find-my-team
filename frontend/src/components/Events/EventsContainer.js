@@ -1,8 +1,6 @@
 import Event from "./Event.js";
-
-import { useEffect } from "react";
-import { connect } from "react-redux";
-import { viewUpcomingEventsOnly, viewAllEvents } from "../../actions/events";
+import React from "react";
+import { useState } from "react";
 import {
   Container,
   Button,
@@ -13,8 +11,6 @@ import {
   ButtonGroup,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-
-let axios = require("axios");
 
 export const Box1 = styled(Box)({
   border: "2px solid black",
@@ -27,45 +23,40 @@ const SCContainer = styled(Container)({
 });
 
 function EventsContainer(props) {
-  const viewAll = () => {
-    axios
-      .get(`http://localhost:3001/events`)
-      .then((res) => {
-        props.all(res.data);
-      })
-      .catch((err) => console.log(err));
+  const [filter, setFilter] = useState("all");
+  const filterEvents = (events, filter) => {
+    switch (filter) {
+      case "all":
+        return events;
+      case "upcoming":
+        const currentTime = new Date();
+        return events.filter(
+          (event) => new Date(event.startTime) > currentTime
+        );
+      default:
+        return events;
+    }
   };
-
-  const viewUpcoming = () => {
-    axios
-      .get(`http://localhost:3001/events`)
-      .then((res) => {
-        props.upcoming(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => viewAll(), []);
 
   return (
     <SCContainer className="events_container">
       <Box1>
         <ButtonGroup variant="text" aria-label="contained primary button group">
-          <Button onClick={viewAll}>All</Button>
-          <Button onClick={viewUpcoming}>Upcoming</Button>
+          <Button onClick={() => setFilter("all")}>All</Button>
+          <Button onClick={() => setFilter("upcoming")}>Upcoming</Button>
         </ButtonGroup>
         <List
           disablePadding={true}
           dense={true}
           style={{ maxHeight: "50%", overflow: "auto" }}
         >
-          {props.viewableEvents.map((event) => (
-            <>
-              <ListItem key={JSON.stringify(event)}>
-                <Event info={event} />
+          {filterEvents(props.events, filter).map((event) => (
+            <React.Fragment key={event._id}>
+              <ListItem>
+                <Event info={event}/>
               </ListItem>
               <Divider variant="middle" component="li" />
-            </>
+            </React.Fragment>
           ))}
         </List>
       </Box1>
@@ -73,14 +64,5 @@ function EventsContainer(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    events: state.events.events,
-    viewableEvents: state.events.viewableEvents,
-  };
-};
 
-export default connect(mapStateToProps, {
-  upcoming: viewUpcomingEventsOnly,
-  all: viewAllEvents,
-})(EventsContainer);
+export default EventsContainer;

@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       {currentUser && <Navbar />}
       <Switch>
-        <ProtectedRoute path="/events" component={Events} />
+        <ProtectedRoute exact path="/events" component={Events} />
         <ProtectedRoute path="/profile/:id" component={Profile} />
         <ProtectedRoute path="/home" component={Home} />
         <ProtectedRoute path="/groups" component={Groups} />
@@ -32,6 +32,7 @@ function App() {
         <ProtectedRoute path="/groupdetails" component={GroupDetails} />
         <ProtectedRoute path="/eventdetails" component={EventDetails} />
         <ProtectedRoute path="/search" component={Search} />
+        <ProtectedRoute exact path="/events/:id" component={EventDetails} />
         <Route path="/signup">
           <SignUpPage />
         </Route>

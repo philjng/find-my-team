@@ -21,14 +21,15 @@ const AllGroups = styled(Card)({
 })
 
 const GroupsContainer = (props) => {
+    const { getGroups } = props;
     const joinedGroupIds = props.userGroups.joined.map((group) => group._id);
     const createdGroupIds = props.userGroups.created.map((group) => group._id)
     const filtered = props.groups.filter(
         (group) => !(joinedGroupIds.includes(group._id) || createdGroupIds.includes(group._id)))
 
     useEffect(() => {
-        props.getGroups()
-    }, [])
+        getGroups()
+    }, [getGroups])
 
     return (
         <GroupsPage>

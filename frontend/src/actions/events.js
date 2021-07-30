@@ -1,4 +1,5 @@
-import axios from "axios"
+
+import axios from "axios";
 
 export const viewEventDetails = (event) => {
   return {
@@ -21,30 +22,119 @@ export const viewAllEvents = (events) => {
   };
 };
 
-export const participantJoin = (user, event, events) => {
-  return {
-    type: "PARTICIPANT_JOIN",
-    user: user,
-    event: event,
-    events: events,
-  };
+export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
+  try {
+    const res = await axios.patch(
+      `http://localhost:3001/events/${eventId}/participants`,
+      {
+        participant: {
+          uid: userId,
+          email: userEmail,
+        },
+      }
+    );
+    dispatch({
+      type: "PARTICIPANT_JOIN",
+      payload: res.data,
+    });
+    getEvent(dispatch, eventId);
+  } catch (e) {
+    dispatch({
+      type: "ERROR_PARTICIPANT_JOIN",
+      payload: e,
+    });
+  }
 };
 
-export const addComment = (user, event, text, events) => {
-  return {
-    type: "ADD_COMMENT",
-    user: user,
-    event: event,
-    text: text,
-    events: events,
-  };
+export const participantLeave = async (dispatch, eventId, userId, userEmail) => {
+  try {
+    const res = await axios.patch(
+      `http://localhost:3001/events/${eventId}/removeParticipant`,
+      {
+        participant: {
+          uid: userId,
+          email: userEmail,
+        },
+      }
+    );
+    dispatch({
+      type: "PARTICIPANT_LEAVE",
+      payload: res.data,
+    });
+    getEvent(dispatch, eventId);
+  } catch (e) {
+    dispatch({
+      type: "ERROR_PARTICIPANT_LEAVE",
+      payload: e,
+    });
+  }
 };
 
-export const editText = (text) => {
-  return {
-    type: "EDIT_TEXT",
-    text: text,
-  };
+export const deleteEvent = async (dispatch, eventId) => {
+  try {
+    const res = await axios.delete(`http://localhost:3001/events/${eventId}`);
+    dispatch({
+      type: "DELETE_EVENT",
+      payload: res.data,
+    });
+    getEvents(dispatch);
+  } catch(e) {
+    dispatch({
+      type: "ERROR_DELETE_EVENT",
+      payload: e
+    })
+  }
+};
+
+export const addComment = async (dispatch, eventId, user, text) => {
+  try {
+    const res = await axios.patch(
+      `http://localhost:3001/events/${eventId}/comments`,
+      {
+        comment: { user, text },
+      }
+    );
+    dispatch({
+      type: "ADD_COMMENT",
+      payload: res.data,
+    });
+    getEvent(dispatch, eventId);
+  } catch (e) {
+    dispatch({
+      type: "ERROR_ADD_COMMENT",
+      payload: e,
+    });
+  }
+};
+
+export const getEvents = async (dispatch) => {
+  try {
+    const res = await axios.get(`http://localhost:3001/events`);
+    dispatch({
+      type: "GET_EVENTS",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_EVENTS",
+      payload: e,
+    });
+  }
+};
+
+export const getEvent = async (dispatch, id) => {
+  try {
+    const res = await axios.get(`http://localhost:3001/events/${id}`);
+    dispatch({
+      type: "GET_EVENT",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_EVENT",
+      payload: e,
+    });
+  }
 };
 
 export const searchEvents = (text) => async dispatch => {

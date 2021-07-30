@@ -1,8 +1,13 @@
 import { Redirect, Route } from "react-router";
+import LoadingPage from "./components/Login/LoadingPage";
 import { useAuth } from "./context/AuthContext";
 
 function ProtectedRoute({ component: Component, ...rest }) {
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <Route

@@ -12,30 +12,34 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const dispatch = useDispatch()
   const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password);
+    setLoading(true)
+    return auth.signInWithEmailAndPassword(email, password).finally(setLoading(false))
   }
 
   function logout() {
-    return auth.signOut();
+    setLoading(true)
+    return auth.signOut().finally(setLoading(false))
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      getUser(dispatch, user.uid)
+      getUser(dispatch, user.uid).finally(setLoading(false))
     })
 
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
   const value = {
     currentUser,
+    loading,
     signup,
     login,
     logout,

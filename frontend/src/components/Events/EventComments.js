@@ -8,10 +8,10 @@ import {
   Button,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import { addComment, editText } from "../../actions/events.js";
-import firebase from "firebase/app";
+import { addComment } from "../../actions/events.js";
 import "firebase/auth";
-let axios = require("axios");
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext.js";
 
 const ListItem1 = styled(ListItem)({
   border: "1px solid black",
@@ -33,29 +33,22 @@ const TextField1 = styled(TextField)({
 
 const Button1 = styled(Button)({
   backgroundColor: "blue",
+  color: "white",
   margin: "1rem",
 });
 
 function EventComments(props) {
-  const submitComment = () => {
-    axios
-      .patch("http://localhost:3001/events/comment", {
-        _id: props.event._id,
-        comment: { user: firebase.auth().currentUser.email, text: props.text },
-      })
-      .then(() => {
-        props.addComment(
-          firebase.auth().currentUser.email,
-          props.event,
-          props.text,
-          props.events
-        );
-      })
-      .catch((err) => console.log(err));
+  const [textComment, setTextComment] = useState("");
+
+  const { currentUser } = useAuth();
+
+  const submitTextComment = () => {
+    props.addComment(props.eventId, currentUser.email, textComment);
+    setTextComment("");
   };
 
-  const changeText = (event) => {
-    props.editText(event.target.value);
+  const changeTextComment = (event) => {
+    setTextComment(event.target.value);
   };
 
   return (
@@ -76,9 +69,10 @@ function EventComments(props) {
           multiline
           rowsMax={5}
           placeholder="Write comments here"
-          onChange={changeText}
+          value={textComment}
+          onChange={changeTextComment}
         ></TextField1>
-        <Button1 onClick={submitComment}>Submit</Button1>
+        <Button1 onClick={submitTextComment}>Submit</Button1>
       </Container>
     </Container>
   );
@@ -93,7 +87,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  addComment: addComment,
-  editText: editText,
-})(EventComments);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addComment: (eventId, user, text) =>
+      addComment(dispatch, eventId, user, text),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(EventComments);
