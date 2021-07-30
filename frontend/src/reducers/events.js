@@ -1,7 +1,5 @@
 import { combineReducers } from "redux";
 
-const _ = require("lodash");
-
 const eventsReducer = (events = [], action) => {
   switch (action.type) {
     case "ADD_COMMENT":
