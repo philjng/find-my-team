@@ -5,9 +5,11 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 var mongoose = require("mongoose");
+var dotenv = require("dotenv");
 
-const MONGODB_URI =
-  "mongodb+srv://m001-student:m001-mongodb-basics@findmyteam-cluster.bgnfp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+dotenv.config();
+
+const MONGODB_URI = process.env.MONGODB_DATABASE_URI;
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
