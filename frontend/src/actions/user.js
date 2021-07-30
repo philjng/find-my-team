@@ -1,4 +1,4 @@
-import axios from "axios";
+import { genericApi } from "../api/genericApi";
 
 export const loginAction = (user_id) => {
   return {
@@ -38,39 +38,43 @@ export const removeGroup = (data) => {
   };
 };
 
-export const getCreatedGroups = (data) => async dispatch => {
+export const getCreatedGroups = (data) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:3001/groups/created`, { params: { userId: data } })
-    dispatch( {
+    const res = await genericApi.get(`/api/groups/created`, {
+      params: { userId: data },
+    });
+    dispatch({
       type: "GET_CREATED_GROUPS",
-      payload: res.data
-    })
+      payload: res.data,
+    });
   } catch (e) {
-    dispatch( {
+    dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e)
-    })
+      payload: console.log(e),
+    });
   }
-}
+};
 
-export const getJoinedGroups = (data) => async dispatch => {
+export const getJoinedGroups = (data) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:3001/groups/joined`, { params: { userId: data } })
-    dispatch( {
+    const res = await genericApi.get(`/api/groups/joined`, {
+      params: { userId: data },
+    });
+    dispatch({
       type: "GET_JOINED_GROUPS",
-      payload: res.data
-    })
+      payload: res.data,
+    });
   } catch (e) {
-    dispatch( {
+    dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e)
-    })
+      payload: console.log(e),
+    });
   }
-}
+};
 
 export const getUser = async (dispatch, id) => {
   try {
-    const res = await axios.get(`http://localhost:3001/users/${id}`);
+    const res = await genericApi.get(`/api/users/${id}`);
     dispatch({
       type: "GET_USER",
       payload: res.data,
@@ -85,7 +89,7 @@ export const getUser = async (dispatch, id) => {
 
 export const editUserProfile = async (dispatch, id, data) => {
   try {
-    const res = await axios.put(`http://localhost:3001/users/${id}`, data);
+    const res = await genericApi.put(`/api/users/${id}`, data);
     dispatch({
       type: "GET_USER",
       payload: res.data,

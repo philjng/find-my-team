@@ -5,9 +5,11 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 var mongoose = require("mongoose");
+var dotenv = require("dotenv");
 
-const MONGODB_URI =
-  "mongodb+srv://m001-student:m001-mongodb-basics@findmyteam-cluster.bgnfp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+dotenv.config();
+
+const MONGODB_URI = process.env.MONGODB_DATABASE_URI;
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -36,10 +38,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/events", eventsRouter);
-app.use("/groups", groupsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/events", eventsRouter);
+app.use("/api/groups", groupsRouter);
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, "frontend/build")));
+// Anything that doesn't match the above, send back index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
