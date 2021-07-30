@@ -9,11 +9,12 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import { useState } from "react";
+import React, { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
 import "firebase/auth";
 import { connect } from "react-redux";
 import { useAuth } from "../../context/AuthContext.js";
+import {useHistory} from "react-router-dom";
 let axios = require("axios");
 
 const CreateEventCard = styled(Card)({
@@ -41,8 +42,7 @@ const AddButton = styled(Button)({
 });
 
 const SubmitButton = styled(Button)({
-  float: "right",
-  width: "100%",
+  marginRight: `0.5rem`
 });
 
 const Dropdown = styled(Select)({
@@ -58,6 +58,8 @@ function Create(props) {
   const [tagText, setTagText] = useState("");
   const [tags, setTags] = useState([]);
   const [eventGroup, setEventGroup] = useState("");
+
+  const history = useHistory()
 
   const { currentUser } = useAuth();
 
@@ -113,7 +115,7 @@ function Create(props) {
                 size="small"
                 value={eventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
-              ></Input>
+              />
             </Box>
             <Box>
               <Typography>Location</Typography>
@@ -122,7 +124,7 @@ function Create(props) {
                 size="small"
                 value={eventLocation}
                 onChange={(e) => setEventLocation(e.target.value)}
-              ></Input>
+              />
             </Box>
             <Box>
               <Typography>Description</Typography>
@@ -132,7 +134,7 @@ function Create(props) {
                 rows={3}
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
-              ></Input>
+              />
             </Box>
           </Box>
           <Box>
@@ -144,7 +146,7 @@ function Create(props) {
                 size="small"
                 value={eventStart}
                 onChange={(e) => setEventStart(e.target.value)}
-              ></Input>
+              />
             </Box>
             <Box>
               <Typography>End Time</Typography>
@@ -154,7 +156,7 @@ function Create(props) {
                 size="small"
                 value={eventEnd}
                 onChange={(e) => setEventEnd(e.target.value)}
-              ></Input>
+              />
             </Box>
             <Box>
               <Typography>Group</Typography>
@@ -178,7 +180,7 @@ function Create(props) {
                 size="small"
                 value={tagText}
                 onChange={(e) => setTagText(e.target.value)}
-              ></Input>
+              />
               <AddButton variant="contained" onClick={addTag}>
                 Add
               </AddButton>
@@ -192,6 +194,12 @@ function Create(props) {
               >
                 Submit
               </SubmitButton>
+              <Button
+                variant="contained"
+                onClick={() => {history.goBack()}}
+              >
+                Cancel
+              </Button>
             </ButtonBox>
           </Box>
         </Form>

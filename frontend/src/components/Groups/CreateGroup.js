@@ -157,7 +157,7 @@ const CreateGroupPage = (props) => {
                     </Button>
                     <Button
                         variant="contained"
-                        onClick={() => {history.push("/groups")}}
+                        onClick={() => {history.goBack()}}
                     >
                         Cancel
                     </Button>
