@@ -1,4 +1,3 @@
-import { CircularProgress } from "@material-ui/core";
 import { Redirect, Route } from "react-router";
 import LoadingPage from "./components/Login/LoadingPage";
 import { useAuth } from "./context/AuthContext";
