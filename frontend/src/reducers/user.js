@@ -1,4 +1,5 @@
 const initialState = {
+  searchResults: [],
   user_id: null,
   firstName: "",
   lastName: "",
@@ -81,6 +82,11 @@ const userReducer = (state = initialState, action) => {
         emailAddress: action.payload.emailAddress,
         tags: action.payload.tags
       };
+    }
+    case "SEARCH_USERS": {
+      return {...state,
+      searchResults: action.payload
+      }
     }
     default:
       return state;

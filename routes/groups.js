@@ -95,7 +95,9 @@ router.put("/:id", function (req, res, next) {
 
 router.get("/search/:text", function (req, res, next) {
   const searchText = req.params.text;
-  Group.find({$text: {$search: searchText}})
+  Group.find({$text: {$search: searchText}},
+    {score: {$meta: "textScore"}})
+    .sort({score: {$meta: "textScore"}})
   .then((data) => {
     res.send(data);
   })

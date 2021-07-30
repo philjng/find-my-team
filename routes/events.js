@@ -30,7 +30,9 @@ router.get("/:id", function (req, res, next) {
 
 router.get("/search/:text", function (req, res, next) {
   const searchText = req.params.text;
-  Event.find({$text: {$search: searchText}})
+  Event.find({$text: {$search: searchText}},
+    {score: {$meta: "textScore"}})
+    .sort({score: {$meta: "textScore"}})
   .then((data) => {
     res.send(data);
   })
