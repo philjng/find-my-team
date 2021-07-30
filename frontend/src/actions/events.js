@@ -1,4 +1,4 @@
-import axios from "axios";
+import { genericApi } from "../api/genericApi";
 
 export const viewEventDetails = (event) => {
   return {
@@ -23,7 +23,7 @@ export const viewAllEvents = (events) => {
 
 export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
   try {
-    const res = await axios.patch(
+    const res = await genericApi.patch(
       `http://localhost:3001/events/${eventId}/participants`,
       {
         participant: {
@@ -45,9 +45,14 @@ export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
   }
 };
 
-export const participantLeave = async (dispatch, eventId, userId, userEmail) => {
+export const participantLeave = async (
+  dispatch,
+  eventId,
+  userId,
+  userEmail
+) => {
   try {
-    const res = await axios.patch(
+    const res = await genericApi.patch(
       `http://localhost:3001/events/${eventId}/removeParticipant`,
       {
         participant: {
@@ -71,23 +76,25 @@ export const participantLeave = async (dispatch, eventId, userId, userEmail) => 
 
 export const deleteEvent = async (dispatch, eventId) => {
   try {
-    const res = await axios.delete(`http://localhost:3001/events/${eventId}`);
+    const res = await genericApi.delete(
+      `http://localhost:3001/events/${eventId}`
+    );
     dispatch({
       type: "DELETE_EVENT",
       payload: res.data,
     });
     getEvents(dispatch);
-  } catch(e) {
+  } catch (e) {
     dispatch({
       type: "ERROR_DELETE_EVENT",
-      payload: e
-    })
+      payload: e,
+    });
   }
 };
 
 export const addComment = async (dispatch, eventId, user, text) => {
   try {
-    const res = await axios.patch(
+    const res = await genericApi.patch(
       `http://localhost:3001/events/${eventId}/comments`,
       {
         comment: { user, text },
@@ -108,7 +115,7 @@ export const addComment = async (dispatch, eventId, user, text) => {
 
 export const getEvents = async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:3001/events`);
+    const res = await genericApi.get(`http://localhost:3001/events`);
     dispatch({
       type: "GET_EVENTS",
       payload: res.data,
@@ -123,7 +130,7 @@ export const getEvents = async (dispatch) => {
 
 export const getEvent = async (dispatch, id) => {
   try {
-    const res = await axios.get(`http://localhost:3001/events/${id}`);
+    const res = await genericApi.get(`http://localhost:3001/events/${id}`);
     dispatch({
       type: "GET_EVENT",
       payload: res.data,

@@ -32,8 +32,7 @@ import { useAuth } from "../../context/AuthContext";
 import { connect } from "react-redux";
 import { signUpAction } from "../../actions/user";
 import { TAGS } from "../../tags";
-
-const axios = require("axios");
+import { genericApi } from "../../api/genericApi";
 
 const SCBox = styled(Box)({
   marginTop: "80px",
@@ -137,7 +136,7 @@ function SignUpForm() {
       setOpen(false);
       setLoading(true);
       let response = await signup(form.emailAddress, form.password);
-      await axios.post(`http://localhost:3001/users`, {
+      await genericApi.post(`http://localhost:3001/users`, {
         firstName: form.firstName,
         lastName: form.lastName,
         tags: tags,
