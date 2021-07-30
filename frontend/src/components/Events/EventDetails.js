@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 import GenreTags from "./GenreTags.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
@@ -12,7 +12,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import { getEvent, participantJoin } from "../../actions/events.js";
+import { getEvent, participantJoin, participantLeave } from "../../actions/events.js";
 import "firebase/auth";
 import { useParams } from "react-router";
 import { useEffect } from "react";
@@ -53,37 +53,19 @@ function EventDetails(props) {
   const { id } = useParams();
   const { currentUser } = useAuth();
 
-  const { event, getEvent, participantJoin } = props;
+  const { event, getEvent, participantJoin, participantLeave } = props;
 
   useEffect(() => {
     getEvent(id);
   }, [getEvent, id]);
 
   const addParticipant = () => {
-//       axios
-//         .patch("http://localhost:3001/events/removeParticipant", {
-//           _id: props.event._id,
-//           participant: {
-//             uid: firebase.auth().currentUser.uid,
-//             email: firebase.auth().currentUser.email,
-//           },
-//         })
-//         .then(() => {
-//           props.participantLeave(
-//             {
-//               uid: firebase.auth().currentUser.uid,
-//               email: firebase.auth().currentUser.email,
-//             },
-//             props.event,
-//             props.events
-//           );
-//         })
-//         .catch((err) => {
-//           console.log("there was an error leaving");
-//           console.log(err);
-//         });
     participantJoin(id, currentUser.uid, currentUser.email);
   };
+
+  const removeParticipant = () => {
+    participantLeave(id, currentUser.uid, currentUser.email);
+  }
 
   return _.isEmpty(event) ? (
     <CircularProgress />
@@ -96,7 +78,7 @@ function EventDetails(props) {
         ).length === 0 ? (
           <Button1 onClick={addParticipant}>Join</Button1>
         ) : (
-          <Button1>Leave</Button1>
+          <Button1 onClick={removeParticipant}>Leave</Button1>
         )}
         <Typography variant="h5">{event.location}</Typography>
         <Typography variant="h5">{event.startTime}</Typography>
@@ -130,6 +112,8 @@ const mapDispatchToProps = (dispatch) => {
     getEvent: (id) => getEvent(dispatch, id),
     participantJoin: (eventId, userId, userEmail) =>
       participantJoin(dispatch, eventId, userId, userEmail),
+    participantLeave: (eventId, userId, userEmail) =>
+      participantLeave(dispatch, eventId, userId, userEmail),
   };
 };
 

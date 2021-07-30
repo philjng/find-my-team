@@ -78,10 +78,10 @@ router.patch("/:id/participants", function (req, res, next) {
     });
 });
 
-router.patch("/removeParticipant", function (req, res, next) {
-  Event.findOneAndUpdate(
-    { _id: req.body._id },
-    { $pull: { participants: req.body.participant } }
+router.patch("/:id/removeParticipant", function (req, res, next) {
+  console.log("called");
+  Event.findByIdAndUpdate( req.params.id, { 
+    $pull: { participants: req.body.participant } }
   )
     .then(() => res.send("success"))
     .catch((err) => {

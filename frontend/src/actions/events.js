@@ -45,14 +45,45 @@ export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
   }
 };
 
-// export const participantLeave = (user, event, events) => {
-//   return {
-//     type: "PARTICIPANT_LEAVE",
-//     user: user, 
-//     event: event,
-//     events: events
-//   };
-// };
+export const participantLeave = async (dispatch, eventId, userId, userEmail) => {
+  try {
+    const res = await axios.patch(
+      `http://localhost:3001/events/${eventId}/removeParticipant`,
+      {
+        participant: {
+          id: userId,
+          email: userEmail,
+        },
+      }
+    );
+    dispatch({
+      type: "PARTICIPANT_LEAVE",
+      payload: res.data,
+    });
+    getEvent(dispatch, eventId);
+  } catch (e) {
+    dispatch({
+      type: "ERROR_PARTICIPANT_LEAVE",
+      payload: e,
+    });
+  }
+};
+
+export const deleteEvent = async (dispatch, eventId) => {
+  try {
+    const res = await axios.delete(`http://localhost:3001/events/${eventId}`);
+    dispatch({
+      type: "DELETE_EVENT",
+      payload: res.data,
+    });
+    getEvents(dispatch);
+  } catch(e) {
+    dispatch({
+      type: "ERROR_PARTICIPANT_JOIN",
+      payload: e
+    })
+  }
+};
 
 export const addComment = async (dispatch, eventId, user, text) => {
   try {
