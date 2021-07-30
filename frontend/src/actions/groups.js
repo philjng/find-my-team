@@ -8,7 +8,7 @@ const headers = {
 
 export const getGroups = () => async (dispatch) => {
   try {
-    const res = await genericApi.get(`http://localhost:3001/groups`);
+    const res = await genericApi.get(`/api/groups`);
     dispatch({
       type: "GET_GROUPS",
       payload: res.data,
@@ -24,7 +24,7 @@ export const getGroups = () => async (dispatch) => {
 export const createGroup = (data) => async (dispatch) => {
   try {
     genericApi
-      .post(`http://localhost:3001/groups`, data, { headers })
+      .post(`/api/groups`, data, { headers })
       .then((res) => {
         dispatch({
           type: "CREATE_GROUP",
@@ -44,7 +44,7 @@ export const createGroup = (data) => async (dispatch) => {
 
 export const deleteGroup = (groupId) => async (dispatch) => {
   try {
-    genericApi.delete(`http://localhost:3001/groups/${groupId}`).then((res) => {
+    genericApi.delete(`/api/groups/${groupId}`).then((res) => {
       dispatch({
         type: "DELETE_GROUP",
         payload: res.data,
@@ -60,14 +60,12 @@ export const deleteGroup = (groupId) => async (dispatch) => {
 
 export const updateMemberList = (data) => async (dispatch) => {
   try {
-    genericApi
-      .put(`http://localhost:3001/groups/${data._id}`, data, { headers })
-      .then((res) => {
-        dispatch({
-          type: "UPDATE_MEMBER_LIST",
-          payload: res.data,
-        });
+    genericApi.put(`/api/groups/${data._id}`, data, { headers }).then((res) => {
+      dispatch({
+        type: "UPDATE_MEMBER_LIST",
+        payload: res.data,
       });
+    });
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",

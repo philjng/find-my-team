@@ -136,7 +136,7 @@ function SignUpForm() {
       setOpen(false);
       setLoading(true);
       let response = await signup(form.emailAddress, form.password);
-      await genericApi.post(`http://localhost:3001/users`, {
+      await genericApi.post(`/api/users`, {
         firstName: form.firstName,
         lastName: form.lastName,
         tags: tags,

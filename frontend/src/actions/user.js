@@ -40,7 +40,7 @@ export const removeGroup = (data) => {
 
 export const getCreatedGroups = (data) => async (dispatch) => {
   try {
-    const res = await genericApi.get(`http://localhost:3001/groups/created`, {
+    const res = await genericApi.get(`/api/groups/created`, {
       params: { userId: data },
     });
     dispatch({
@@ -57,7 +57,7 @@ export const getCreatedGroups = (data) => async (dispatch) => {
 
 export const getJoinedGroups = (data) => async (dispatch) => {
   try {
-    const res = await genericApi.get(`http://localhost:3001/groups/joined`, {
+    const res = await genericApi.get(`/api/groups/joined`, {
       params: { userId: data },
     });
     dispatch({
@@ -74,7 +74,7 @@ export const getJoinedGroups = (data) => async (dispatch) => {
 
 export const getUser = async (dispatch, id) => {
   try {
-    const res = await genericApi.get(`http://localhost:3001/users/${id}`);
+    const res = await genericApi.get(`/api/users/${id}`);
     dispatch({
       type: "GET_USER",
       payload: res.data,
@@ -89,7 +89,7 @@ export const getUser = async (dispatch, id) => {
 
 export const editUserProfile = async (dispatch, id, data) => {
   try {
-    const res = await genericApi.put(`http://localhost:3001/users/${id}`, data);
+    const res = await genericApi.put(`/api/users/${id}`, data);
     dispatch({
       type: "GET_USER",
       payload: res.data,

@@ -71,7 +71,7 @@ function Create(props) {
   //TODO: Add validation for fields
   const handleSubmit = () => {
     genericApi
-      .post("http://localhost:3001/events", {
+      .post("/api/events", {
         title: eventTitle,
         location: eventLocation,
         description: eventDescription,

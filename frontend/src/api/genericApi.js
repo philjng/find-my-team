@@ -2,7 +2,7 @@ import axios from "axios";
 
 let baseURL = "";
 if (process.env.NODE_ENV === "development") {
-  baseURL = "http://localhost:3001";
+  baseURL = "/api";
 } else {
   baseURL = "https://find-my-team.herokuapp.com";
 }
