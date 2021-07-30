@@ -71,8 +71,7 @@ const SCBox = styled(Box)({
 
 function UserInfo(props) {
   const classes = useStyles();
-  const PLACEHOLDER_IMAGE = "/images/evil_lebron.jpg";
-  
+
   const [initialForm, setInitialForm] = useState({});
   const [form, setForm] = useState({ tags: [] });
   const [isEditing, setIsEditing] = useState(false);
@@ -143,11 +142,7 @@ function UserInfo(props) {
           <CardContent>
             <Grid container align="center" direction="column">
               <Grid item>
-                <Avatar
-                  alt="Profile Picture"
-                  src={PLACEHOLDER_IMAGE}
-                  className={classes.profile_pic}
-                />
+                <Avatar alt="Profile Picture" className={classes.profile_pic} />
               </Grid>
               <Grid item>
                 <Typography>{form.emailAddress}</Typography>
@@ -201,7 +196,9 @@ function UserInfo(props) {
                 label="Display Name"
                 name="displayName"
                 autoFocus
-                value={isEditing ? form.displayName : initialForm.displayName || ""}
+                value={
+                  isEditing ? form.displayName : initialForm.displayName || ""
+                }
                 onChange={handleDisplayNameChange}
                 disabled={!isEditing}
               />
