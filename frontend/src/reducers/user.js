@@ -6,7 +6,7 @@ const initialState = {
   displayName: "",
   userEvents: {
     created: [],
-    joined: []
+    joined: [],
   },
   userGroups: {
     created: [],
@@ -26,7 +26,7 @@ const userReducer = (state = initialState, action) => {
       };
     case "LOGOUT":
       return {
-        ...initialState
+        ...initialState,
       };
     case "SIGNUP":
       return {
@@ -57,18 +57,18 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userGroups: {
           ...state.userGroups,
-          created: action.payload
-        }
-      }
+          created: action.payload,
+        },
+      };
     }
     case "GET_JOINED_GROUPS": {
       return {
         ...state,
         userGroups: {
           ...state.userGroups,
-          joined: action.payload
-        }
-      }
+          joined: action.payload,
+        },
+      };
     }
     case "GET_USER": {
       /* TODO: not decided on yet, but currently user collection does not store userGroups nor events,
@@ -80,13 +80,11 @@ const userReducer = (state = initialState, action) => {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         emailAddress: action.payload.emailAddress,
-        tags: action.payload.tags
+        tags: action.payload.tags,
       };
     }
     case "SEARCH_USERS": {
-      return {...state,
-      searchResults: action.payload
-      }
+      return { ...state, searchResults: action.payload };
     }
     default:
       return state;

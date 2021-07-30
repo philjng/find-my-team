@@ -1,5 +1,4 @@
-
-import {getCreatedGroups} from "./user";
+import { getCreatedGroups } from "./user";
 import { genericApi } from "../api/genericApi";
 
 const headers = {
@@ -75,27 +74,25 @@ export const updateMemberList = (data) => async (dispatch) => {
 };
 
 export const viewGroup = (data) => {
-    return {
-        type: "VIEW_GROUP",
-        payload: data
-    }
-}
+  return {
+    type: "VIEW_GROUP",
+    payload: data,
+  };
+};
 
 export const searchGroups = async (dispatch, searchText) => {
-    try {
-      genericApi.get(`api/groups/search/${searchText}`)
-      .then((res) => {
-        console.log(res.data);
-        dispatch({
-          type: "SEARCH_GROUPS",
-          payload: res.data
-        })
-      })
-    } catch (e) {
+  try {
+    genericApi.get(`api/groups/search/${searchText}`).then((res) => {
+      console.log(res.data);
       dispatch({
-        type: "ERROR_GROUPS",
-        payload: console.log(e)
-      })
-  
-    }
-  };
+        type: "SEARCH_GROUPS",
+        payload: res.data,
+      });
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_GROUPS",
+      payload: console.log(e),
+    });
+  }
+};

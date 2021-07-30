@@ -30,10 +30,10 @@ const searchResultsReducer = (searchResults = [], action) => {
   } else {
     return searchResults;
   }
-}
+};
 
 export default combineReducers({
   events: eventsReducer,
   event: eventReducer,
-  searchResults: searchResultsReducer
+  searchResults: searchResultsReducer,
 });

@@ -104,19 +104,17 @@ export const editUserProfile = async (dispatch, id, data) => {
 
 export const searchUsers = async (dispatch, searchText) => {
   try {
-    genericApi.get(`api/users/search/${searchText}`)
-    .then((res) => {
+    genericApi.get(`api/users/search/${searchText}`).then((res) => {
       console.log(res.data);
       dispatch({
         type: "SEARCH_USERS",
-        payload: res.data
-      })
-    })
+        payload: res.data,
+      });
+    });
   } catch (e) {
     dispatch({
       type: "ERROR_USERS",
-      payload: console.log(e)
-    })
-
+      payload: console.log(e),
+    });
   }
 };
