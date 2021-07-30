@@ -5,17 +5,16 @@ import {searchGroups} from "../../actions/groups";
 import { connect } from "react-redux";
 import React from "react";
 import EventSearchBox from "../Events/EventSearchBox";
-// import GroupSearchBox from "../Groups/GroupSearchBox";
+import GroupSearchBox from "../Groups/GroupSearchBox";
 function Search(props) {
     const [searchText, setSearchText] = useState("Type here");
 
-    // const { searchEvents, searchGroups } = props;
-    const { searchEvents } = props;
+    const { searchEvents, searchGroups } = props;
 
     const performSearch = () => {
         console.log("performSearch Called");
         searchEvents(searchText);
-        // searchGroups(searchText);
+        searchGroups(searchText);
     }
 
     return (
@@ -25,21 +24,20 @@ function Search(props) {
             <Button onClick={performSearch}>Search</Button>
             </Container>
             <EventSearchBox eventSearchResults={props.eventSearchResults}/>
-            {/* <GroupSearchBox groupSearchResults={props.groupSearchResults}/> */}
+            <GroupSearchBox groupSearchResults={props.groupSearchResults}/>
         </Container>
     )
 }
 
 const mapStateToProps = (state) => {
     return { eventSearchResults: state.events.searchResults,
-            // groupSearchResults: state.groups.searchResults};
+            groupSearchResults: state.groups.searchResults};
     };
-  };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        searchEvents: (searchText) => searchEvents(dispatch, searchText)
-        // searchGroups: (searchText) => searchGroups(dispatch, searchText)
+        searchEvents: (searchText) => searchEvents(dispatch, searchText),
+        searchGroups: (searchText) => searchGroups(dispatch, searchText)
     }
 }
   export default connect(mapStateToProps, mapDispatchToProps)(Search);
