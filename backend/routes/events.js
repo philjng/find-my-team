@@ -29,10 +29,11 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
+  console.log(req.body);
   const newEvent = new Event({...req.body,
     creator: req.body.user.uid,
-    startTime: new Date(startDate),
-    endTime: new Date(endDate),
+    startTime: new Date(req.body.start),
+    endTime: new Date(req.body.end),
     participantSize: "1",
     participants: [req.body.user],
     group: mongoose.Types.ObjectId(req.body.group),
@@ -40,6 +41,7 @@ router.post("/", function (req, res, next) {
     createdAt: new Date(),
     updatedAt: new Date(),
   });
+  console.log("done");
   newEvent.save((error) => {
     if (error) {
       console.log("Ooops, something happened to event POST");
@@ -73,7 +75,6 @@ router.patch("/:id/participants", function (req, res, next) {
 });
 
 router.patch("/:id/removeParticipant", function (req, res, next) {
-  console.log("called");
   Event.findByIdAndUpdate( req.params.id, { 
     $pull: { participants: req.body.participant } }
   )

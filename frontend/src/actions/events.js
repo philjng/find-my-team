@@ -27,7 +27,7 @@ export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
       `http://localhost:3001/events/${eventId}/participants`,
       {
         participant: {
-          id: userId,
+          uid: userId,
           email: userEmail,
         },
       }
@@ -51,7 +51,7 @@ export const participantLeave = async (dispatch, eventId, userId, userEmail) => 
       `http://localhost:3001/events/${eventId}/removeParticipant`,
       {
         participant: {
-          id: userId,
+          uid: userId,
           email: userEmail,
         },
       }

@@ -78,6 +78,7 @@ function EventDetails(props) {
     history.push("/events")
   }
 
+  //TODO: Fix double join bug
   return _.isEmpty(event) ? (
     <CircularProgress />
   ) : (
@@ -85,7 +86,7 @@ function EventDetails(props) {
       <Typography variant="h1">{event.name}</Typography>
       <Container>
         {event.participants.filter(
-          (participant) => participant.id === currentUser.uid
+          (participant) => participant.uid === currentUser.uid
         ).length === 0 ? (
           <Button1 onClick={addParticipant}>Join</Button1>
         ) : (
