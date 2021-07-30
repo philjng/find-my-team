@@ -22,14 +22,14 @@ function App() {
     <div className="App">
       {currentUser && <Navbar />}
       <Switch>
-        <ProtectedRoute path="/events" component={Events} />
+        <ProtectedRoute exact path="/events" component={Events} />
         <ProtectedRoute path="/profile/:id" component={Profile} />
         <ProtectedRoute path="/home" component={Home} />
         <ProtectedRoute path="/groups" component={Groups} />
         <ProtectedRoute path="/create" component={Create} />
         <ProtectedRoute path="/create-group" component={CreateGroupPage} />
         <ProtectedRoute path="/groupdetails" component={GroupDetails} />
-        <ProtectedRoute path="/eventdetails" component={EventDetails} />
+        <ProtectedRoute exact path="/events/:id" component={EventDetails} />
         <Route path="/signup">
           <SignUpPage />
         </Route>

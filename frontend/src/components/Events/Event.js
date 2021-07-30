@@ -1,5 +1,3 @@
-import { connect } from "react-redux";
-import { viewEventDetails } from "../../actions/events";
 import { Link } from "react-router-dom";
 import { Container, Typography, Button } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
@@ -30,18 +28,10 @@ function Event(props) {
         Date: {props.info.startTime}
       </Typography1>
       <Button2 disableElevation size="small" variant="contained">
-        <SCLink
-          to="/eventdetails"
-          onClick={() => props.viewEventDetails(props.info)}
-        >
-          Details
-        </SCLink>
+        <SCLink to={`/events/${props.info._id}`}>Details</SCLink>
       </Button2>
     </Container>
   );
 }
 
-const mapStateToProps = (state) => {
-  return { event: state.viewableEvent };
-};
-export default connect(mapStateToProps, { viewEventDetails })(Event);
+export default Event;

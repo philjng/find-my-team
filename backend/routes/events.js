@@ -16,6 +16,18 @@ router.get("/", function (req, res, next) {
     });
 });
 
+router.get("/:id", function (req, res, next) {
+  Event.findById(req.params.id)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message || "There was an error while getting event",
+      });
+    });
+});
+
 router.post("/", function (req, res, next) {
   let startDate = new Date(req.body.start + " UTC");
   let endDate = new Date(req.body.end + " UTC");
@@ -46,22 +58,20 @@ router.post("/", function (req, res, next) {
   });
 });
 
-router.patch("/comment", function (req, res, next) {
-  Event.findOneAndUpdate(
-    { _id: req.body._id },
-    { $push: { comments: req.body.comment } }
-  )
+router.patch("/:id/comments", function (req, res, next) {
+  Event.findByIdAndUpdate(req.params.id, {
+    $push: { comments: req.body.comment },
+  })
     .then(() => res.send("success"))
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 });
 
-router.patch("/participant", function (req, res, next) {
-  Event.findOneAndUpdate(
-    { _id: req.body._id },
-    { $push: { participants: req.body.participant } }
-  )
+router.patch("/:id/participants", function (req, res, next) {
+  Event.findByIdAndUpdate(req.params.id, {
+    $push: { participants: req.body.participant },
+  })
     .then(() => res.send("success"))
     .catch((err) => {
       res.status(500).send({ message: err.message });

@@ -3,12 +3,21 @@ import GenreTags from "./GenreTags.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
 import EventComments from "./EventComments";
-import { Container, Typography, Box, Button } from "@material-ui/core";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import { participantJoin } from "../../actions/events.js";
-import firebase from "firebase/app";
+import { getEvent, participantJoin } from "../../actions/events.js";
 import "firebase/auth";
-let axios = require("axios");
+import { useParams } from "react-router";
+import { useEffect } from "react";
+import { useAuth } from "../../context/AuthContext.js";
+
+const _ = require("lodash");
 
 const Box1 = styled(Box)({
   border: "2px solid #3f51b5",
@@ -31,60 +40,47 @@ const Button1 = styled(Button)({
 });
 
 function EventDetails(props) {
+  const { id } = useParams();
+  const { currentUser } = useAuth();
+
+  const { event, getEvent, participantJoin } = props;
+
+  useEffect(() => {
+    getEvent(id);
+  }, [getEvent, id]);
+
   const addParticipant = () => {
-    if (
-      !JSON.stringify(props.event.participants).includes(
-        JSON.stringify({
-          uid: firebase.auth().currentUser.uid,
-          email: firebase.auth().currentUser.email,
-        })
-      )
-    ) {
-      axios
-        .patch("http://localhost:3001/events/participant", {
-          _id: props.event._id,
-          participant: {
-            uid: firebase.auth().currentUser.uid,
-            email: firebase.auth().currentUser.email,
-          },
-        })
-        .then(() => {
-          props.participantJoin(
-            {
-              uid: firebase.auth().currentUser.uid,
-              email: firebase.auth().currentUser.email,
-            },
-            props.event,
-            props.events
-          );
-        })
-        .catch((err) => {
-          console.log("there was an error");
-          console.log(err);
-        });
-    }
+    participantJoin(id, currentUser.uid, currentUser.email);
   };
 
-  return (
+  return _.isEmpty(event) ? (
+    <CircularProgress />
+  ) : (
     <Container>
-      <Typography variant="h1">{props.event.name}</Typography>
+      <Typography variant="h1">{event.name}</Typography>
       <Container>
-        <Button1 onClick={addParticipant}>Join</Button1>
-        <Typography variant="h5">{props.event.location}</Typography>
-        <Typography variant="h5">{props.event.startTime}</Typography>
+        {event.participants.filter(
+          (participant) => participant.id === currentUser.uid
+        ).length === 0 ? (
+          <Button1 onClick={addParticipant}>Join</Button1>
+        ) : (
+          <Button1>Leave</Button1>
+        )}
+        <Typography variant="h5">{event.location}</Typography>
+        <Typography variant="h5">{event.startTime}</Typography>
       </Container>
       <Box1>
         <Container>
-          <GenreTags genreTags={props.event.genreTags} />
+          <GenreTags genreTags={event.genreTags} />
         </Container>
         <Box2>
-          <EventDescription description={props.event.description} />
+          <EventDescription description={event.description} />
         </Box2>
         <Box2>
-          <EventParticipants participants={props.event.participants} />
+          <EventParticipants participants={event.participants} />
         </Box2>
         <Box2>
-          <EventComments comments={props.event.comments} />
+          <EventComments eventId={id} comments={event.comments} />
         </Box2>
       </Box1>
     </Container>
@@ -93,11 +89,16 @@ function EventDetails(props) {
 
 const mapStateToProps = (state) => {
   return {
-    event: state.events.viewableEvent,
-    userId: state.user.user_id,
-    user: state.user,
-    events: state.events.viewableEvents,
+    event: state.events.event,
   };
 };
 
-export default connect(mapStateToProps, { participantJoin })(EventDetails);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getEvent: (id) => getEvent(dispatch, id),
+    participantJoin: (eventId, userId, userEmail) =>
+      participantJoin(dispatch, eventId, userId, userEmail),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetails);
