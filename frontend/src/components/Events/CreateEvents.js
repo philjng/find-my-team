@@ -11,9 +11,9 @@ import {
 import { styled } from "@material-ui/styles";
 import { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
-import firebase from "firebase/app";
 import "firebase/auth";
 import { connect } from "react-redux";
+import { useAuth } from "../../context/AuthContext.js";
 let axios = require("axios");
 
 const CreateEventCard = styled(Card)({
@@ -59,12 +59,15 @@ function Create(props) {
   const [tags, setTags] = useState([]);
   const [eventGroup, setEventGroup] = useState("");
 
+  const { currentUser } = useAuth();
+
   const addTag = () => {
     let tags_cpy = [...tags];
     tags_cpy.push(tagText);
     setTags(tags_cpy);
     setTagText("");
   };
+
 
 //TODO: Add validation for fields
   const handleSubmit = () => {
@@ -73,12 +76,12 @@ function Create(props) {
         title: eventTitle,
         location: eventLocation,
         description: eventDescription,
-        start: eventStart,
-        end: eventEnd,
-        tags: tags,
+        start: new Date(eventStart),
+        end: new Date(eventEnd),
+        genreTags: tags,
         user: {
-          uid: firebase.auth().currentUser.uid,
-          email: firebase.auth().currentUser.email,
+          uid: currentUser.uid,
+          email: currentUser.email,
         },
         group: eventGroup,
       })

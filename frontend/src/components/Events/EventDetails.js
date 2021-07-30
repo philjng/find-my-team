@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-// import { BrowserRouter } from "react-router-dom";
 import GenreTags from "./GenreTags.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";

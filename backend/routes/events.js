@@ -29,16 +29,10 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  let startDate = new Date(req.body.start);
-  let endDate = new Date(req.body.end);
-  const newEvent = new Event({
-    creator: req.body.user.id,
-    title: req.body.title,
-    description: req.body.description,
-    genreTags: req.body.tags,
+  const newEvent = new Event({...req.body,
+    creator: req.body.user.uid,
     startTime: new Date(startDate),
     endTime: new Date(endDate),
-    location: req.body.location,
     participantSize: "1",
     participants: [req.body.user],
     group: mongoose.Types.ObjectId(req.body.group),
