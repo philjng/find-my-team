@@ -10,7 +10,7 @@ import {useEffect} from "react";
 const GroupsPage = styled(Container)({
     display: `flex`,
     justifyContent: `space-between`,
-    padding: `4rem 0`,
+    padding: `2rem 0`,
 })
 
 const AllGroups = styled(Card)({

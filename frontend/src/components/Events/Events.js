@@ -7,7 +7,7 @@ import {styled} from "@material-ui/styles";
 
 const EventsCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
-  margin: `1rem 0`
+  margin: `2rem 0`
 })
 
 function Events(props) {

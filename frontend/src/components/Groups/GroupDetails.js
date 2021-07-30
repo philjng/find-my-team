@@ -21,7 +21,7 @@ const GroupPage = styled(Container)({
 
 const GroupCard = styled(Card)({
     backgroundColor: `#f7fdfc`,
-    margin: `1rem`,
+    marginTop: `2rem`,
 })
 
 const GroupContent = styled(CardContent)({
@@ -41,7 +41,7 @@ const Image = styled(CardMedia)({
 
 const SecondBox = styled(FlexBox)({
     justifyContent: `space-between`,
-    margin: `1rem`,
+    margin: `1rem 0`,
 })
 
 const EventCard = styled(Card)({
