@@ -5,7 +5,6 @@ import { useAuth } from "./context/AuthContext";
 function ProtectedRoute({ component: Component, ...rest }) {
   const { currentUser, loading } = useAuth();
 
-  console.log(loading);
   if (loading) {
     return <LoadingPage />;
   }
