@@ -33,6 +33,7 @@ const TextField1 = styled(TextField)({
 
 const Button1 = styled(Button)({
   backgroundColor: "blue",
+  color: "white",
   margin: "1rem",
 });
 

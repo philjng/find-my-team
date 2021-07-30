@@ -29,19 +29,13 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  let startDate = new Date(req.body.start + " UTC");
-  let endDate = new Date(req.body.end + " UTC");
-  const newEvent = new Event({
-    creator: req.body.user.id,
-    title: req.body.title,
-    description: req.body.description,
-    genreTags: req.body.tags,
-    startTime: new Date(startDate.toISOString()),
-    endTime: new Date(endDate.toISOString()),
-    location: req.body.location,
+  const newEvent = new Event({...req.body,
+    creator: req.body.user.uid,
+    startTime: new Date(startDate),
+    endTime: new Date(endDate),
     participantSize: "1",
     participants: [req.body.user],
-    group: mongoose.Types.ObjectId("51c35e5ced18cb901d000001"),
+    group: mongoose.Types.ObjectId(req.body.group),
     status: "status",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -73,6 +67,28 @@ router.patch("/:id/participants", function (req, res, next) {
     $push: { participants: req.body.participant },
   })
     .then(() => res.send("success"))
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+});
+
+router.patch("/:id/removeParticipant", function (req, res, next) {
+  console.log("called");
+  Event.findByIdAndUpdate( req.params.id, { 
+    $pull: { participants: req.body.participant } }
+  )
+    .then(() => res.send("success"))
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+});
+
+router.delete("/:id", function (req, res, next) {
+  Event.findOneAndDelete({ _id: req.params.id })
+    .then((result) => {
+      console.log(result);
+      res.send(result);
+    })
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
