@@ -20,7 +20,7 @@ import {useHistory} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext";
 
 const CreateGroupCard = styled(Card)({
-    backgroundColor: `#d6f5ef`,
+    backgroundColor: `#f7fdfc`,
     margin: `2rem auto`,
     width: `75%`,
 })

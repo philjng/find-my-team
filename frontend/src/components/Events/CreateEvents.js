@@ -17,7 +17,7 @@ import { useAuth } from "../../context/AuthContext.js";
 let axios = require("axios");
 
 const CreateEventCard = styled(Card)({
-  backgroundColor: `#d6f5ef`,
+  backgroundColor: `#f7fdfc`,
   margin: `2rem auto`,
   width: `75%`,
 });

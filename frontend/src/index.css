@@ -1,5 +1,6 @@
 /*Colors:
 #272643 - text, borders, anything dark (darkest)
+#f8f8ff - off-white
 #f7fdfc - background, (lightest)
 #ebfaf7 - components sitting on background can use this
 #d6f5ef - slightly darker / bluer than above
@@ -14,7 +15,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f7fdfc;
+  background-color: #ebfaf7;
+
 }
 
 code {

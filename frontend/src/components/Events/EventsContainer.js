@@ -13,9 +13,8 @@ import {
 import { styled } from "@material-ui/styles";
 
 export const Box1 = styled(Box)({
-  border: "2px solid black",
-  backgroundColor: "white",
-  borderRadius: "4px",
+  // border: "2px solid black",
+  // borderRadius: "4px",
 });
 
 const SCContainer = styled(Container)({
