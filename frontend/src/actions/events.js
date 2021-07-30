@@ -79,7 +79,7 @@ export const deleteEvent = async (dispatch, eventId) => {
     getEvents(dispatch);
   } catch(e) {
     dispatch({
-      type: "ERROR_PARTICIPANT_JOIN",
+      type: "ERROR_DELETE_EVENT",
       payload: e
     })
   }

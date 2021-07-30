@@ -8,7 +8,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-// import {KeyboardTimePicker, KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import { styled } from "@material-ui/styles";
 import { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
@@ -67,6 +66,7 @@ function Create(props) {
     setTagText("");
   };
 
+//TODO: Add validation for fields
   const handleSubmit = () => {
     axios
       .post("http://localhost:3001/events", {
@@ -159,7 +159,7 @@ function Create(props) {
                 value={eventGroup}
                 onChange={(e) => setEventGroup(e.target.value)}
               >
-                <MenuItem value={""}>Public</MenuItem>
+                <MenuItem value={"Public"}>Public</MenuItem>
                 {props.user.userGroups.created.map((group) => (
                   <MenuItem value={group._id}>{group.name}</MenuItem>
                 ))}

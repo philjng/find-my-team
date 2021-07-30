@@ -12,11 +12,12 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import { getEvent, participantJoin, participantLeave } from "../../actions/events.js";
+import { getEvent, participantJoin, participantLeave, deleteEvent } from "../../actions/events.js";
 import "firebase/auth";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.js";
+import { useHistory } from "react-router";
 
 const _ = require("lodash");
 
@@ -46,18 +47,24 @@ const Button2 = styled(Button)({
   float: "right",
   backgroundColor: "red",
   color: "white",
-  margin: "1rem",
+  marginTop: "0.5rem",
+  marginRight: "0.5rem"
 });
 
 function EventDetails(props) {
   const { id } = useParams();
   const { currentUser } = useAuth();
 
-  const { event, getEvent, participantJoin, participantLeave } = props;
+  const { event, getEvent, participantJoin, participantLeave, deleteEvent} = props;
+
+
+  const date = new Date(event.startTime).toUTCString();
 
   useEffect(() => {
     getEvent(id);
   }, [getEvent, id]);
+
+  const history = useHistory();
 
   const addParticipant = () => {
     participantJoin(id, currentUser.uid, currentUser.email);
@@ -65,6 +72,11 @@ function EventDetails(props) {
 
   const removeParticipant = () => {
     participantLeave(id, currentUser.uid, currentUser.email);
+  }
+
+  const removeEvent = () => {
+    deleteEvent(id);
+    history.push("/events")
   }
 
   return _.isEmpty(event) ? (
@@ -81,8 +93,9 @@ function EventDetails(props) {
           <Button1 onClick={removeParticipant}>Leave</Button1>
         )}
         <Typography variant="h5">{event.location}</Typography>
-        <Typography variant="h5">{event.startTime}</Typography>
+        <Typography variant="h5">{date}</Typography>
       </Container>
+      <Button2 onClick={removeEvent}>Delete</Button2>
       <Box1>
         <Container>
           <GenreTags genreTags={event.genreTags} />
@@ -114,6 +127,8 @@ const mapDispatchToProps = (dispatch) => {
       participantJoin(dispatch, eventId, userId, userEmail),
     participantLeave: (eventId, userId, userEmail) =>
       participantLeave(dispatch, eventId, userId, userEmail),
+    deleteEvent: (eventId) =>
+      deleteEvent(dispatch,eventId)
   };
 };
 
