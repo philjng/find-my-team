@@ -55,7 +55,6 @@ const DropdownProfile = (props) => {
         transformOrigin={{vertical: "top", horizontal: "right"}}
       >
         <MenuItem onClick={(e) => handleClose(e)}><Link to={`/profile/${currentUser.uid}`}>My Profile</Link></MenuItem>
-        {/*<MenuItem onClick={(e) => handleClose(e)}><Link to="/settings">Settings</Link></MenuItem>*/}
         <MenuItem onClick={(e) => handleClose(e)}><Link to="/">Logout</Link></MenuItem>
       </Menu>
     </div>

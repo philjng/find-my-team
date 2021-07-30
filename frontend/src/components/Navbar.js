@@ -37,7 +37,6 @@ const Icons = styled.div`
   align-items: center;
 `
 
-// Followed React Router quick-start tutorial at https://reactrouter.com/web/guides/quick-start
 export const Navbar = () => {
   return (
     <Sticky>
