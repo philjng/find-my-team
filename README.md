@@ -20,7 +20,7 @@ Additional functionality may include shareability of event postings with other u
     * Create modal for event building or another page
     * Create “delete event” button
 
-* Users can join events
+* Users can join events 
 
 ## Standard Requirements ##
 * Users can search for other users with similar interests
