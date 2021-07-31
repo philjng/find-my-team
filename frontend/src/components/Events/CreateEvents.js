@@ -15,7 +15,7 @@ import "firebase/auth";
 import { connect } from "react-redux";
 import { useAuth } from "../../context/AuthContext.js";
 import {useHistory} from "react-router-dom";
-let axios = require("axios");
+import { genericApi } from "../../api/genericApi";
 
 const CreateEventCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
@@ -70,11 +70,10 @@ function Create(props) {
     setTagText("");
   };
 
-
-//TODO: Add validation for fields
+  //TODO: Add validation for fields
   const handleSubmit = () => {
-    axios
-      .post("http://localhost:3001/events", {
+    genericApi
+      .post("/api/events", {
         title: eventTitle,
         location: eventLocation,
         description: eventDescription,
