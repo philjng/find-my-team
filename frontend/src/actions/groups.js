@@ -83,7 +83,6 @@ export const viewGroup = (data) => {
 export const searchGroups = async (dispatch, searchText) => {
   try {
     genericApi.get(`api/groups/search/${searchText}`).then((res) => {
-      console.log(res.data);
       dispatch({
         type: "SEARCH_GROUPS",
         payload: res.data,

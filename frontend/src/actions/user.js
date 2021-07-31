@@ -105,7 +105,6 @@ export const editUserProfile = async (dispatch, id, data) => {
 export const searchUsers = async (dispatch, searchText) => {
   try {
     genericApi.get(`api/users/search/${searchText}`).then((res) => {
-      console.log(res.data);
       dispatch({
         type: "SEARCH_USERS",
         payload: res.data,

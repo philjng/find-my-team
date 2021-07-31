@@ -136,10 +136,8 @@ export const getEvent = async (dispatch, id) => {
 };
 
 export const searchEvents = async (dispatch, searchText) => {
-  console.log("searchEvents action called");
   try {
     genericApi.get(`api/events/search/${searchText}`).then((res) => {
-      console.log(res.data);
       dispatch({
         type: "SEARCH_EVENTS",
         payload: res.data,
