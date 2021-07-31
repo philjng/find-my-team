@@ -1,5 +1,5 @@
-import { connect } from "react-redux";
-import GenreTags from "./GenreTags.js";
+import {connect} from "react-redux";
+import TagChips from "./TagChips.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
 import EventComments from "./EventComments";
@@ -8,29 +8,30 @@ import {
   Typography,
   Box,
   Button,
-  CircularProgress,
+  CircularProgress, Card, CardContent,
 } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
-import { getEvent, participantJoin, participantLeave, deleteEvent } from "../../actions/events.js";
+import {styled} from "@material-ui/styles";
+import {getEvent, participantJoin, participantLeave, deleteEvent} from "../../actions/events.js";
 import "firebase/auth";
-import { useParams } from "react-router";
-import { useEffect } from "react";
-import { useAuth } from "../../context/AuthContext.js";
-import { useHistory } from "react-router";
+import {useParams} from "react-router";
+import {useEffect, useState} from "react";
+import {useAuth} from "../../context/AuthContext.js";
+import {useHistory} from "react-router";
 
 const _ = require("lodash");
 
-const Box1 = styled(Box)({
-  border: "2px solid #3f51b5",
-  backgroundColor: "white",
-  alignContent: "center",
-});
+const EventCard = styled(Card)({
+  backgroundColor: "#f7fcfc",
+  margin: `2rem 0`
+})
+
+const DateBox = styled(Box)({
+  marginBottom: `0.5rem`
+})
 
 const Box2 = styled(Box)({
-  border: "1px solid #3f51b5",
-  backgroundColor: "#f7fcfc",
+  float: "left",
   width: "80%",
-  margin: "auto",
   marginTop: "1rem",
   maxHeight: "25%",
   overflow: "auto",
@@ -38,39 +39,39 @@ const Box2 = styled(Box)({
 
 const Button1 = styled(Button)({
   float: "right",
-  backgroundColor: "blue",
-  color: "white",
-});
-
-const Button2 = styled(Button)({
-  float: "right",
-  backgroundColor: "red",
-  color: "white",
-  marginTop: "0.5rem",
-  marginRight: "0.5rem"
+  marginLeft: "0.5rem"
 });
 
 function EventDetails(props) {
-  const { id } = useParams();
-  const { currentUser } = useAuth();
+  const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
 
-  const { event, getEvent, participantJoin, participantLeave, deleteEvent} = props;
+  const {id} = useParams();
+  const {currentUser} = useAuth();
 
+  const [isParticipant, setIsParticipant] = useState(event?.participants?.includes(user.user_id))
 
   const date = new Date(event.startTime).toUTCString();
 
   useEffect(() => {
-    getEvent(id);
+    getEvent(id)
+      .then(() => {
+      })
   }, [getEvent, id]);
 
   const history = useHistory();
 
   const addParticipant = () => {
-    participantJoin(id, currentUser.uid, currentUser.email);
+    participantJoin(id, currentUser.uid, currentUser.email)
+      .then(() => {
+        setIsParticipant(true)
+      })
   };
 
   const removeParticipant = () => {
-    participantLeave(id, currentUser.uid, currentUser.email);
+    participantLeave(id, currentUser.uid, currentUser.email)
+      .then(() => {
+        setIsParticipant(false)
+      })
   }
 
   const removeEvent = () => {
@@ -80,42 +81,44 @@ function EventDetails(props) {
 
   //TODO: Fix double join bug
   return _.isEmpty(event) ? (
-    <CircularProgress />
+    <CircularProgress/>
   ) : (
     <Container>
-      <Typography variant="h1">{event.name}</Typography>
-      <Container>
-        {event.participants.filter(
-          (participant) => participant.uid === currentUser.uid
-        ).length === 0 ? (
-          <Button1 onClick={addParticipant}>Join</Button1>
-        ) : (
-          <Button1 onClick={removeParticipant}>Leave</Button1>
-        )}
-        <Typography variant="h5">{event.location}</Typography>
-        <Typography variant="h5">{date}</Typography>
-      </Container>
-      <Button2 onClick={removeEvent}>Delete</Button2>
-      <Box1>
-        <Container>
-          <GenreTags genreTags={event.genreTags} />
-        </Container>
-        <Box2>
-          <EventDescription description={event.description} />
-        </Box2>
-        <Box2>
-          <EventParticipants participants={event.participants} />
-        </Box2>
-        <Box2>
-          <EventComments eventId={id} comments={event.comments} />
-        </Box2>
-      </Box1>
+      <EventCard>
+        <CardContent>
+          <Typography variant="h4">{event.title}</Typography>
+          <Button1 onClick={removeEvent} disableElevation variant="contained" color="secondary">Delete Event</Button1>
+          <Button1
+            disableElevation
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              isParticipant ? removeParticipant() : addParticipant()
+            }}
+          >{isParticipant ? "Going" : "Not Going"}</Button1>
+          <Typography component={'span'}>
+            <Box fontWeight="fontWeightMedium">{event.location}</Box>
+            <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
+          </Typography>
+          <TagChips genreTags={event.genreTags}/>
+          <Box2>
+            <EventDescription description={event.description}/>
+          </Box2>
+          <Box2>
+            <EventParticipants participants={event.participants}/>
+          </Box2>
+          <Box2>
+            <EventComments eventId={id} comments={event.comments}/>
+          </Box2>
+        </CardContent>
+      </EventCard>
     </Container>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user,
     event: state.events.event,
   };
 };
@@ -123,12 +126,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEvent: (id) => getEvent(dispatch, id),
-    participantJoin: (eventId, userId, userEmail) =>
-      participantJoin(dispatch, eventId, userId, userEmail),
-    participantLeave: (eventId, userId, userEmail) =>
-      participantLeave(dispatch, eventId, userId, userEmail),
-    deleteEvent: (eventId) =>
-      deleteEvent(dispatch,eventId)
+    participantJoin: (eventId, userId, userEmail) => participantJoin(dispatch, eventId, userId, userEmail),
+    participantLeave: (eventId, userId, userEmail) => participantLeave(dispatch, eventId, userId, userEmail),
+    deleteEvent: (eventId) => deleteEvent(dispatch, eventId)
   };
 };
 

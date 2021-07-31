@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {DropdownAdd} from "./DropdownAdd";
 
 import DropdownProfile from "./DropdownProfile";
-import {AppBar, Box} from "@material-ui/core";
+import {Box} from "@material-ui/core";
 import {styled as Styled} from "@material-ui/styles" ;
 
 const Sticky = Styled(Box)({

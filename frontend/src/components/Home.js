@@ -8,7 +8,6 @@ import {useEffect} from "react";
 import {useAuth} from "../context/AuthContext";
 
 const PageContainer = styled(Container)({
-  backgroundColor: `#f7fdfc`,
   padding: 0,
 })
 

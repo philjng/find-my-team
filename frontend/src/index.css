@@ -1,10 +1,12 @@
 /*Colors:
 #272643 - text, borders, anything dark (darkest)
-#f7fdfc - background, (lightest)
-#ebfaf7 - components sitting on background can use this
+#f8f8ff - off-white
+#f7fdfc - component sitting on background
+#ebfaf7 - background color
 #d6f5ef - slightly darker / bluer than above
 #8bbdda - used for homepage: Up Next
 #2c698d - middle color, currently used for nav
+#339999 - used for emails
 */
 
 body {
@@ -14,7 +16,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f7fdfc;
+  background-color: #ebfaf7;
+
 }
 
 code {
