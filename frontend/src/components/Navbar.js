@@ -6,7 +6,7 @@ import {DropdownAdd} from "./DropdownAdd";
 import SearchButton from "./SearchButton";
 
 import DropdownProfile from "./DropdownProfile";
-import {AppBar, Box} from "@material-ui/core";
+import {Box} from "@material-ui/core";
 import {styled as Styled} from "@material-ui/styles" ;
 
 const Sticky = Styled(Box)({

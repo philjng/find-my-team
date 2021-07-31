@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {viewGroup} from "../../actions/groups";
 
 const GroupCard = styled(Card)({
-    backgroundColor: `#d6f5ef`,
+    backgroundColor: `#f7fdfc`,
     margin: `1rem`
 })
 
