@@ -28,9 +28,26 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
+router.get("/search/:text", function (req, res, next) {
+  const searchText = req.params.text;
+  Event.find(
+    { $text: { $search: searchText } },
+    { score: { $meta: "textScore" } }
+  )
+    .sort({ score: { $meta: "textScore" } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message || "There was an error while getting event",
+      });
+    });
+});
+
 router.post("/", function (req, res, next) {
-  console.log(req.body);
-  const newEvent = new Event({...req.body,
+  const newEvent = new Event({
+    ...req.body,
     creator: req.body.user.uid,
     startTime: new Date(req.body.start),
     endTime: new Date(req.body.end),
@@ -41,7 +58,6 @@ router.post("/", function (req, res, next) {
     createdAt: new Date(),
     updatedAt: new Date(),
   });
-  console.log("done");
   newEvent.save((error) => {
     if (error) {
       console.log("Ooops, something happened to event POST");
@@ -75,9 +91,9 @@ router.patch("/:id/participants", function (req, res, next) {
 });
 
 router.patch("/:id/removeParticipant", function (req, res, next) {
-  Event.findByIdAndUpdate( req.params.id, { 
-    $pull: { participants: req.body.participant } }
-  )
+  Event.findByIdAndUpdate(req.params.id, {
+    $pull: { participants: req.body.participant },
+  })
     .then(() => res.send("success"))
     .catch((err) => {
       res.status(500).send({ message: err.message });

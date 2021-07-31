@@ -24,7 +24,16 @@ const eventReducer = (event = {}, action) => {
   }
 };
 
+const searchResultsReducer = (searchResults = [], action) => {
+  if (action.type === "SEARCH_EVENTS") {
+    return action.payload;
+  } else {
+    return searchResults;
+  }
+};
+
 export default combineReducers({
   events: eventsReducer,
   event: eventReducer,
+  searchResults: searchResultsReducer,
 });

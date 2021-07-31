@@ -1,6 +1,5 @@
-import { genericApi } from "../api/genericApi";
-
 import { getCreatedGroups } from "./user";
+import { genericApi } from "../api/genericApi";
 
 const headers = {
   "Content-Type": "application/json",
@@ -79,4 +78,20 @@ export const viewGroup = (data) => {
     type: "VIEW_GROUP",
     payload: data,
   };
+};
+
+export const searchGroups = async (dispatch, searchText) => {
+  try {
+    genericApi.get(`api/groups/search/${searchText}`).then((res) => {
+      dispatch({
+        type: "SEARCH_GROUPS",
+        payload: res.data,
+      });
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_GROUPS",
+      payload: console.log(e),
+    });
+  }
 };

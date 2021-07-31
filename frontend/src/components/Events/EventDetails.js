@@ -48,7 +48,7 @@ function EventDetails(props) {
   const {id} = useParams();
   const {currentUser} = useAuth();
 
-  const [isParticipant, setIsParticipant] = useState(event?.participants?.includes(user.user_id))
+  const [isParticipant, setIsParticipant] = useState(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
 
   const date = new Date(event.startTime).toUTCString();
 
