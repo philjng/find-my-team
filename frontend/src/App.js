@@ -15,6 +15,7 @@ import SignUpPage from "./components/Login/SignUpPage";
 import CreateGroupPage from "./components/Groups/CreateGroup";
 import Search from "./components/Search/Search";
 import { useAuth } from "./context/AuthContext";
+import SnackbarContainer from "./components/Snackbar/SnackbarContainer";
 
 function App() {
   const { currentUser } = useAuth();
@@ -22,6 +23,7 @@ function App() {
   return (
     <div className="App">
       {currentUser && <Navbar />}
+      <SnackbarContainer />
       <Switch>
         <ProtectedRoute exact path="/events" component={Events} />
         <ProtectedRoute path="/profile/:id" component={Profile} />
