@@ -1,5 +1,5 @@
-import { getCreatedGroups } from "./user";
-import { genericApi } from "../api/genericApi";
+import {getCreatedGroups} from "./user";
+import {genericApi} from "../api/genericApi";
 
 const headers = {
   "Content-Type": "application/json",
@@ -23,16 +23,25 @@ export const getGroups = () => async (dispatch) => {
 export const createGroup = (data) => async (dispatch) => {
   try {
     genericApi
-      .post(`/api/groups`, data, { headers })
+      .post(`/api/groups`, data, {headers})
       .then((res) => {
         dispatch({
           type: "CREATE_GROUP",
           payload: res.data,
-        });
+        })
       })
       .then(() => {
-        dispatch(getCreatedGroups(data.creatorId));
-      });
+        dispatch(getCreatedGroups(data.creatorId))
+      })
+      .then(() => {
+        dispatch({
+          type: "SHOW_SNACKBAR",
+          payload: {
+            severity: "success",
+            message: "Group created"
+          }
+        })
+      })
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
@@ -47,8 +56,17 @@ export const deleteGroup = (groupId) => async (dispatch) => {
       dispatch({
         type: "DELETE_GROUP",
         payload: res.data,
-      });
-    });
+      })
+    })
+      .then(() => {
+        dispatch({
+          type: "SHOW_SNACKBAR",
+          payload: {
+            severity: "success",
+            message: "Group deleted"
+          }
+        })
+      })
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
@@ -59,7 +77,7 @@ export const deleteGroup = (groupId) => async (dispatch) => {
 
 export const updateMemberList = (data) => async (dispatch) => {
   try {
-    genericApi.put(`/api/groups/${data._id}`, data, { headers }).then((res) => {
+    genericApi.put(`/api/groups/${data._id}`, data, {headers}).then((res) => {
       dispatch({
         type: "UPDATE_MEMBER_LIST",
         payload: res.data,
