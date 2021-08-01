@@ -15,13 +15,18 @@ import SignUpPage from "./components/Login/SignUpPage";
 import CreateGroupPage from "./components/Groups/CreateGroup";
 import Search from "./components/Search/Search";
 import { useAuth } from "./context/AuthContext";
+import {Snackbar} from "@material-ui/core";
+import {useSnackbar} from "./components/Snackbar";
+import MuiAlert from '@material-ui/lab/Alert';
 
 function App() {
   const { currentUser } = useAuth();
+  const { handleClose, message, open } = useSnackbar()
 
   return (
     <div className="App">
       {currentUser && <Navbar />}
+      <Snackbar message={message} onClose={handleClose} open={open} autoHideDuration={3000}/>
       <Switch>
         <ProtectedRoute exact path="/events" component={Events} />
         <ProtectedRoute path="/profile/:id" component={Profile} />

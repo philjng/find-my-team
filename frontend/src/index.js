@@ -7,13 +7,16 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import store from "./store"
+import {SnackbarProvider} from "./components/Snackbar";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <SnackbarProvider>
+           <App />
+          </SnackbarProvider>
         </AuthProvider>
       </BrowserRouter>
     </Provider>
