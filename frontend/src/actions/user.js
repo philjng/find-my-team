@@ -24,16 +24,16 @@ export const signUpAction = (data) => {
   };
 };
 
-export const addGroup = (data) => {
+export const joinGroup = (data) => {
   return {
-    type: "ADD_GROUP",
+    type: "JOIN_GROUP",
     payload: data,
   };
 };
 
-export const removeGroup = (data) => {
+export const leaveGroup = (data) => {
   return {
-    type: "REMOVE_GROUP",
+    type: "LEAVE_GROUP",
     payload: data,
   };
 };

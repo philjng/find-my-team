@@ -42,6 +42,21 @@ export const createGroup = (data) => async (dispatch) => {
   }
 };
 
+export const getGroup = (groupId) => async (dispatch) => {
+  try {
+    const res = await genericApi.get(`/api/groups/${groupId}`);
+    dispatch({
+      type: "GET_GROUP",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_GROUP",
+      payload: console.log(e),
+    });
+  }
+};
+
 export const deleteGroup = (groupId) => async (dispatch) => {
   try {
     genericApi.delete(`/api/groups/${groupId}`).then((res) => {
@@ -58,25 +73,68 @@ export const deleteGroup = (groupId) => async (dispatch) => {
   }
 };
 
-export const updateMemberList = (data) => async (dispatch) => {
+export const addMember = (groupId, userId) => async (dispatch) => {
   try {
-    genericApi.put(`/api/groups/${data._id}`, data, { headers }).then((res) => {
+    const res = await genericApi.get(`/api/groups/${groupId}`);
+    if (res.data.memberIds.includes(userId)) {
       dispatch({
-        type: "UPDATE_MEMBER_LIST",
+        type: "ADD_MEMBER_DUPLICATE_ERROR",
         payload: res.data,
       });
-    });
+      return;
+    } else {
+      res.data.memberIds.push(userId);
+      res.data.groupSize += 1;
+    }
+    genericApi
+      .put(`/api/groups/${groupId}`, res.data)
+      .then((res) => {
+        dispatch({
+          type: "ADD_GROUP_MEMBER",
+          payload: res.data,
+        });
+      })
+      .then(() => {
+        dispatch(getGroup(groupId));
+      });
   } catch (e) {
     dispatch({
-      type: "ERROR_GROUPS",
-      payload: console.log(e),
+      type: "ADD_GROUP_MEMBER_ERROR",
+      payload: e.message,
     });
+    dispatch(getGroup(groupId));
   }
 };
 
-export const viewGroup = (data) => {
-  return {
-    type: "VIEW_GROUP",
-    payload: data,
-  };
+export const removeMember = (groupId, userId) => async (dispatch) => {
+  try {
+    const res = await genericApi.get(`/api/groups/${groupId}`);
+    if (res.data.memberIds.includes(userId)) {
+      res.data.memberIds.splice(res.data.memberIds.indexOf(userId), 1);
+      res.data.groupSize -= 1;
+    } else {
+      dispatch({
+        type: "REMOVE_GROUP_MEMBER_NOT_FOUND_ERROR",
+        payload: res.data,
+      });
+      return;
+    }
+    genericApi
+      .put(`/api/groups/${groupId}`, res.data)
+      .then((res) => {
+        dispatch({
+          type: "REMOVE_GROUP_MEMBER",
+          payload: res.data,
+        });
+      })
+      .then(() => {
+        dispatch(getGroup(groupId));
+      });
+  } catch (e) {
+    dispatch({
+      type: "REMOVE_GROUP_MEMBER_ERROR",
+      payload: e.message,
+    });
+    dispatch(getGroup(groupId));
+  }
 };

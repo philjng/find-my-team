@@ -6,7 +6,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
-    return <LoadingPage />;
+    return <LoadingPage value={"Authenticating..."} />;
   }
 
   return (

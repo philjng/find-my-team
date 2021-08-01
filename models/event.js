@@ -14,7 +14,7 @@ const EventSchema = new Schema({
   group: Schema.Types.ObjectId,
   status: String,
   createdAt: Date,
-  updatedAt: Date,
+  lastModified: Date,
   comments: [Object],
 });
 
