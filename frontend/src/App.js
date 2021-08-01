@@ -21,12 +21,19 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 function App() {
   const { currentUser } = useAuth();
-  const { handleClose, message, open } = useSnackbar()
+  const { handleClose, message, open, severity } = useSnackbar()
 
   return (
     <div className="App">
       {currentUser && <Navbar />}
-      <Snackbar message={message} onClose={handleClose} open={open} autoHideDuration={3000}/>
+      <Snackbar onClose={handleClose} open={open} autoHideDuration={3000} anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}>
+        <MuiAlert onClose={handleClose} severity={severity} variant="filled">
+          {message}
+        </MuiAlert>
+      </Snackbar>
       <Switch>
         <ProtectedRoute exact path="/events" component={Events} />
         <ProtectedRoute path="/profile/:id" component={Profile} />
