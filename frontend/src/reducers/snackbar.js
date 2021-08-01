@@ -1,4 +1,5 @@
 const initialState = {
+  isOpen: false,
   severity: "",
   message: ""
 }
@@ -8,6 +9,7 @@ export const snackbar = (state = initialState, action) => {
     case "SHOW_SNACKBAR": {
       return {
         ...state,
+        isOpen: true,
         ...action.payload
       }
     }
