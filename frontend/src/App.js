@@ -15,7 +15,7 @@ import SignUpPage from "./components/Login/SignUpPage";
 import CreateGroupPage from "./components/Groups/CreateGroup";
 import Search from "./components/Search/Search";
 import { useAuth } from "./context/AuthContext";
-import SnackbarContainer from "./components/SnackbarContainer";
+import SnackbarContainer from "./components/Snackbar/SnackbarContainer";
 
 function App() {
   const { currentUser } = useAuth();

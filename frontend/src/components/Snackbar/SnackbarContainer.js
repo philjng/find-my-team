@@ -2,7 +2,7 @@ import {Snackbar} from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {clearSnackbar} from "../actions/snackbar";
+import {clearSnackbar} from "../../actions/snackbar";
 
 const SnackbarContainer = (props) => {
   // Snackbar State

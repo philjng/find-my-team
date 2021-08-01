@@ -1,5 +1,6 @@
 import {getCreatedGroups} from "./user";
 import {genericApi} from "../api/genericApi";
+import {SUCCESS} from "../components/Snackbar/SnackbarSeverityConstants";
 
 const headers = {
   "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export const createGroup = (data) => async (dispatch) => {
         dispatch({
           type: "SHOW_SNACKBAR",
           payload: {
-            severity: "success",
+            severity: SUCCESS,
             message: "Group created"
           }
         })
@@ -62,7 +63,7 @@ export const deleteGroup = (groupId) => async (dispatch) => {
         dispatch({
           type: "SHOW_SNACKBAR",
           payload: {
-            severity: "success",
+            severity: SUCCESS,
             message: "Group deleted"
           }
         })
