@@ -13,10 +13,8 @@ import { styled } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import {
   deleteGroup,
-  getGroup,
   addMember,
   removeMember,
-  getGroupMembers,
   getGroupPageData,
 } from "../../actions/groups";
 import { Link, useHistory, useParams } from "react-router-dom";
