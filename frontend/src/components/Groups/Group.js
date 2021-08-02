@@ -3,9 +3,9 @@ import { styled } from "@material-ui/styles";
 import { Button2, SCLink, Typography1 } from "../Events/Event";
 
 const GroupCard = styled(Card)({
-  backgroundColor: `#d6f5ef`,
-  margin: `1rem`,
-});
+    backgroundColor: `#f7fdfc`,
+    margin: `1rem`
+})
 
 const Group = (props) => {
   const { group } = props;

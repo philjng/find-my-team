@@ -17,6 +17,7 @@ const EventSchema = new Schema({
   lastModified: Date,
   comments: [Object],
 });
+EventSchema.index({'$**': 'text'});
 
 const Event = mongoose.model("Event", EventSchema);
 

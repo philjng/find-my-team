@@ -14,6 +14,7 @@ const UserSchema = new Schema({
   groupsCreated: [Schema.Types.ObjectId],
   _id: String,
 });
+UserSchema.index({'$**': 'text'});
 
 const User = mongoose.model("User", UserSchema);
 

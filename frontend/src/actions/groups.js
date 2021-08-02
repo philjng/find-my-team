@@ -1,6 +1,6 @@
-import { genericApi } from "../api/genericApi";
-
-import { getCreatedGroups } from "./user";
+import {getCreatedGroups} from "./user";
+import {genericApi} from "../api/genericApi";
+import {SUCCESS} from "../components/Snackbar/SnackbarSeverityConstants";
 
 const headers = {
   "Content-Type": "application/json",
@@ -24,16 +24,25 @@ export const getGroups = () => async (dispatch) => {
 export const createGroup = (data) => async (dispatch) => {
   try {
     genericApi
-      .post(`/api/groups`, data, { headers })
+      .post(`/api/groups`, data, {headers})
       .then((res) => {
         dispatch({
           type: "CREATE_GROUP",
           payload: res.data,
-        });
+        })
       })
       .then(() => {
-        dispatch(getCreatedGroups(data.creatorId));
-      });
+        dispatch(getCreatedGroups(data.creatorId))
+      })
+      .then(() => {
+        dispatch({
+          type: "SHOW_SNACKBAR",
+          payload: {
+            severity: SUCCESS,
+            message: "Group created"
+          }
+        })
+      })
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
@@ -63,8 +72,17 @@ export const deleteGroup = (groupId) => async (dispatch) => {
       dispatch({
         type: "DELETE_GROUP",
         payload: res.data,
-      });
-    });
+      })
+    })
+      .then(() => {
+        dispatch({
+          type: "SHOW_SNACKBAR",
+          payload: {
+            severity: SUCCESS,
+            message: "Group deleted"
+          }
+        })
+      })
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
@@ -136,5 +154,21 @@ export const removeMember = (groupId, userId) => async (dispatch) => {
       payload: e.message,
     });
     dispatch(getGroup(groupId));
+  }
+};
+
+export const searchGroups = async (dispatch, searchText) => {
+  try {
+    genericApi.get(`api/groups/search/${searchText}`).then((res) => {
+      dispatch({
+        type: "SEARCH_GROUPS",
+        payload: res.data,
+      });
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_GROUPS",
+      payload: console.log(e),
+    });
   }
 };

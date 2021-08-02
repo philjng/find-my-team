@@ -9,15 +9,14 @@ import { useEffect } from "react";
 const GroupsPage = styled(Container)({
   display: `flex`,
   justifyContent: `space-between`,
-  padding: `4rem 0`,
-  backgroundColor: `#f7fdfc`,
-});
+  padding: `2rem 0`,
+})
 
 const AllGroups = styled(Card)({
   padding: `1rem`,
   minWidth: `50vw`,
-  backgroundColor: `#ebfaf7`,
-});
+  backgroundColor: `#f7fdfc`
+})
 
 const GroupsContainer = (props) => {
   const { getGroups } = props;
@@ -38,7 +37,7 @@ const GroupsContainer = (props) => {
   return (
     <GroupsPage>
       <AllGroups>
-        <CardHeader variant="h5">All Groups</CardHeader>
+        <CardHeader variant="h4">Public Groups</CardHeader>
         {filtered.map((group) => (
           <Group group={group} key={group._id} />
         ))}

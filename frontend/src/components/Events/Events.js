@@ -1,8 +1,14 @@
 import EventsContainer from "./EventsContainer.js";
-import { Container, Typography } from "@material-ui/core";
+import {Card, CardContent, Container, Typography} from "@material-ui/core";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { getEvents } from "../../actions/events";
+import {styled} from "@material-ui/styles";
+
+const EventsCard = styled(Card)({
+  backgroundColor: `#f7fdfc`,
+  margin: `2rem 0`
+})
 
 function Events(props) {
   const { getEvents } = props;
@@ -13,8 +19,13 @@ function Events(props) {
 
   return (
     <Container>
-      <Typography variant="h1">Events</Typography>
-      <EventsContainer events={props.events} />
+      <EventsCard>
+        <CardContent>
+          <Typography variant="h4">Events</Typography>
+          <EventsContainer events={props.events} />
+        </CardContent>
+      </EventsCard>
+
     </Container>
   );
 }

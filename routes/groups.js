@@ -119,4 +119,21 @@ router.put("/:id", function (req, res, next) {
   });
 });
 
+router.get("/search/:text", function (req, res, next) {
+  const searchText = req.params.text;
+  Group.find(
+    { $text: { $search: searchText } },
+    { score: { $meta: "textScore" } }
+  )
+    .sort({ score: { $meta: "textScore" } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message || "There was an error while getting group",
+      });
+    });
+});
+
 module.exports = router;

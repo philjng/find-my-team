@@ -18,7 +18,7 @@ const NextEvent = styled(Card)({
 
 const EventsList = styled(Card)({
   margin: `50px`,
-  backgroundColor: `#ebfaf7`,
+  backgroundColor: `#f7fdfc`,
 });
 
 const UserEvents = (props) => {

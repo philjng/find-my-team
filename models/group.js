@@ -12,6 +12,7 @@ const GroupSchema = new Schema({
   groupSize: Number,
   lastModified: Date,
 });
+GroupSchema.index({'$**': 'text'});
 
 const Group = mongoose.model("Group", GroupSchema);
 

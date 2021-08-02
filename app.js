@@ -8,7 +8,6 @@ var mongoose = require("mongoose");
 var dotenv = require("dotenv");
 
 dotenv.config();
-
 const MONGODB_URI = process.env.MONGODB_DATABASE_URI;
 
 mongoose.connect(MONGODB_URI, {

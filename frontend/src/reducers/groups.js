@@ -1,5 +1,6 @@
 const initialState = {
   groups: [],
+  searchResults: [],
   group: {},
 };
 

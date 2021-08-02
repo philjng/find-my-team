@@ -8,7 +8,7 @@ import {useEffect} from "react";
 
 const UserGroup = styled(Card)({
     margin: `1rem`,
-    backgroundColor: `#ebfaf7`,
+    backgroundColor: `#f7fdfc`,
 })
 
 export const CardHeader = styled(Typography)({

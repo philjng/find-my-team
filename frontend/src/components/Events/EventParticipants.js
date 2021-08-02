@@ -1,4 +1,4 @@
-import { Container, Typography, List, ListItem } from "@material-ui/core";
+import {Container, Typography, List, ListItem, Box} from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
 const ListItem1 = styled(ListItem)({
@@ -16,7 +16,7 @@ const List1 = styled(List)({
 });
 function EventParticipants(props) {
   return (
-    <Container>
+    <Box>
       <Typography variant="h5">Participants</Typography>
       <List1>
         {props.participants.map((participant) => (
@@ -27,7 +27,7 @@ function EventParticipants(props) {
           </ListItem1>
         ))}
       </List1>
-    </Container>
+    </Box>
   );
 }
 export default EventParticipants;

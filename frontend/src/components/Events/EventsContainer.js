@@ -12,12 +12,6 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
-export const Box1 = styled(Box)({
-  border: "2px solid black",
-  backgroundColor: "white",
-  borderRadius: "4px",
-});
-
 const SCContainer = styled(Container)({
   textAlign: "center",
 });
@@ -40,7 +34,7 @@ function EventsContainer(props) {
 
   return (
     <SCContainer className="events_container">
-      <Box1>
+      <Box>
         <ButtonGroup variant="text" aria-label="contained primary button group">
           <Button onClick={() => setFilter("all")}>All</Button>
           <Button onClick={() => setFilter("upcoming")}>Upcoming</Button>
@@ -59,7 +53,7 @@ function EventsContainer(props) {
             </React.Fragment>
           ))}
         </List>
-      </Box1>
+      </Box>
     </SCContainer>
   );
 }
