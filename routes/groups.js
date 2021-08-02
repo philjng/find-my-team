@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const Group = require("../models/group");
+const User = require("../models/user");
 
 /* GET groups listing. */
 router.get("/", function (req, res, next) {
@@ -117,6 +118,26 @@ router.put("/:id", function (req, res, next) {
       }
     }
   });
+});
+
+router.get("/:id/members", function (req, res, next) {
+  Group.findById(req.params.id)
+    .then((groupData) => {
+      return User.find({
+        _id: {
+          $in: groupData.memberIds,
+        },
+      });
+    })
+    .then((usersData) => {
+      res.send(usersData);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "There was an error while getting group members",
+      });
+    });
 });
 
 router.get("/search/:text", function (req, res, next) {

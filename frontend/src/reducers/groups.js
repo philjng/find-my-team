@@ -2,6 +2,7 @@ const initialState = {
   groups: [],
   searchResults: [],
   group: {},
+  groupMembers: [],
 };
 
 export const groups = (state = initialState, action) => {
@@ -18,27 +19,13 @@ export const groups = (state = initialState, action) => {
         group: action.payload,
       };
     }
-    case "CREATE_GROUP": {
+    case "GET_GROUP_MEMBERS": {
       return {
         ...state,
-        groups: [
-          {
-            _id: action.payload._id,
-            creatorId: action.payload.creatorId,
-            creator: action.payload.creator,
-            name: action.payload.name,
-            description: action.payload.description,
-            tags: action.payload.tags,
-            createdAt: action.payload.createdAt,
-            memberIds: action.payload.memberIds,
-            groupSize: action.payload.groupSize,
-          },
-          ...state.groups,
-        ],
+        groupMembers: action.payload,
       };
     }
-    default: {
-      return { ...state };
-    }
+    default:
+      return state
   }
 };

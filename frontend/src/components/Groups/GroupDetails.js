@@ -16,8 +16,10 @@ import {
   getGroup,
   addMember,
   removeMember,
+  getGroupMembers,
+  getGroupPageData,
 } from "../../actions/groups";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 
 const _ = require("lodash");
@@ -32,13 +34,12 @@ export const VerticalContent = styled(CardContent)({
   justifyContent: `center`,
 });
 
-const GroupPage = styled(Container)({
-})
+const GroupPage = styled(Container)({});
 
 const GroupCard = styled(Card)({
-    backgroundColor: `#f7fdfc`,
-    marginTop: `2rem`,
-})
+  backgroundColor: `#f7fdfc`,
+  marginTop: `2rem`,
+});
 
 const GroupContent = styled(CardContent)({
   display: `flex`,
@@ -56,19 +57,19 @@ const Image = styled(CardMedia)({
 });
 
 const SecondBox = styled(FlexBox)({
-    justifyContent: `space-between`,
-    margin: `1rem 0`,
-})
+  justifyContent: `space-between`,
+  margin: `1rem 0`,
+});
 
 const EventCard = styled(Card)({
-    backgroundColor: `#f7fdfc`,
-    flexGrow: `2`,
-    marginRight: `1rem`
-})
+  backgroundColor: `#f7fdfc`,
+  flexGrow: `2`,
+  marginRight: `1rem`,
+});
 
 const MembersCard = styled(Card)({
-    backgroundColor: `#f7fdfc`,
-})
+  backgroundColor: `#f7fdfc`,
+});
 
 const Member = styled(FlexBox)({
   margin: `0.5rem 0`,
@@ -86,7 +87,15 @@ const GroupOption = styled(Button)({
 });
 
 function GroupDetails(props) {
-  const { user, group, getGroup, deleteGroup, addMember, removeMember } = props;
+  const {
+    user,
+    group,
+    groupMembers,
+    getGroupPageData,
+    deleteGroup,
+    addMember,
+    removeMember,
+  } = props;
   const history = useHistory();
   const { id } = useParams();
 
@@ -95,8 +104,8 @@ function GroupDetails(props) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    getGroup(id);
-  }, [getGroup, id]);
+    getGroupPageData(id)
+  }, [id, getGroupPageData]);
 
   const handleDelete = () => {
     window.confirm(
@@ -115,7 +124,7 @@ function GroupDetails(props) {
   };
 
   // TODO: might want to abstract parts away and simplify this js file
-  return _.isEmpty(group) ? (
+  return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
     <LoadingPage value="Loading data..." />
   ) : (
     <GroupPage>
@@ -160,7 +169,7 @@ function GroupDetails(props) {
                     color="secondary"
                     onClick={() => handleDelete()}
                   >
-                      Delete group
+                    Delete group
                   </GroupOption>
                 </Box>
               ) : (
@@ -218,11 +227,13 @@ function GroupDetails(props) {
               {"Members (" + group.groupSize + ")"}
             </Typography>
             {/*TODO: set up user names and icons*/}
-            {group.memberIds.map((id) => (
-              <Member key={id}>
-                <Avatar />
-                <Name align="center">No Name</Name>
-              </Member>
+            {groupMembers.map((groupMember) => (
+              <Link to={`/profile/${groupMember._id}`} key={groupMember._id}>
+                <Member>
+                  <Avatar />
+                  <Name align="center">{groupMember.displayName}</Name>
+                </Member>
+              </Link>
             ))}
           </VerticalContent>
         </MembersCard>
@@ -235,12 +246,13 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     group: state.groups.group,
+    groupMembers: state.groups.groupMembers,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getGroup: (groupId) => dispatch(getGroup(groupId)),
+    getGroupPageData: (groupId) => dispatch(getGroupPageData(groupId)),
     deleteGroup: (groupId) => dispatch(deleteGroup(groupId)),
     addMember: (groupId, userId) => dispatch(addMember(groupId, userId)),
     removeMember: (groupId, userId) => dispatch(removeMember(groupId, userId)),

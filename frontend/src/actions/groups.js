@@ -1,6 +1,9 @@
-import {getCreatedGroups} from "./user";
-import {genericApi} from "../api/genericApi";
-import {SUCCESS, WARNING} from "../components/Snackbar/SnackbarSeverityConstants";
+import { getCreatedGroups } from "./user";
+import { genericApi } from "../api/genericApi";
+import {
+  SUCCESS,
+  WARNING,
+} from "../components/Snackbar/SnackbarSeverityConstants";
 import { showSnackbar } from "./snackbar";
 
 const headers = {
@@ -25,31 +28,36 @@ export const getGroups = () => async (dispatch) => {
 export const createGroup = (data) => async (dispatch) => {
   try {
     genericApi
-      .post(`/api/groups`, data, {headers})
+      .post(`/api/groups`, data, { headers })
       .then((res) => {
         dispatch({
           type: "CREATE_GROUP",
           payload: res.data,
-        })
+        });
       })
       .then(() => {
-        dispatch(getCreatedGroups(data.creatorId))
+        dispatch(getCreatedGroups(data.creatorId));
       })
       .then(() => {
         dispatch({
           type: "SHOW_SNACKBAR",
           payload: {
             severity: SUCCESS,
-            message: "Group created"
-          }
-        })
-      })
+            message: "Group created",
+          },
+        });
+      });
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
       payload: console.log(e),
     });
   }
+};
+
+export const getGroupPageData = (groupId) => async (dispatch) => {
+  dispatch(getGroup(groupId));
+  dispatch(getGroupMembers(groupId));
 };
 
 export const getGroup = (groupId) => async (dispatch) => {
@@ -69,25 +77,42 @@ export const getGroup = (groupId) => async (dispatch) => {
 
 export const deleteGroup = (groupId) => async (dispatch) => {
   try {
-    genericApi.delete(`/api/groups/${groupId}`).then((res) => {
-      dispatch({
-        type: "DELETE_GROUP",
-        payload: res.data,
+    genericApi
+      .delete(`/api/groups/${groupId}`)
+      .then((res) => {
+        dispatch({
+          type: "DELETE_GROUP",
+          payload: res.data,
+        });
       })
-    })
       .then(() => {
         dispatch({
           type: "SHOW_SNACKBAR",
           payload: {
             severity: SUCCESS,
-            message: "Group deleted"
-          }
-        })
-      })
+            message: "Group deleted",
+          },
+        });
+      });
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
       payload: console.log(e),
+    });
+  }
+};
+
+export const getGroupMembers = (groupId) => async (dispatch) => {
+  try {
+    const res = await genericApi.get(`/api/groups/${groupId}/members`);
+    dispatch({
+      type: "GET_GROUP_MEMBERS",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_GROUP_MEMBERS",
+      payload: e.message,
     });
   }
 };
@@ -100,7 +125,12 @@ export const addMember = (groupId, userId) => async (dispatch) => {
         type: "ADD_MEMBER_DUPLICATE_ERROR",
         payload: res.data,
       });
-      dispatch(showSnackbar(WARNING, "Tried to join group while already being a member."))
+      dispatch(
+        showSnackbar(
+          WARNING,
+          "Tried to join group while already being a member."
+        )
+      );
       return;
     } else {
       res.data.memberIds.push(userId);
@@ -115,18 +145,23 @@ export const addMember = (groupId, userId) => async (dispatch) => {
         });
       })
       .then(() => {
-        dispatch(getGroup(groupId));
+        dispatch(getGroupPageData(groupId));
       })
       .then(() => {
-        dispatch(showSnackbar(SUCCESS, "You have joined the group."))
-      })
+        dispatch(showSnackbar(SUCCESS, "You have joined the group."));
+      });
   } catch (e) {
     dispatch({
       type: "ADD_GROUP_MEMBER_ERROR",
       payload: e.message,
     });
-    dispatch(showSnackbar(WARNING, "There was an error with joining the group. Please try again."))
-    dispatch(getGroup(groupId));
+    dispatch(
+      showSnackbar(
+        WARNING,
+        "There was an error with joining the group. Please try again."
+      )
+    );
+    dispatch(getGroupPageData(groupId));
   }
 };
 
@@ -141,7 +176,7 @@ export const removeMember = (groupId, userId) => async (dispatch) => {
         type: "REMOVE_GROUP_MEMBER_NOT_FOUND_ERROR",
         payload: res.data,
       });
-      dispatch(showSnackbar(WARNING, "Tried to leave without being a member."))
+      dispatch(showSnackbar(WARNING, "Tried to leave without being a member."));
       return;
     }
     genericApi
@@ -153,18 +188,25 @@ export const removeMember = (groupId, userId) => async (dispatch) => {
         });
       })
       .then(() => {
-        dispatch(getGroup(groupId));
+        dispatch(getGroupPageData(groupId));
       })
       .then(() => {
-        dispatch(showSnackbar(SUCCESS, "You have been removed from the group."))
-      })
+        dispatch(
+          showSnackbar(SUCCESS, "You have been removed from the group.")
+        );
+      });
   } catch (e) {
     dispatch({
       type: "REMOVE_GROUP_MEMBER_ERROR",
       payload: e.message,
     });
-    dispatch(showSnackbar(WARNING, "There was an error with leaving the group. Please try again."))
-    dispatch(getGroup(groupId));
+    dispatch(
+      showSnackbar(
+        WARNING,
+        "There was an error with leaving the group. Please try again."
+      )
+    );
+    dispatch(getGroupPageData(groupId));
   }
 };
 
