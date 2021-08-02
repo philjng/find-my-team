@@ -1,4 +1,9 @@
 import { genericApi } from "../api/genericApi";
+import {
+  SUCCESS,
+  WARNING,
+} from "../components/Snackbar/SnackbarSeverityConstants";
+import { showSnackbar } from "./snackbar";
 
 export const loginAction = (user_id) => {
   return {
@@ -69,7 +74,7 @@ export const getJoinedGroups = (data) => async (dispatch) => {
   }
 };
 
-export const getUser = async (dispatch, id) => {
+export const getUser = (id) => async (dispatch) => {
   try {
     const res = await genericApi.get(`/api/users/${id}`);
     dispatch({
@@ -84,18 +89,26 @@ export const getUser = async (dispatch, id) => {
   }
 };
 
-export const editUserProfile = async (dispatch, id, data) => {
+export const editUserProfile = (id, data) => async (dispatch) => {
   try {
     const res = await genericApi.put(`/api/users/${id}`, data);
     dispatch({
       type: "GET_USER",
       payload: res.data,
     });
+    dispatch(showSnackbar(SUCCESS, "Your changes have been saved."));
   } catch (e) {
     dispatch({
-      type: "ERROR_USER",
+      type: "ERROR_EDIT_USER_PROFILE",
       payload: console.log(e),
     });
+    dispatch(getUser(id));
+    dispatch(
+      showSnackbar(
+        WARNING,
+        "There was an error with saving your changes. Please try again"
+      )
+    );
   }
 };
 
