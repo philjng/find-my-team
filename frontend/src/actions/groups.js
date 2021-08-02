@@ -1,6 +1,7 @@
 import {getCreatedGroups} from "./user";
 import {genericApi} from "../api/genericApi";
 import {SUCCESS, WARNING} from "../components/Snackbar/SnackbarSeverityConstants";
+import { showSnackbar } from "./snackbar";
 
 const headers = {
   "Content-Type": "application/json",
@@ -99,6 +100,7 @@ export const addMember = (groupId, userId) => async (dispatch) => {
         type: "ADD_MEMBER_DUPLICATE_ERROR",
         payload: res.data,
       });
+      dispatch(showSnackbar(WARNING, "Tried to join group while already being a member."))
       return;
     } else {
       res.data.memberIds.push(userId);
@@ -116,26 +118,14 @@ export const addMember = (groupId, userId) => async (dispatch) => {
         dispatch(getGroup(groupId));
       })
       .then(() => {
-        dispatch({
-          type: "SHOW_SNACKBAR",
-          payload: {
-            severity: SUCCESS,
-            message: "You have joined the group."
-          }
-        })
+        dispatch(showSnackbar(SUCCESS, "You have joined the group."))
       })
   } catch (e) {
     dispatch({
       type: "ADD_GROUP_MEMBER_ERROR",
       payload: e.message,
     });
-    dispatch({
-      type: "SHOW_SNACKBAR",
-      payload: {
-        severity: WARNING,
-        message: "There was an error with joining the group. Please try again."
-      }
-    })
+    dispatch(showSnackbar(WARNING, "There was an error with joining the group. Please try again."))
     dispatch(getGroup(groupId));
   }
 };
@@ -151,13 +141,7 @@ export const removeMember = (groupId, userId) => async (dispatch) => {
         type: "REMOVE_GROUP_MEMBER_NOT_FOUND_ERROR",
         payload: res.data,
       });
-      dispatch({
-        type: "SHOW_SNACKBAR",
-        payload: {
-          severity: WARNING,
-          message: "Tried to leave without being a member."
-        }
-      })
+      dispatch(showSnackbar(WARNING, "Tried to leave without being a member."))
       return;
     }
     genericApi
@@ -172,26 +156,14 @@ export const removeMember = (groupId, userId) => async (dispatch) => {
         dispatch(getGroup(groupId));
       })
       .then(() => {
-        dispatch({
-          type: "SHOW_SNACKBAR",
-          payload: {
-            severity: SUCCESS,
-            message: "You have been removed from the group."
-          }
-        })
+        dispatch(showSnackbar(SUCCESS, "You have been removed from the group."))
       })
   } catch (e) {
     dispatch({
       type: "REMOVE_GROUP_MEMBER_ERROR",
       payload: e.message,
     });
-    dispatch({
-      type: "SHOW_SNACKBAR",
-      payload: {
-        severity: WARNING,
-        message: "There was an error with leaving the group. Please try again."
-      }
-    })
+    dispatch(showSnackbar(WARNING, "There was an error with leaving the group. Please try again."))
     dispatch(getGroup(groupId));
   }
 };

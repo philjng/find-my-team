@@ -15,12 +15,9 @@ export const logoutAction = () => {
   };
 };
 
-export const signUpAction = (data) => {
+export const signUpAction = () => {
   return {
     type: "SIGNUP",
-    payload: {
-      ...data,
-    },
   };
 };
 
