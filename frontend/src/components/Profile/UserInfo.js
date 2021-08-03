@@ -13,8 +13,6 @@ import {
   Checkbox,
   ListItemText,
   Box,
-  Snackbar,
-  IconButton,
   Typography,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
@@ -27,6 +25,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUser } from "../../actions/user";
 import SportsList from "./SportsList";
+import { useAuth } from "../../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -75,9 +74,10 @@ function UserInfo(props) {
   const [initialForm, setInitialForm] = useState({});
   const [form, setForm] = useState({ tags: [] });
   const [isEditing, setIsEditing] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [open, setOpen] = useState(false);
   const { getUser, editUserProfile, user } = props;
+  const { currentUser } = useAuth();
+  const { id } = useParams();
+  const isOwner = currentUser.uid === id
 
   const handleFormChange = (property) => (event) => {
     setForm({
@@ -89,29 +89,19 @@ function UserInfo(props) {
   const handleLastNameChange = handleFormChange("lastName");
   const handleDisplayNameChange = handleFormChange("displayName");
   const handleTagsChange = handleFormChange("tags");
-  const { id } = useParams();
+  
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSaveChanges = () => {
-    setOpen(true);
-    setSnackbarMessage("Changes submitted");
     editUserProfile(id, form);
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -124,135 +114,115 @@ function UserInfo(props) {
   }, [user]);
 
   return (
-    <>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        message={snackbarMessage}
-        action={
-          <IconButton aria-label="close" color="inherit" onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        }
-      />
-      <SCBox>
-        <SCCard>
-          <CardContent>
-            <Grid container align="center" direction="column">
-              <Grid item>
-                <Avatar alt="Profile Picture" className={classes.profile_pic} />
-              </Grid>
-              <Grid item>
-                <Typography>{form.emailAddress}</Typography>
-              </Grid>
+    <SCBox>
+      <SCCard>
+        <CardContent>
+          <Grid container align="center" direction="column">
+            <Grid item>
+              <Avatar alt="Profile Picture" className={classes.profile_pic} />
             </Grid>
-            <Grid container direction="row-reverse">
-              <Grid item>
-                <Fab
-                  disabled={isEditing}
-                  variant="extended"
-                  onClick={handleEdit}
-                >
-                  <SCEditIcon />
-                  Edit
-                </Fab>
-              </Grid>
+            <Grid item>
+              <Typography>{form.emailAddress}</Typography>
             </Grid>
-            <FormControl fullWidth>
-              <TextField
+          </Grid>
+          {isOwner && <Grid container direction="row-reverse">
+            <Grid item>
+              <Fab disabled={isEditing} variant="extended" onClick={handleEdit}>
+                <SCEditIcon />
+                Edit
+              </Fab>
+            </Grid>
+          </Grid>}
+          <FormControl fullWidth>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+              name="firstName"
+              autoFocus
+              value={isEditing ? form.firstName : initialForm.firstName || ""}
+              onChange={handleFirstNameChange}
+              disabled={!isEditing}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="lastName"
+              autoFocus
+              value={isEditing ? form.lastName : initialForm.lastName || ""}
+              onChange={handleLastNameChange}
+              disabled={!isEditing}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="displayName"
+              label="Display Name"
+              name="displayName"
+              autoFocus
+              value={
+                isEditing ? form.displayName : initialForm.displayName || ""
+              }
+              onChange={handleDisplayNameChange}
+              disabled={!isEditing}
+            />
+            <FormControl margin="normal">
+              <InputLabel variant="outlined" id="tags-checkbox-label">
+                Interested Sports Tags
+              </InputLabel>
+              <Select
                 variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                name="firstName"
-                autoFocus
-                value={isEditing ? form.firstName : initialForm.firstName || ""}
-                onChange={handleFirstNameChange}
+                labelId="tags-checkbox-label"
+                id="tags-checkbox"
+                multiple
                 disabled={!isEditing}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoFocus
-                value={isEditing ? form.lastName : initialForm.lastName || ""}
-                onChange={handleLastNameChange}
-                disabled={!isEditing}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="displayName"
-                label="Display Name"
-                name="displayName"
-                autoFocus
-                value={
-                  isEditing ? form.displayName : initialForm.displayName || ""
+                label="Interested Sports Tags"
+                value={isEditing ? form.tags : initialForm.tags || []}
+                onChange={handleTagsChange}
+                inputProps={<Input />}
+                renderValue={(selected) =>
+                  TAGS.filter((tag) => selected.includes(tag)).join(", ")
                 }
-                onChange={handleDisplayNameChange}
-                disabled={!isEditing}
-              />
-              <FormControl margin="normal">
-                <InputLabel variant="outlined" id="tags-checkbox-label">
-                  Interested Sports Tags
-                </InputLabel>
-                <Select
-                  variant="outlined"
-                  labelId="tags-checkbox-label"
-                  id="tags-checkbox"
-                  multiple
-                  disabled={!isEditing}
-                  label="Interested Sports Tags"
-                  value={isEditing ? form.tags : initialForm.tags || []}
-                  onChange={handleTagsChange}
-                  inputProps={<Input />}
-                  renderValue={(selected) =>
-                    TAGS.filter((tag) => selected.includes(tag)).join(", ")
-                  }
-                  MenuProps={{
-                    getContentAnchorEl: null,
-                  }}
-                >
-                  {TAGS.map((tag) => (
-                    <MenuItem key={tag} value={tag}>
-                      <Checkbox
-                        checked={(form?.tags?.indexOf(tag) || 0) > -1}
-                      />
-                      <ListItemText primary={tag} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {isEditing && (
-                <Grid container direction="row-reverse" spacing={2}>
-                  <Grid item>
-                    <Fab onClick={handleCancel}>
-                      <CloseIcon />
-                    </Fab>
-                  </Grid>
-                  <Grid item>
-                    <Fab onClick={handleSaveChanges}>
-                      <Check />
-                    </Fab>
-                  </Grid>
-                </Grid>
-              )}
+                MenuProps={{
+                  getContentAnchorEl: null,
+                }}
+              >
+                {TAGS.map((tag) => (
+                  <MenuItem key={tag} value={tag}>
+                    <Checkbox checked={(form?.tags?.indexOf(tag) || 0) > -1} />
+                    <ListItemText primary={tag} />
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
-          </CardContent>
-        </SCCard>
-        <SportsList />
-      </SCBox>
-    </>
+            {isEditing && (
+              <Grid container direction="row-reverse" spacing={2}>
+                <Grid item>
+                  <Fab onClick={handleCancel}>
+                    <CloseIcon />
+                  </Fab>
+                </Grid>
+                <Grid item>
+                  <Fab onClick={handleSaveChanges}>
+                    <Check />
+                  </Fab>
+                </Grid>
+              </Grid>
+            )}
+          </FormControl>
+        </CardContent>
+      </SCCard>
+      <SportsList />
+    </SCBox>
   );
 }
 
@@ -264,8 +234,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: (data) => getUser(dispatch, data),
-    editUserProfile: (id, data) => editUserProfile(dispatch, id, data),
+    getUser: (id) => dispatch(getUser(id)),
+    editUserProfile: (id, data) => dispatch(editUserProfile(id, data)),
   };
 };
 

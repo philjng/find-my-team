@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, Typography } from "@material-ui/core";
 
-function LoadingPage() {
+function LoadingPage(props) {
   return (
     <Grid
       container
@@ -10,7 +10,7 @@ function LoadingPage() {
       justify="center"
       style={{ minHeight: "100vh" }}
     >
-      <Typography color="primary">Authenticating...</Typography>
+      <Typography color="primary">{props.value}</Typography>
       <CircularProgress color="primary" size={100} />
     </Grid>
   );

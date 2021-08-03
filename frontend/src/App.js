@@ -28,11 +28,10 @@ function App() {
         <ProtectedRoute exact path="/events" component={Events} />
         <ProtectedRoute path="/profile/:id" component={Profile} />
         <ProtectedRoute path="/home" component={Home} />
-        <ProtectedRoute path="/groups" component={Groups} />
+        <ProtectedRoute exact path="/groups" component={Groups} />
         <ProtectedRoute path="/create" component={Create} />
         <ProtectedRoute path="/create-group" component={CreateGroupPage} />
-        <ProtectedRoute path="/groupdetails" component={GroupDetails} />
-        <ProtectedRoute path="/eventdetails" component={EventDetails} />
+        <ProtectedRoute exact path="/groups/:id" component={GroupDetails} />
         <ProtectedRoute path="/search" component={Search} />
         <ProtectedRoute exact path="/events/:id" component={EventDetails} />
         <Route path="/signup">

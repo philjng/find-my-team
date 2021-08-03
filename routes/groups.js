@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const Group = require("../models/group");
+const User = require("../models/user");
 
 /* GET groups listing. */
 router.get("/", function (req, res, next) {
@@ -47,6 +48,18 @@ router.get("/joined", function (req, res, next) {
     });
 });
 
+router.get("/:id", function (req, res, next) {
+  Group.findById(req.params.id)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message || "There was an error while getting event",
+      });
+    });
+});
+
 /* POST endpoint */
 router.post("/", function (req, res, next) {
   const newGroup = new Group(req.body);
@@ -73,18 +86,58 @@ router.delete("/:id", function (req, res, next) {
 /* PUT endpoint to update group */
 router.put("/:id", function (req, res, next) {
   // TODO: find new method - current one without the 'useFindAndModify' option set to false is deprecated
-  Group.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (error, result) => {
-      if (error) {
-        res.status(error.code).send(error);
+  const newGroup = req.body;
+  Group.findById(req.params.id, (err, group) => {
+    if (err) {
+      res.status(err.code).send(err);
+    } else {
+      if (
+        group.lastModified === undefined ||
+        newGroup.lastModified === undefined ||
+        new Date(newGroup.lastModified).getTime() ===
+          new Date(group.lastModified).getTime()
+      ) {
+        newGroup.lastModified = new Date();
+        Group.findByIdAndUpdate(
+          req.params.id,
+          newGroup,
+          { new: true, useFindAndModify: false },
+          (error, result) => {
+            if (error) {
+              res.status(error.code).send(error);
+            } else {
+              res.send(req.body);
+            }
+          }
+        );
       } else {
-        res.send(req.body);
+        res.status(400).send({
+          status: 400,
+          message: "Resource was modified. Try again.",
+        });
       }
     }
-  );
+  });
+});
+
+router.get("/:id/members", function (req, res, next) {
+  Group.findById(req.params.id)
+    .then((groupData) => {
+      return User.find({
+        _id: {
+          $in: groupData.memberIds,
+        },
+      });
+    })
+    .then((usersData) => {
+      res.send(usersData);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "There was an error while getting group members",
+      });
+    });
 });
 
 router.get("/search/:text", function (req, res, next) {

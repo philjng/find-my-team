@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: (data) => getUser(dispatch, data),
+    getUser: (id) => dispatch(getUser(id)),
   };
 };
 

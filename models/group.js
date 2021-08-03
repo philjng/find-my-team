@@ -10,6 +10,7 @@ const GroupSchema = new Schema({
   createdAt: Date,
   memberIds: [String],
   groupSize: Number,
+  lastModified: Date,
 });
 GroupSchema.index({'$**': 'text'});
 
