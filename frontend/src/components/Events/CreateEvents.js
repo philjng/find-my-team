@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
 import "firebase/auth";
 import { connect } from "react-redux";
-import { useAuth } from "../../context/AuthContext.js";
 import {useHistory} from "react-router-dom";
 import { genericApi } from "../../api/genericApi";
 
@@ -61,8 +60,6 @@ function Create(props) {
 
   const history = useHistory()
 
-  const { currentUser } = useAuth();
-
   const {user} = props;
 
   const addTag = () => {
@@ -74,16 +71,35 @@ function Create(props) {
 
   //TODO: Add validation for fields and fix refresh bug
   const handleSubmit = () => {
+    if (eventTitle.trim() === "") {
+      window.alert("Event name is required");
+      return;
+    }
+
+    if (eventStart.trim() === "") {
+      window.alert("Event start time is required");
+      return;
+    }
+
+    if (eventEnd.trim() === "") {
+      window.alert("Event end time is required");
+      return;
+    }
+
+    if (eventGroup.trim() === "") {
+      window.alert("Event must belong to a group or be public");
+      return;
+    }
     genericApi
       .post("/api/events", {
         title: eventTitle,
-        location: eventLocation,
-        description: eventDescription,
+        location: eventLocation.trim() === "" ? "No location" : eventLocation,
+        description: eventDescription.trim() === "" ? "No description" : eventDescription,
         start: new Date(eventStart),
         end: new Date(eventEnd),
         genreTags: tags,
         user: {
-          uid: currentUser.uid,
+          uid: user.user_id,
           displayName: user.displayName,
         },
         group: eventGroup,
