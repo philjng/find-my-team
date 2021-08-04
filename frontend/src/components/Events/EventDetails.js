@@ -3,6 +3,7 @@ import TagChips from "./TagChips.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
 import EventComments from "./EventComments";
+import Map from "./Map";
 import {
   Container,
   Typography,
@@ -16,6 +17,9 @@ import "firebase/auth";
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
+import React from "react";
+
+// Followed mapbox tutorial: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 
 const _ = require("lodash");
 
@@ -36,6 +40,7 @@ const Box2 = styled(Box)({
   overflow: "auto",
 });
 
+
 const Button1 = styled(Button)({
   float: "right",
   marginLeft: "0.5rem"
@@ -49,6 +54,7 @@ function EventDetails(props) {
   const [isParticipant, setIsParticipant] = useState(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
 
   const date = new Date(event.startTime).toUTCString();
+
 
   useEffect(() => {
     getEvent(id)
@@ -106,6 +112,9 @@ function EventDetails(props) {
           </Box2>
           <Box2>
             <EventComments eventId={id} comments={event.comments}/>
+          </Box2>
+          <Box2>
+            <Map/>
           </Box2>
         </CardContent>
       </EventCard>
