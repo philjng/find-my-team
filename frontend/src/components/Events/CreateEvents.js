@@ -181,7 +181,7 @@ function Create(props) {
                 value={eventGroup}
                 onChange={(e) => setEventGroup(e.target.value)}
               >
-                <MenuItem value={"Public"}>Public</MenuItem>
+                <MenuItem value={"000000000000000000000000"}>Public</MenuItem>
                 {props.user.userGroups.created.map((group) => (
                   <MenuItem value={group._id}>{group.name}</MenuItem>
                 ))}

@@ -46,6 +46,7 @@ router.get("/search/:text", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
+  console.log(req.body.group);
   const newEvent = new Event({
     ...req.body,
     creator: req.body.user.uid,
