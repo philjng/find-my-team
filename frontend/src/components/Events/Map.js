@@ -23,6 +23,22 @@ const mapContainer = useRef(null);
         });
       });
 
+      useEffect(() => {
+          if (!map.current) return;
+          map.current.on("move", () => {
+              setLatitude(map.current.getCenter().lat.toFixed(4));
+              setLongitude(map.current.getCenter().lng.toFixed(4));
+              setZoom(map.current.getZoom().toFixed(2));
+          });
+      });
+
+      useEffect(() => {
+        if (!map.current) return;
+        map.current.on("load", () => {
+            new mapboxgl.Marker().setLngLat([-123, 49]).addTo(map.current);
+        })
+      })
+
       return (
         <div>
             <div ref={mapContainer} style={{"height": "400px"}} />
