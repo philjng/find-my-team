@@ -15,7 +15,6 @@ import {getEvent, participantJoin, participantLeave, deleteEvent} from "../../ac
 import "firebase/auth";
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {useAuth} from "../../context/AuthContext.js";
 import {useHistory} from "react-router";
 
 const _ = require("lodash");
@@ -46,7 +45,6 @@ function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
 
   const {id} = useParams();
-  const {currentUser} = useAuth();
 
   const [isParticipant, setIsParticipant] = useState(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
 
@@ -61,14 +59,14 @@ function EventDetails(props) {
   const history = useHistory();
 
   const addParticipant = () => {
-    participantJoin(id, currentUser.uid, currentUser.email)
+    participantJoin(id, user.user_id, user.displayName)
       .then(() => {
         setIsParticipant(true)
       })
   };
 
   const removeParticipant = () => {
-    participantLeave(id, currentUser.uid, currentUser.email)
+    participantLeave(id, user.user_id, user.displayName)
       .then(() => {
         setIsParticipant(false)
       })
@@ -78,8 +76,7 @@ function EventDetails(props) {
     deleteEvent(id);
     history.push("/events")
   }
-
-  //TODO: Fix double join bug
+  //TODO: Make displayNames appear
   return _.isEmpty(event) ? (
     <CircularProgress/>
   ) : (
@@ -126,8 +123,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEvent: (id) => getEvent(dispatch, id),
-    participantJoin: (eventId, userId, userEmail) => participantJoin(dispatch, eventId, userId, userEmail),
-    participantLeave: (eventId, userId, userEmail) => participantLeave(dispatch, eventId, userId, userEmail),
+    participantJoin: (eventId, userId, displayName) => participantJoin(dispatch, eventId, userId, displayName),
+    participantLeave: (eventId, userId, displayName) => participantLeave(dispatch, eventId, userId, displayName),
     deleteEvent: (eventId) => deleteEvent(dispatch, eventId)
   };
 };

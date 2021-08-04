@@ -63,6 +63,8 @@ function Create(props) {
 
   const { currentUser } = useAuth();
 
+  const {user} = props;
+
   const addTag = () => {
     let tags_cpy = [...tags];
     tags_cpy.push(tagText);
@@ -70,7 +72,7 @@ function Create(props) {
     setTagText("");
   };
 
-  //TODO: Add validation for fields
+  //TODO: Add validation for fields and fix refresh bug
   const handleSubmit = () => {
     genericApi
       .post("/api/events", {
@@ -82,7 +84,7 @@ function Create(props) {
         genreTags: tags,
         user: {
           uid: currentUser.uid,
-          email: currentUser.email,
+          displayName: user.displayName,
         },
         group: eventGroup,
       })

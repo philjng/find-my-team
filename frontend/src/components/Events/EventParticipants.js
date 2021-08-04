@@ -22,7 +22,7 @@ function EventParticipants(props) {
         {props.participants.map((participant) => (
           <ListItem1 key={JSON.stringify(participant)}>
             <Container>
-              <Typography>{participant.email}</Typography>
+              <Typography>{participant.displayName}</Typography>
             </Container>
           </ListItem1>
         ))}

@@ -21,12 +21,12 @@ export const viewAllEvents = (events) => {
   };
 };
 
-export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
+export const participantJoin = async (dispatch, eventId, userId, username) => {
   try {
     const res = await genericApi.patch(`/api/events/${eventId}/participants`, {
       participant: {
         uid: userId,
-        email: userEmail,
+        displayName: username,
       },
     });
     dispatch({
@@ -46,7 +46,7 @@ export const participantLeave = async (
   dispatch,
   eventId,
   userId,
-  userEmail
+  username
 ) => {
   try {
     const res = await genericApi.patch(
@@ -54,7 +54,7 @@ export const participantLeave = async (
       {
         participant: {
           uid: userId,
-          email: userEmail,
+          displayName: username,
         },
       }
     );
