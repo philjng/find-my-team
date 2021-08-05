@@ -150,3 +150,10 @@ export const searchEvents = async (dispatch, searchText) => {
     });
   }
 };
+
+export const addMapMarker = (dispatch, marker) => {
+  dispatch({
+    type: "ADD_MAP_MARKER",
+    payload: marker
+  });
+};

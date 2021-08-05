@@ -32,8 +32,16 @@ const searchResultsReducer = (searchResults = [], action) => {
   }
 };
 
+const mapReducer = (marker = "", action) => {
+  if (action.type === "ADD_MAP_MARKER") {
+    return action.payload;
+  }
+  return marker;
+}
+
 export default combineReducers({
   events: eventsReducer,
   event: eventReducer,
   searchResults: searchResultsReducer,
+  marker: mapReducer
 });

@@ -1,26 +1,50 @@
-// Followed mapbox tutorial: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
+// Followed mapbox tutorials: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/ and https://docs.mapbox.com/mapbox-gl-js/example/marker-from-geocode/
 import {useEffect, useState, useRef} from "react";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
+import mapboxSdk from "@mapbox/mapbox-sdk/services/geocoding";
+import { addMapMarker } from "../../actions/events";
+import {connect} from "react-redux";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
 
-function Map() {
+function Map(props) {
 
 const mapContainer = useRef(null);
   const map = useRef(null);
   const [latitude, setLatitude] = useState(49.2827);
   const [longitude, setLongitude] = useState(-123.12);
   const [zoom, setZoom] = useState(9);
-
-
-    useEffect(() => {
-        if (map.current) return;
+    
+  console.log(props.location);
+  useEffect(() => {
+        if (map.current && props.location === props.marker) return;
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
           style: "mapbox://styles/mapbox/streets-v11",
           center: [longitude, latitude],
           zoom: zoom
         });
+        const mapboxClient = mapboxSdk({accessToken: mapboxgl.accessToken});
+            mapboxClient.forwardGeocode({
+              query: props.location,
+              limit: 1
+            })
+            .send()
+            .then((res) => {
+              if (!res.body?.features?.length) {
+                console.log("error");
+                return;
+              }
+              const center = res.body.features[0].center;
+              new mapboxgl.Marker().setLngLat(center).addTo(map.current);
+              props.addMapMarker(props.location);
+
+              setLatitude(center[1]);
+              setLongitude(center[0]);
+              map.current.flyTo({
+                center: center
+              })
+            })
       });
 
       useEffect(() => {
@@ -32,13 +56,6 @@ const mapContainer = useRef(null);
           });
       });
 
-      useEffect(() => {
-        if (!map.current) return;
-        map.current.on("load", () => {
-            new mapboxgl.Marker().setLngLat([-123, 49]).addTo(map.current);
-        })
-      })
-
       return (
         <div>
             <div ref={mapContainer} style={{"height": "400px"}} />
@@ -46,4 +63,17 @@ const mapContainer = useRef(null);
         );
 
 }
-export default Map;
+
+const mapStateToProps = (state) => {
+  return {
+    marker: state.events.marker
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addMapMarker: (marker) => addMapMarker(dispatch, marker)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

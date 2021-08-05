@@ -49,6 +49,7 @@ const Button1 = styled(Button)({
 function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
 
+  console.log("RE-RENDER with location:" + event.location);
   const {id} = useParams();
 
   const [isParticipant, setIsParticipant] = useState(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
@@ -114,7 +115,7 @@ function EventDetails(props) {
             <EventComments eventId={id} comments={event.comments}/>
           </Box2>
           <Box2>
-            <Map/>
+            <Map location={event.location}/>
           </Box2>
         </CardContent>
       </EventCard>
