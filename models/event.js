@@ -16,6 +16,9 @@ const EventSchema = new Schema({
   createdAt: Date,
   lastModified: Date,
   comments: [Object],
+  latitude: Number, 
+  longitude: Number,
+  useCoordinates: Boolean
 });
 EventSchema.index({'$**': 'text'});
 

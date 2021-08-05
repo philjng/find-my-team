@@ -7,6 +7,7 @@ import {
   Button,
   Select,
   MenuItem,
+  Checkbox
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import React, { useState } from "react";
@@ -57,6 +58,9 @@ function Create(props) {
   const [tagText, setTagText] = useState("");
   const [tags, setTags] = useState([]);
   const [eventGroup, setEventGroup] = useState("");
+  const [isCoordinate, setIsCoordinate] = useState(false);
+  const [eventLatitude, setEventLatitude] = useState(0);
+  const [eventLongitude, setEventLongitude] = useState(0);
 
   const history = useHistory()
 
@@ -94,6 +98,9 @@ function Create(props) {
       .post("/api/events", {
         title: eventTitle,
         location: eventLocation.trim() === "" ? "No location" : eventLocation,
+        latitude: eventLatitude,
+        longitude: eventLongitude,
+        useCoordinates: isCoordinate,
         description: eventDescription.trim() === "" ? "No description" : eventDescription,
         start: new Date(eventStart),
         end: new Date(eventEnd),
@@ -113,6 +120,9 @@ function Create(props) {
         setEventEnd("");
         setTags([]);
         setEventGroup("");
+        setIsCoordinate(false);
+        setEventLatitude(0);
+        setEventLongitude(0);
       })
       .catch((err) => console.log(err));
   };
@@ -134,6 +144,24 @@ function Create(props) {
                 onChange={(e) => setEventTitle(e.target.value)}
               />
             </Box>
+            {isCoordinate ? 
+            <Box>
+            <Typography>Coordinates</Typography>
+            <Input
+              variant="filled"
+              size="small"
+              value={eventLatitude}
+              onChange={(e) => setEventLatitude(e.target.value)}
+            />
+             <Input
+              variant="filled"
+              size="small"
+              value={eventLongitude}
+              onChange={(e) => setEventLongitude(e.target.value)}
+            />
+            <Checkbox value={isCoordinate} onClick={(e) => setIsCoordinate(!isCoordinate)}/>
+          </Box>
+          :
             <Box>
               <Typography>Location</Typography>
               <Input
@@ -142,7 +170,11 @@ function Create(props) {
                 value={eventLocation}
                 onChange={(e) => setEventLocation(e.target.value)}
               />
+               <Checkbox value={isCoordinate} onClick={(e) => setIsCoordinate(!isCoordinate)}/>
+              
             </Box>
+
+            }
             <Box>
               <Typography>Description</Typography>
               <Input

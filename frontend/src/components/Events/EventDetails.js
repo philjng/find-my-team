@@ -3,7 +3,7 @@ import TagChips from "./TagChips.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
 import EventComments from "./EventComments";
-import Map from "./Map";
+import DisplayMap from "./DisplayMap";
 import {
   Container,
   Typography,
@@ -49,7 +49,6 @@ const Button1 = styled(Button)({
 function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
 
-  console.log("RE-RENDER with location:" + event.location);
   const {id} = useParams();
 
   const [isParticipant, setIsParticipant] = useState(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
@@ -115,7 +114,7 @@ function EventDetails(props) {
             <EventComments eventId={id} comments={event.comments}/>
           </Box2>
           <Box2>
-            <Map location={event.location}/>
+            <DisplayMap location={event.location} latitude={event.latitude} longitude={event.longitude} useCoordinates={event.useCoordinates}/>
           </Box2>
         </CardContent>
       </EventCard>
