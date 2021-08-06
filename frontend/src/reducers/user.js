@@ -83,9 +83,6 @@ const userReducer = (state = initialState, action) => {
         tags: action.payload.tags,
       };
     }
-    case "SEARCH_USERS": {
-      return { ...state, searchResults: action.payload };
-    }
     default:
       return state;
   }
