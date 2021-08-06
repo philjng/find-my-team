@@ -16,11 +16,11 @@ const EventSchema = new Schema({
   createdAt: Date,
   lastModified: Date,
   comments: [Object],
-  latitude: Number, 
+  latitude: Number,
   longitude: Number,
-  useCoordinates: Boolean
+  useCoordinates: Boolean,
 });
-EventSchema.index({'$**': 'text'});
+EventSchema.index({ "$**": "text" });
 
 const Event = mongoose.model("Event", EventSchema);
 

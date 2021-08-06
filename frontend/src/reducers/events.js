@@ -37,11 +37,11 @@ const mapReducer = (marker = "", action) => {
     return action.payload;
   }
   return marker;
-}
+};
 
 export default combineReducers({
   events: eventsReducer,
   event: eventReducer,
   searchResults: searchResultsReducer,
-  marker: mapReducer
+  marker: mapReducer,
 });

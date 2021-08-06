@@ -1,4 +1,5 @@
 import Event from "./Event.js";
+import EventMap from "./EventMap";
 import React from "react";
 import { useState } from "react";
 import {
@@ -16,8 +17,13 @@ const SCContainer = styled(Container)({
   textAlign: "center",
 });
 
+const ButtonGroup1 = styled(ButtonGroup)({
+  margin: "3rem",
+});
+
 function EventsContainer(props) {
   const [filter, setFilter] = useState("all");
+  const [mapView, setMapView] = useState(false);
   const filterEvents = (events, filter) => {
     switch (filter) {
       case "all":
@@ -35,28 +41,41 @@ function EventsContainer(props) {
   return (
     <SCContainer className="events_container">
       <Box>
-        <ButtonGroup variant="text" aria-label="contained primary button group">
+        <ButtonGroup1
+          variant="text"
+          aria-label="contained primary button group"
+        >
           <Button onClick={() => setFilter("all")}>All</Button>
           <Button onClick={() => setFilter("upcoming")}>Upcoming</Button>
-        </ButtonGroup>
-        <List
-          disablePadding={true}
-          dense={true}
-          style={{ maxHeight: "50%", overflow: "auto" }}
+        </ButtonGroup1>
+        <ButtonGroup1
+          variant="text"
+          aria-label="contained primary button group"
         >
-          {filterEvents(props.events, filter).map((event) => (
-            <React.Fragment key={event._id}>
-              <ListItem>
-                <Event info={event}/>
-              </ListItem>
-              <Divider variant="middle" component="li" />
-            </React.Fragment>
-          ))}
-        </List>
+          <Button onClick={() => setMapView(false)}>List</Button>
+          <Button onClick={() => setMapView(true)}>Map</Button>
+        </ButtonGroup1>
+        {mapView ? (
+          <EventMap events={filterEvents(props.events, filter)} />
+        ) : (
+          <List
+            disablePadding={true}
+            dense={true}
+            style={{ maxHeight: "50%", overflow: "auto" }}
+          >
+            {filterEvents(props.events, filter).map((event) => (
+              <React.Fragment key={event._id}>
+                <ListItem>
+                  <Event info={event} />
+                </ListItem>
+                <Divider variant="middle" component="li" />
+              </React.Fragment>
+            ))}
+          </List>
+        )}
       </Box>
     </SCContainer>
   );
 }
-
 
 export default EventsContainer;
