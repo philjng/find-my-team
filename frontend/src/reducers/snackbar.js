@@ -1,26 +1,28 @@
 const initialState = {
   isOpen: false,
   severity: "",
-  message: ""
-}
+  message: "",
+};
 
 export const snackbar = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case "SHOW_SNACKBAR": {
       return {
         ...state,
         isOpen: true,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     }
     case "CLEAR_SNACKBAR": {
       return {
         ...state,
-        ...initialState
-      }
+        ...initialState,
+      };
     }
     default: {
-      return { ...state }
+      return { ...state };
     }
   }
-}
+};
+
+export default snackbar;

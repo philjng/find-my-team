@@ -26,6 +26,8 @@ export const groups = (state = initialState, action) => {
       };
     }
     default:
-      return state
+      return state;
   }
 };
+
+export default groups;
