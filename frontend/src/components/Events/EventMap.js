@@ -9,13 +9,14 @@ function EventMap(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [isRendered, setIsRendered] = useState(false);
+  const [viewableEvents, setViewableEvents] = useState([]);
 
   const initial_lat = 49.2827;
   const initial_lon = -123.12;
   const initial_zoom = 2;
 
   useEffect(() => {
-    if (map.current && isRendered) return;
+    if (map.current && isRendered && viewableEvents === props.events) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
@@ -25,6 +26,7 @@ function EventMap(props) {
 
     props.events.forEach((event) => {
       setIsRendered(true);
+      setViewableEvents(props.events);
       if (event.useCoordinates) {
         let center = [event.longitude, event.latitude];
         let popup = new mapboxgl.Popup().setHTML(
