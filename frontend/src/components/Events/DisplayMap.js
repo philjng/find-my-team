@@ -1,5 +1,6 @@
 // Followed mapbox tutorials: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/ and https://docs.mapbox.com/mapbox-gl-js/example/marker-from-geocode/
-import {useEffect, useState, useRef} from "react";
+
+import {useEffect, useRef} from "react";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import mapboxSdk from "@mapbox/mapbox-sdk/services/geocoding";
@@ -11,7 +12,7 @@ const _ = require("lodash");
 function DisplayMap(props) {
 
 const mapContainer = useRef(null);
-  const map = useRef(null);
+const map = useRef(null);
   // const [latitude, setLatitude] = useState(49.2827);
   // const [longitude, setLongitude] = useState(-123.12);
   // const [zoom, setZoom] = useState(9);
