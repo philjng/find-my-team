@@ -42,12 +42,7 @@ export const participantJoin = async (dispatch, eventId, userId, username) => {
   }
 };
 
-export const participantLeave = async (
-  dispatch,
-  eventId,
-  userId,
-  username
-) => {
+export const participantLeave = async (dispatch, eventId, userId, username) => {
   try {
     const res = await genericApi.patch(
       `/api/events/${eventId}/removeParticipant`,
@@ -154,6 +149,6 @@ export const searchEvents = async (dispatch, searchText) => {
 export const addMapMarker = (dispatch, marker) => {
   dispatch({
     type: "ADD_MAP_MARKER",
-    payload: marker
+    payload: marker,
   });
 };
