@@ -29,7 +29,6 @@ import { useAuth } from "../../context/AuthContext";
 import { connect } from "react-redux";
 import { signUpAction } from "../../actions/user";
 import { TAGS } from "../../tags";
-import { genericApi } from "../../api/genericApi";
 import { showSnackbar } from "../../actions/snackbar";
 import { ERROR, SUCCESS } from "../Snackbar/SnackbarSeverityConstants";
 

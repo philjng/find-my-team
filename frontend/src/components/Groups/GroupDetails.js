@@ -102,7 +102,7 @@ function GroupDetails(props) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    getGroupPageData(id)
+    getGroupPageData(id);
   }, [id, getGroupPageData]);
 
   const handleDelete = () => {
@@ -228,7 +228,7 @@ function GroupDetails(props) {
             {groupMembers.map((groupMember) => (
               <Link to={`/profile/${groupMember._id}`} key={groupMember._id}>
                 <Member>
-                  <Avatar />
+                  <Avatar src={groupMember.image} />
                   <Name align="center">{groupMember.displayName}</Name>
                 </Member>
               </Link>
