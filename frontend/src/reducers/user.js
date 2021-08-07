@@ -25,13 +25,7 @@ const userReducer = (state = initialState, action) => {
         user_id: action.payload.user_id,
       };
     case "LOGOUT":
-      return {
-        ...initialState,
-      };
-    case "SIGNUP":
-      return {
-        ...state,
-      };
+      return initialState;
     case "ADD_GROUP": {
       return {
         ...state,

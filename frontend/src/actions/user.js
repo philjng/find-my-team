@@ -15,9 +15,19 @@ export const logoutAction = () => {
   };
 };
 
-export const signUpAction = () => {
+export const signUpAction = (id, data) => async (dispatch) => {
+  const res = await genericApi.post(`/api/users`, {
+    ...data,
+    eventsJoined: [],
+    eventsCreated: [],
+    groups: [],
+    _id: id,
+    lastModified: new Date(),
+    image: "",
+  });
   return {
     type: "SIGNUP",
+    payload: res.data,
   };
 };
 
