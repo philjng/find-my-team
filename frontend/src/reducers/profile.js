@@ -14,6 +14,7 @@ const initialState = {
   tags: [],
   emailAddress: "",
   lastModified: "",
+  image: "",
 };
 
 export const profileReducer = (state = initialState, action) => {

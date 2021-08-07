@@ -12,9 +12,10 @@ const UserSchema = new Schema({
   eventsCreated: [Schema.Types.ObjectId],
   groupsJoined: [Schema.Types.ObjectId],
   groupsCreated: [Schema.Types.ObjectId],
+  image: String,
   _id: String,
 });
-UserSchema.index({'$**': 'text'});
+UserSchema.index({ "$**": "text" });
 
 const User = mongoose.model("User", UserSchema);
 

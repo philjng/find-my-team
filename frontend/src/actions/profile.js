@@ -51,11 +51,24 @@ export const getUserProfile = (id) => async (dispatch) => {
 };
 
 export const editUserProfile = (id, data) => async (dispatch) => {
+  // optimistically go through with the changes, otherwise it takes up to 3 seconds
+  dispatch({
+    type: "GET_USER_PROFILE",
+    payload: data,
+  });
+  dispatch({
+    type: "GET_USER",
+    payload: data,
+  });
   try {
     const res = await genericApi.put(`/api/users/${id}`, data);
     dispatch({
       type: "GET_USER_PROFILE",
       payload: res.data,
+    });
+    dispatch({
+      type: "GET_USER",
+      payload: data,
     });
     dispatch(showSnackbar(SUCCESS, "Your changes have been saved."));
   } catch (e) {
@@ -70,5 +83,9 @@ export const editUserProfile = (id, data) => async (dispatch) => {
         "There was an error with saving your changes. Please try again"
       )
     );
+    dispatch({
+      type: "GET_USER",
+      payload: data,
+    });
   }
 };

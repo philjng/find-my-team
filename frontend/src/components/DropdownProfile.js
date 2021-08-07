@@ -1,28 +1,17 @@
 import React from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {AccountCircle} from "@material-ui/icons";
-import {DropButton} from "./DropdownAdd";
-import {Link} from "react-router-dom";
-import {logoutAction} from "../actions/user";
-import {connect} from "react-redux";
-import {useAuth} from "../context/AuthContext";
-
-const mapStateToProps = (state) => {
-  return {
-    userId: state.user.user_id,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleLogout: () => dispatch(logoutAction()),
-  };
-};
+import { DropButton } from "./DropdownAdd";
+import { Link } from "react-router-dom";
+import { logoutAction } from "../actions/user";
+import { connect } from "react-redux";
+import { useAuth } from "../context/AuthContext";
+import { Avatar } from "@material-ui/core";
 
 const DropdownProfile = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const {logout, currentUser} = useAuth();
+  const { logout, currentUser } = useAuth();
+  const { user } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,15 +23,18 @@ const DropdownProfile = (props) => {
       try {
         await logout();
         props.handleLogout();
-      } catch {
-      }
+      } catch {}
     }
   };
 
   return (
     <div>
-      <DropButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <AccountCircle/>
+      <DropButton
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <Avatar src={user.image} />
       </DropButton>
       <Menu
         id="simple-menu"
@@ -51,14 +43,30 @@ const DropdownProfile = (props) => {
         open={Boolean(anchorEl)}
         onClose={(e) => handleClose(e)}
         getContentAnchorEl={null}
-        anchorOrigin={{vertical: "bottom", horizontal: "right"}}
-        transformOrigin={{vertical: "top", horizontal: "right"}}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem onClick={(e) => handleClose(e)}><Link to={`/profile/${currentUser.uid}`}>My Profile</Link></MenuItem>
-        <MenuItem onClick={(e) => handleClose(e)}><Link to="/">Logout</Link></MenuItem>
+        <MenuItem onClick={(e) => handleClose(e)}>
+          <Link to={`/profile/${currentUser.uid}`}>My Profile</Link>
+        </MenuItem>
+        <MenuItem onClick={(e) => handleClose(e)}>
+          <Link to="/">Logout</Link>
+        </MenuItem>
       </Menu>
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleLogout: () => dispatch(logoutAction()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropdownProfile);

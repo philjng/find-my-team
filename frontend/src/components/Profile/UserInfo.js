@@ -14,6 +14,7 @@ import {
   ListItemText,
   Box,
   Typography,
+  Button,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
@@ -68,6 +69,11 @@ const SCBox = styled(Box)({
   alignItems: "center",
 });
 
+const SCAvatar = styled(Avatar)({
+  height: "400px",
+  width: "400px",
+});
+
 function UserInfo(props) {
   const classes = useStyles();
 
@@ -112,18 +118,27 @@ function UserInfo(props) {
     setInitialForm(user);
   }, [user]);
 
+  const handleImageUpload = (event) => {
+    var file = event.target.files[0];
+    const reader = new FileReader();
+    // Check file is image
+    // Also prevents error when cancelling image upload
+    if (file?.type.match("image.*")) {
+      reader.readAsDataURL(file);
+    }
+
+    reader.onloadend = function (e) {
+      setForm({
+        ...form,
+        image: reader.result,
+      });
+    };
+  };
+
   return (
     <SCBox>
       <SCCard>
         <CardContent>
-          <Grid container align="center" direction="column">
-            <Grid item>
-              <Avatar alt="Profile Picture" className={classes.profile_pic} />
-            </Grid>
-            <Grid item>
-              <Typography>{form.emailAddress}</Typography>
-            </Grid>
-          </Grid>
           {isOwner && (
             <Grid container direction="row-reverse">
               <Grid item>
@@ -138,6 +153,32 @@ function UserInfo(props) {
               </Grid>
             </Grid>
           )}
+          <Grid container align="center" direction="column">
+            <Grid item>
+              <SCAvatar src={isEditing ? form.image : initialForm.image} />
+            </Grid>
+            <Grid item>
+              <Typography>{form.emailAddress}</Typography>
+            </Grid>
+            {isEditing && (
+              <Grid item>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  style={{ display: "none" }}
+                  id="upload-button"
+                  multiple
+                  type="file"
+                  onChange={handleImageUpload}
+                />
+                <label htmlFor="upload-button">
+                  <Button variant="outlined" component="span">
+                    Upload
+                  </Button>
+                </label>
+              </Grid>
+            )}
+          </Grid>
           <FormControl fullWidth>
             <TextField
               variant="outlined"
