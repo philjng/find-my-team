@@ -229,7 +229,7 @@ function GroupDetails(props) {
               <Link to={`/profile/${groupMember._id}`} key={groupMember._id}>
                 <Member>
                   <Avatar />
-                  <Name align="center">{groupMember.displayName}</Name>
+                  <Name align="center">{groupMember._id === user.user_id ? groupMember.displayName +  " (You)" : groupMember.displayName}</Name>
                 </Member>
               </Link>
             ))}
