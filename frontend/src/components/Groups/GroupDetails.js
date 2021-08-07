@@ -19,6 +19,7 @@ import {
 } from "../../actions/groups";
 import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
+import TagChips from "../Events/TagChips";
 
 const _ = require("lodash");
 
@@ -193,7 +194,7 @@ function GroupDetails(props) {
             </Box>
             <Box>
               <Typography variant="h6">Tags</Typography>
-              <Typography>{group.tags.join(", ")}</Typography>
+              <TagChips genreTags={group.tags} />
             </Box>
           </LeftBox>
           {/*TODO: images for group*/}
