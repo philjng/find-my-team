@@ -11,7 +11,6 @@ import {
   InputLabel,
   Select,
   Checkbox,
-  ListItemText,
   Box,
   Typography,
   Button,
@@ -26,7 +25,6 @@ import { TAGS } from "../../tags";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUserProfile } from "../../actions/profile";
-import SportsList from "./SportsList";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
