@@ -29,12 +29,11 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    return auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      getUser(dispatch, user.uid).finally(setLoading(false))
+      dispatch(getUser(user.uid)).finally(setLoading(false))
     })
 
-    return unsubscribe;
   }, [dispatch]);
 
   const value = {

@@ -1,5 +1,5 @@
 import {useHistory} from "react-router-dom";
-import { Container, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import {ItemContainer} from "../Groups/Group";
 
