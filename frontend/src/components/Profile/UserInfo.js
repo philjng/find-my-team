@@ -23,7 +23,7 @@ import { Check, Input } from "@material-ui/icons";
 import { TAGS } from "../../tags";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
-import { editUserProfile, getUser } from "../../actions/user";
+import { editUserProfile, getUserProfile } from "../../actions/profile";
 import SportsList from "./SportsList";
 import { useAuth } from "../../context/AuthContext";
 
@@ -74,10 +74,10 @@ function UserInfo(props) {
   const [initialForm, setInitialForm] = useState({});
   const [form, setForm] = useState({ tags: [] });
   const [isEditing, setIsEditing] = useState(false);
-  const { getUser, editUserProfile, user } = props;
+  const { getUserProfile, editUserProfile, user } = props;
   const { currentUser } = useAuth();
   const { id } = useParams();
-  const isOwner = currentUser.uid === id
+  const isOwner = currentUser.uid === id;
 
   const handleFormChange = (property) => (event) => {
     setForm({
@@ -89,7 +89,6 @@ function UserInfo(props) {
   const handleLastNameChange = handleFormChange("lastName");
   const handleDisplayNameChange = handleFormChange("displayName");
   const handleTagsChange = handleFormChange("tags");
-  
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -105,8 +104,8 @@ function UserInfo(props) {
   };
 
   useEffect(() => {
-    getUser(id);
-  }, [getUser, id]);
+    getUserProfile(id);
+  }, [getUserProfile, id]);
 
   useEffect(() => {
     setForm(user);
@@ -125,14 +124,20 @@ function UserInfo(props) {
               <Typography>{form.emailAddress}</Typography>
             </Grid>
           </Grid>
-          {isOwner && <Grid container direction="row-reverse">
-            <Grid item>
-              <Fab disabled={isEditing} variant="extended" onClick={handleEdit}>
-                <SCEditIcon />
-                Edit
-              </Fab>
+          {isOwner && (
+            <Grid container direction="row-reverse">
+              <Grid item>
+                <Fab
+                  disabled={isEditing}
+                  variant="extended"
+                  onClick={handleEdit}
+                >
+                  <SCEditIcon />
+                  Edit
+                </Fab>
+              </Grid>
             </Grid>
-          </Grid>}
+          )}
           <FormControl fullWidth>
             <TextField
               variant="outlined"
@@ -228,13 +233,13 @@ function UserInfo(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.profile,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: (id) => dispatch(getUser(id)),
+    getUserProfile: (id) => dispatch(getUserProfile(id)),
     editUserProfile: (id, data) => dispatch(editUserProfile(id, data)),
   };
 };

@@ -209,19 +209,3 @@ export const removeMember = (groupId, userId) => async (dispatch) => {
     dispatch(getGroupPageData(groupId));
   }
 };
-
-export const searchGroups = async (dispatch, searchText) => {
-  try {
-    genericApi.get(`api/groups/search/${searchText}`).then((res) => {
-      dispatch({
-        type: "SEARCH_GROUPS",
-        payload: res.data,
-      });
-    });
-  } catch (e) {
-    dispatch({
-      type: "ERROR_GROUPS",
-      payload: console.log(e),
-    });
-  }
-};

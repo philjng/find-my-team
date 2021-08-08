@@ -1,8 +1,6 @@
 import { TextField, Container, Button, Card } from "@material-ui/core";
 import { useState } from "react";
-import { searchEvents } from "../../actions/events";
-import { searchGroups } from "../../actions/groups";
-import { searchUsers } from "../../actions/user";
+import { searchUsers, searchGroups, searchEvents } from "../../actions/search";
 import { connect } from "react-redux";
 import React from "react";
 import EventSearchBox from "../Events/EventSearchBox";
@@ -32,9 +30,16 @@ const SearchBar = styled(TextField)({
 });
 
 function Search(props) {
-  const [searchText, setSearchText] = useState("Type here");
+  const [searchText, setSearchText] = useState("");
 
-  const { searchEvents, searchGroups, searchUsers } = props;
+  const {
+    searchEvents,
+    searchGroups,
+    searchUsers,
+    eventSearchResults,
+    groupSearchResults,
+    userSearchResults,
+  } = props;
 
   const performSearch = () => {
     searchEvents(searchText);
@@ -47,23 +52,24 @@ function Search(props) {
       <SearchCard>
         <SearchBar
           value={searchText}
+          placeholder="Type here"
           onChange={(e) => setSearchText(e.target.value)}
           InputProps={{ disableUnderline: true }}
         />
         <Button onClick={performSearch}>Search</Button>
       </SearchCard>
-      <EventSearchBox eventSearchResults={props.eventSearchResults} />
-      <GroupSearchBox groupSearchResults={props.groupSearchResults} />
-      <UserSearchBox userSearchResults={props.userSearchResults} />
+      <EventSearchBox eventSearchResults={eventSearchResults} />
+      <GroupSearchBox groupSearchResults={groupSearchResults} />
+      <UserSearchBox userSearchResults={userSearchResults} />
     </Container>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    eventSearchResults: state.events.searchResults,
-    groupSearchResults: state.groups.searchResults,
-    userSearchResults: state.user.searchResults,
+    eventSearchResults: state.search.events,
+    groupSearchResults: state.search.groups,
+    userSearchResults: state.search.users,
   };
 };
 

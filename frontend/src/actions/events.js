@@ -130,22 +130,6 @@ export const getEvent = async (dispatch, id) => {
   }
 };
 
-export const searchEvents = async (dispatch, searchText) => {
-  try {
-    genericApi.get(`api/events/search/${searchText}`).then((res) => {
-      dispatch({
-        type: "SEARCH_EVENTS",
-        payload: res.data,
-      });
-    });
-  } catch (e) {
-    dispatch({
-      type: "ERROR_EVENTS",
-      payload: console.log(e),
-    });
-  }
-};
-
 export const addMapMarker = (dispatch, marker) => {
   dispatch({
     type: "ADD_MAP_MARKER",

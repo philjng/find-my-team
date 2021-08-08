@@ -54,6 +54,21 @@ router.put("/:id", function (req, res, next) {
   );
 });
 
+router.get("/:id/groups", function (req, res, next) {
+  User.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (error, result) => {
+      if (error) {
+        res.status(error.code).send(error);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 router.get("/search/:text", function (req, res, next) {
   const searchText = req.params.text;
   User.find(
