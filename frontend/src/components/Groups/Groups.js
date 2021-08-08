@@ -51,9 +51,6 @@ const GroupsContainer = (props) => {
             </Box>
           ))}
         </List>
-        {/*{filtered.map((group) => (*/}
-        {/*  <Group group={group} key={group._id} />*/}
-        {/*))}*/}
       </AllGroups>
       <UserGroups/>
     </GroupsPage>
