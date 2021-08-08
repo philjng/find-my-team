@@ -119,7 +119,9 @@ function GroupDetails(props) {
   };
 
   const leaveGroup = () => {
-    removeMember(group._id, user.user_id);
+    window.confirm(
+      "Are you sure you want to leave this group?"
+    ) && removeMember(group._id, user.user_id);
   };
 
   // TODO: might want to abstract parts away and simplify this js file
