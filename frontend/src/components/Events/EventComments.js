@@ -11,7 +11,6 @@ import { styled } from "@material-ui/styles";
 import { addComment } from "../../actions/events.js";
 import "firebase/auth";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext.js";
 
 const ListItem1 = styled(ListItem)({
   border: "1px solid #272643",
@@ -37,10 +36,10 @@ const Button1 = styled(Button)({
 function EventComments(props) {
   const [textComment, setTextComment] = useState("");
 
-  const { currentUser } = useAuth();
+  const { user } = props;
 
   const submitTextComment = () => {
-    props.addComment(props.eventId, currentUser.email, textComment);
+    props.addComment(props.eventId, user.displayName, textComment);
     setTextComment("");
   };
 
@@ -78,7 +77,7 @@ function EventComments(props) {
 const mapStateToProps = (state) => {
   return {
     event: state.events.viewableEvent,
-    userId: state.user.user_id,
+    user: state.user,
     text: state.events.commentText,
     events: state.events.events,
   };

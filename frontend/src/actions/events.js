@@ -21,12 +21,12 @@ export const viewAllEvents = (events) => {
   };
 };
 
-export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
+export const participantJoin = async (dispatch, eventId, userId, username) => {
   try {
     const res = await genericApi.patch(`/api/events/${eventId}/participants`, {
       participant: {
         uid: userId,
-        email: userEmail,
+        displayName: username,
       },
     });
     dispatch({
@@ -42,19 +42,14 @@ export const participantJoin = async (dispatch, eventId, userId, userEmail) => {
   }
 };
 
-export const participantLeave = async (
-  dispatch,
-  eventId,
-  userId,
-  userEmail
-) => {
+export const participantLeave = async (dispatch, eventId, userId, username) => {
   try {
     const res = await genericApi.patch(
       `/api/events/${eventId}/removeParticipant`,
       {
         participant: {
           uid: userId,
-          email: userEmail,
+          displayName: username,
         },
       }
     );
@@ -133,4 +128,11 @@ export const getEvent = async (dispatch, id) => {
       payload: e,
     });
   }
+};
+
+export const addMapMarker = (dispatch, marker) => {
+  dispatch({
+    type: "ADD_MAP_MARKER",
+    payload: marker,
+  });
 };

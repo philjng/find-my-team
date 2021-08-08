@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
+import 'mapbox-gl/dist/mapbox-gl.css';
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
