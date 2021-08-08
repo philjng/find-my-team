@@ -12,12 +12,18 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 
+const TabButton = styled(Button)({
+  "&:focus": {
+    background: "#d3d3d3" // the background button color
+  }
+})
+
 const SCContainer = styled(Container)({
   textAlign: "center",
 });
 
 function EventsContainer(props) {
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("upcoming");
   const filterEvents = (events, filter) => {
     switch (filter) {
       case "all":
@@ -36,8 +42,8 @@ function EventsContainer(props) {
     <SCContainer className="events_container">
       <Box>
         <ButtonGroup variant="text" aria-label="contained primary button group">
-          <Button onClick={() => setFilter("all")}>All</Button>
-          <Button onClick={() => setFilter("upcoming")}>Upcoming</Button>
+          <TabButton autoFocus onClick={() => setFilter("upcoming")}>Upcoming</TabButton>
+          <TabButton onClick={() => setFilter("all")}>All</TabButton>
         </ButtonGroup>
         <List
           disablePadding={true}
