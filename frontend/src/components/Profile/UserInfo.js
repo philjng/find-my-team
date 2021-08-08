@@ -15,6 +15,7 @@ import {
   Box,
   Typography,
   Button,
+  Chip,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
@@ -64,7 +65,7 @@ const SCEditIcon = styled(EditIcon)({
 });
 
 const SCBox = styled(Box)({
-  marginTop: "80px",
+  margin: "80px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -73,6 +74,10 @@ const SCBox = styled(Box)({
 const SCAvatar = styled(Avatar)({
   height: "400px",
   width: "400px",
+});
+
+const SCChip = styled(Chip)({
+  marginRight: "10px",
 });
 
 function UserInfo(props) {
@@ -255,7 +260,13 @@ function UserInfo(props) {
                 onChange={handleTagsChange}
                 inputProps={<Input />}
                 renderValue={(selected) =>
-                  TAGS.filter((tag) => selected.includes(tag)).join(", ")
+                  TAGS.filter((tag) => selected.includes(tag)).map((item) => {
+                    return isEditing ? (
+                      <SCChip label={item} />
+                    ) : (
+                      <SCChip disabled label={item} />
+                    );
+                  })
                 }
                 MenuProps={{
                   getContentAnchorEl: null,
@@ -264,7 +275,7 @@ function UserInfo(props) {
                 {TAGS.map((tag) => (
                   <MenuItem key={tag} value={tag}>
                     <Checkbox checked={(form?.tags?.indexOf(tag) || 0) > -1} />
-                    <ListItemText primary={tag} />
+                    <SCChip label={tag} />
                   </MenuItem>
                 ))}
               </Select>
