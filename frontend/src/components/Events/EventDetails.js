@@ -8,15 +8,14 @@ import {
   Typography,
   Box,
   Button,
-  CircularProgress, Card, CardContent,
+  CircularProgress, Card, CardContent, Select, MenuItem, FormControl, ButtonGroup, InputLabel,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {getEvent, participantJoin, participantLeave, deleteEvent} from "../../actions/events.js";
 import "firebase/auth";
-import {useParams} from "react-router";
+import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useAuth} from "../../context/AuthContext.js";
-import {useHistory} from "react-router";
+import {useHistory} from "react-router-dom";
 
 const _ = require("lodash");
 
@@ -37,41 +36,53 @@ const Box2 = styled(Box)({
   overflow: "auto",
 });
 
-const Button1 = styled(Button)({
+const Buttons = styled(Box)({
   float: "right",
   marginLeft: "0.5rem"
+})
+
+const Button1 = styled(Button)({
+  marginRight: "1rem"
 });
 
 function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
-
   const {id} = useParams();
-  const {currentUser} = useAuth();
 
-  const [isParticipant, setIsParticipant] = useState(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
+  const isCreator = event.creatorId === user.user_id;
+  const [isParticipant, setIsParticipant] = useState(false)
 
   const date = new Date(event.startTime).toUTCString();
 
   useEffect(() => {
     getEvent(id)
-      .then(() => {
-      })
   }, [getEvent, id]);
+
+  useEffect(() => {
+    !_.isEmpty(event) && setIsParticipant(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
+  }, [event, user.user_id])
 
   const history = useHistory();
 
   const addParticipant = () => {
-    participantJoin(id, currentUser.uid, currentUser.email)
+    participantJoin(id, user.user_id, user.email)
       .then(() => {
         setIsParticipant(true)
       })
   };
 
   const removeParticipant = () => {
-    participantLeave(id, currentUser.uid, currentUser.email)
+    participantLeave(id, user.user_id, user.email)
       .then(() => {
         setIsParticipant(false)
       })
+  }
+
+  const handleChange = (e) => {
+    const willParticipate = e.target.value;
+    if (e.target.value !== isParticipant) {
+      willParticipate ? addParticipant() : removeParticipant()
+    }
   }
 
   const removeEvent = () => {
@@ -87,15 +98,22 @@ function EventDetails(props) {
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
-          <Button1 onClick={removeEvent} disableElevation variant="contained" color="secondary">Delete Event</Button1>
-          <Button1
-            disableElevation
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              isParticipant ? removeParticipant() : addParticipant()
-            }}
-          >{isParticipant ? "Going" : "Not Going"}</Button1>
+          <Buttons>
+            <Button1 onClick={removeEvent} disableElevation variant="contained">Edit Event</Button1>
+            <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
+              <InputLabel id="outlined-participation-label">{isParticipant ? "Going" : "Not Going"}</InputLabel>
+              <Select
+                labelId="participation-label"
+                id="participation"
+                value={isParticipant}
+                onChange={handleChange}
+                label="participation"
+              >
+                <MenuItem value={true}>Going</MenuItem>
+                <MenuItem value={false}> Not Going</MenuItem>
+              </Select>
+            </FormControl>
+          </Buttons>
           <Typography component={'span'}>
             <Box fontWeight="fontWeightMedium">{event.location}</Box>
             <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
