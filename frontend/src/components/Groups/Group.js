@@ -4,29 +4,30 @@ import {Typography1} from "../Events/Event";
 import TagChips from "../Events/TagChips";
 import {useHistory} from "react-router-dom";
 
-const GroupContainer = styled(Container)({
+export const ItemContainer = styled(Container)({
   "&:hover": {
     background: "#ebfaf7",
     cursor: "pointer"
-  }
+  },
+  marginBottom: "1rem"
 })
 
 const Group = (props) => {
   const {group} = props;
-  const history = useHistory()
+  const history = useHistory();
 
   const handleClick = () => {
     history.push(`/groups/${group._id}`)
   }
 
   return (
-    <GroupContainer onClick={handleClick}>
+    <ItemContainer disableGutters={props.isMainList} onClick={handleClick}>
       <Typography1 variant="h5">{group.name}</Typography1>
       <TagChips genreTags={group.tags}/>
       <Typography1 variant="body2">
         Number of members: {group.groupSize}
       </Typography1>
-    </GroupContainer>
+    </ItemContainer>
   );
 };
 

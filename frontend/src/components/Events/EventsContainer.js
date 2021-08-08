@@ -39,7 +39,7 @@ function EventsContainer(props) {
   };
 
   return (
-    <SCContainer className="events_container">
+    <SCContainer>
       <Box>
         <ButtonGroup variant="text" aria-label="contained primary button group">
           <TabButton autoFocus onClick={() => setFilter("upcoming")}>Upcoming</TabButton>

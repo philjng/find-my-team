@@ -45,7 +45,7 @@ const GroupsContainer = (props) => {
           {filtered.map((group) => (
             <Box key={group._id}>
               <ListItem>
-                <Group group={group} />
+                <Group group={group} isMainList={true}/>
               </ListItem>
               <Divider variant="middle" component="li"/>
             </Box>
