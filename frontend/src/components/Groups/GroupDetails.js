@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import {
-  Avatar,
   Box,
   Button,
   Card,

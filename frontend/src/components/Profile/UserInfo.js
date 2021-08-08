@@ -27,7 +27,6 @@ import { connect } from "react-redux";
 import { editUserProfile, getUserProfile } from "../../actions/profile";
 import SportsList from "./SportsList";
 import { useAuth } from "../../context/AuthContext";
-import { Image, Transformation } from "cloudinary-react";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
 const _ = require("lodash");
