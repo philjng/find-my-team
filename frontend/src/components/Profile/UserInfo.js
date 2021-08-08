@@ -286,7 +286,6 @@ function UserInfo(props) {
           </FormControl>
         </CardContent>
       </SCCard>
-      <SportsList />
     </SCBox>
   );
 }
