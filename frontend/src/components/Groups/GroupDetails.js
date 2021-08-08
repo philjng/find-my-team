@@ -196,7 +196,7 @@ function GroupDetails(props) {
             </Box>
             <Box>
               <Typography variant="h6">Tags</Typography>
-              <TagChips genreTags={group.tags} />
+              <TagChips tags={group.tags} />
             </Box>
           </LeftBox>
           {/*TODO: images for group*/}

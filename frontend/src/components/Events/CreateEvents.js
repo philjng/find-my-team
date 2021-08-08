@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import { CardHeader } from "../Groups/UserGroups";
 import "firebase/auth";
 import { connect } from "react-redux";
-import { useAuth } from "../../context/AuthContext.js";
 import {useHistory} from "react-router-dom";
 import { genericApi } from "../../api/genericApi";
 
@@ -50,6 +49,7 @@ const Dropdown = styled(Select)({
 });
 
 function Create(props) {
+  const {user} = props;
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -60,8 +60,6 @@ function Create(props) {
   const [eventGroup, setEventGroup] = useState("");
 
   const history = useHistory()
-
-  const { currentUser } = useAuth();
 
   const addTag = () => {
     let tags_cpy = [...tags];
@@ -74,20 +72,23 @@ function Create(props) {
   const handleSubmit = () => {
     genericApi
       .post("/api/events", {
+        creatorId: user.user_id,
+        creator: user.displayName,
         title: eventTitle,
         location: eventLocation,
         description: eventDescription,
-        start: new Date(eventStart),
-        end: new Date(eventEnd),
-        genreTags: tags,
-        user: {
-          uid: currentUser.uid,
-          email: currentUser.email,
-        },
+        startTime: new Date(eventStart),
+        endTime: new Date(eventEnd),
+        participantSize: 1,
+        participants: [user.displayName],
         group: eventGroup,
+        tags: tags,
+        status: "status",
+        createdAt: new Date(),
+        lastModified: new Date(),
+        comments: []
       })
       .then((result) => {
-        console.log("success");
         setEventTitle("");
         setEventLocation("");
         setEventDescription("");
@@ -95,6 +96,7 @@ function Create(props) {
         setEventEnd("");
         setTags([]);
         setEventGroup("");
+        history.push("/events");
       })
       .catch((err) => console.log(err));
   };

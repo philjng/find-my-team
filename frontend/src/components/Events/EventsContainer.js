@@ -45,6 +45,8 @@ function EventsContainer(props) {
           <TabButton autoFocus onClick={() => setFilter("upcoming")}>Upcoming</TabButton>
           <TabButton onClick={() => setFilter("all")}>All</TabButton>
         </ButtonGroup>
+        {props.events.length === 0 ?
+          (<div>"There are no events! Start one yourself!"</div>) : (
         <List
           disablePadding={true}
           dense={true}
@@ -58,7 +60,7 @@ function EventsContainer(props) {
               <Divider variant="middle" component="li" />
             </React.Fragment>
           ))}
-        </List>
+        </List>)}
       </Box>
     </SCContainer>
   );

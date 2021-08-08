@@ -50,23 +50,10 @@ router.get("/search/:text", function (req, res, next) {
 
 /* Create a new event */
 router.post("/", function (req, res, next) {
-  const newEvent = new Event({
-    ...req.body,
-    creator: req.body.user.uid,
-    startTime: new Date(req.body.start),
-    endTime: new Date(req.body.end),
-    participantSize: "1",
-    participants: [req.body.user],
-    group: mongoose.Types.ObjectId(req.body.group),
-    status: "status",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
+  const newEvent = new Event(req.body);
   newEvent.save((error) => {
     if (error) {
-      console.log("Ooops, something happened to event POST");
-      console.log(error);
-      res.send(error);
+      res.status(500).send({ message: error.message || "POST event failed" });
     } else {
       console.log("POST event successful");
       res.send(req.body);

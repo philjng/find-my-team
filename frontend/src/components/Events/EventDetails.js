@@ -8,7 +8,7 @@ import {
   Typography,
   Box,
   Button,
-  CircularProgress, Card, CardContent, Select, MenuItem, FormControl, ButtonGroup, InputLabel,
+  CircularProgress, Card, CardContent, Select, MenuItem, FormControl, InputLabel,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {getEvent, participantJoin, participantLeave, deleteEvent} from "../../actions/events.js";
@@ -50,7 +50,8 @@ function EventDetails(props) {
   const {id} = useParams();
 
   const isCreator = event.creatorId === user.user_id;
-  const [isParticipant, setIsParticipant] = useState(false)
+  const [isParticipant, setIsParticipant] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const date = new Date(event.startTime).toUTCString();
 
@@ -59,7 +60,7 @@ function EventDetails(props) {
   }, [getEvent, id]);
 
   useEffect(() => {
-    !_.isEmpty(event) && setIsParticipant(event?.participants?.map((participants) => participants.uid).includes(user.user_id))
+    !_.isEmpty(event) && setIsParticipant(event.participants.map((participants) => participants.uid).includes(user.user_id))
   }, [event, user.user_id])
 
   const history = useHistory();
@@ -86,11 +87,12 @@ function EventDetails(props) {
   }
 
   const removeEvent = () => {
-    deleteEvent(id);
+    window.confirm(
+      "Are you sure you want to delete this event? This action cannot be undone."
+    ) && deleteEvent(id);
     history.push("/events")
   }
 
-  //TODO: Fix double join bug
   return _.isEmpty(event) ? (
     <CircularProgress/>
   ) : (
@@ -98,10 +100,52 @@ function EventDetails(props) {
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
+          <Typography component={"span"}>
+            <Box fontWeight="fontWeightLight">
+              {"Created by " + (isCreator ? "You" : event.creator)}
+            </Box>
+          </Typography>
           <Buttons>
-            <Button1 onClick={removeEvent} disableElevation variant="contained">Edit Event</Button1>
+            {isCreator && (
+              <Button1
+                disableElevation
+                size="small"
+                variant="contained"
+              >
+                Edit Event
+              </Button1>
+            )}
+            {isEditing && (
+              <Box>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </Button1>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                >
+                  Update
+                </Button1>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => removeEvent()}
+                >
+                  Delete group
+                </Button1>
+              </Box>)}
+            {/*<Button1 onClick={removeEvent} disableElevation variant="contained">Edit Event</Button1>*/}
             <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
-              <InputLabel id="outlined-participation-label">{isParticipant ? "Going" : "Not Going"}</InputLabel>
+              <InputLabel id="outlined-participation-label">Attendance</InputLabel>
               <Select
                 labelId="participation-label"
                 id="participation"
@@ -118,7 +162,7 @@ function EventDetails(props) {
             <Box fontWeight="fontWeightMedium">{event.location}</Box>
             <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
           </Typography>
-          <TagChips genreTags={event.genreTags}/>
+          <TagChips tags={event.tags}/>
           <Box2>
             <EventDescription description={event.description}/>
           </Box2>

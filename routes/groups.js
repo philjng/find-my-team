@@ -60,7 +60,7 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
-/* POST endpoint */
+/* POST endpoint: Create group */
 router.post("/", function (req, res, next) {
   const newGroup = new Group(req.body);
   newGroup.save((error) => {

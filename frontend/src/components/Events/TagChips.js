@@ -8,7 +8,7 @@ const TagChip = styled(Chip)({
 function TagChips(props) {
   return (
     <Box>
-      {props.genreTags.map((tag) => (
+      {props.tags.map((tag) => (
         <TagChip
           label={tag}
           color="primary"

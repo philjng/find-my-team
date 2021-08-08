@@ -23,7 +23,7 @@ const Group = (props) => {
   return (
     <ItemContainer disableGutters={props.isMainList} onClick={handleClick}>
       <Typography1 variant="h5">{group.name}</Typography1>
-      <TagChips genreTags={group.tags}/>
+      <TagChips tags={group.tags}/>
       <Typography1 variant="body2">
         Number of members: {group.groupSize}
       </Typography1>
