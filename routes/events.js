@@ -3,9 +3,10 @@ var router = express.Router();
 const Event = require("../models/event");
 var mongoose = require("mongoose");
 
-/* GET events listing. */
+/* GET all events listing, ordered by the start time of event. */
 router.get("/", function (req, res, next) {
   Event.find()
+    .sort({ startTime: 1 })
     .then((data) => {
       res.send(data);
     })
@@ -16,6 +17,7 @@ router.get("/", function (req, res, next) {
     });
 });
 
+/* GET a single event */
 router.get("/:id", function (req, res, next) {
   Event.findById(req.params.id)
     .then((data) => {
@@ -28,6 +30,7 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
+/* Search for keyword in events collection */
 router.get("/search/:text", function (req, res, next) {
   const searchText = req.params.text;
   Event.find(
@@ -45,6 +48,7 @@ router.get("/search/:text", function (req, res, next) {
     });
 });
 
+/* Create a new event */
 router.post("/", function (req, res, next) {
   const newEvent = new Event({
     ...req.body,
@@ -70,6 +74,7 @@ router.post("/", function (req, res, next) {
   });
 });
 
+/*Add a comment to an event posting */
 router.patch("/:id/comments", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $push: { comments: req.body.comment },
@@ -80,6 +85,7 @@ router.patch("/:id/comments", function (req, res, next) {
     });
 });
 
+/* Add participant */
 router.patch("/:id/participants", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $push: { participants: req.body.participant },
@@ -90,6 +96,7 @@ router.patch("/:id/participants", function (req, res, next) {
     });
 });
 
+/* Remove participant */
 router.patch("/:id/removeParticipant", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $pull: { participants: req.body.participant },
@@ -100,6 +107,7 @@ router.patch("/:id/removeParticipant", function (req, res, next) {
     });
 });
 
+/* Delete event */
 router.delete("/:id", function (req, res, next) {
   Event.findOneAndDelete({ _id: req.params.id })
     .then((result) => {

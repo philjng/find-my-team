@@ -4,7 +4,7 @@ var router = express.Router();
 const Group = require("../models/group");
 const User = require("../models/user");
 
-/* GET groups listing. */
+/* GET groups listing by latest creation date. */
 router.get("/", function (req, res, next) {
   Group.find()
     .sort({ createdAt: -1 })
