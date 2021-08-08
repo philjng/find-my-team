@@ -1,29 +1,29 @@
-import { Card, CardContent } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
-import { Button2, SCLink, Typography1 } from "../Events/Event";
+import {Container} from "@material-ui/core";
+import {styled} from "@material-ui/styles";
+import {Button2, SCLink, Typography1} from "../Events/Event";
+import TagChips from "../Events/TagChips";
 
-const GroupCard = styled(Card)({
-    backgroundColor: `#f7fdfc`,
-    margin: `1rem`
+const GroupContainer = styled(Container)({
+  "&:hover": {
+    background: "#ebfaf7"
+  }
 })
 
 const Group = (props) => {
-  const { group } = props;
+  const {group} = props;
 
   return (
-    <GroupCard>
-      <CardContent>
-        <Typography1 variant="h5">{group.name}</Typography1>
-        <Typography1 variant="body1">Tags: {group.tags.join(", ")}</Typography1>
-        <Typography1 variant="body2">
-          Number of members: {group.groupSize}
-        </Typography1>
-        <Button2 disableElevation size="small" variant="contained">
-          {/*TODO: convert whole card to clickable and have it fetch group data and page*/}
-          <SCLink to={`/groups/${group._id}`}>View Group</SCLink>
-        </Button2>
-      </CardContent>
-    </GroupCard>
+    <GroupContainer>
+      <Typography1 variant="h5">{group.name}</Typography1>
+      <TagChips genreTags={group.tags}/>
+      <Typography1 variant="body2">
+        Number of members: {group.groupSize}
+      </Typography1>
+      <Button2 disableElevation size="small" variant="contained">
+        {/*TODO: convert whole card to clickable and have it fetch group data and page*/}
+        <SCLink to={`/groups/${group._id}`}>View Group</SCLink>
+      </Button2>
+    </GroupContainer>
   );
 };
 

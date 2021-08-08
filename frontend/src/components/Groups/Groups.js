@@ -1,10 +1,10 @@
-import UserGroups, { CardHeader } from "./UserGroups";
-import { Card, Container } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
-import { connect } from "react-redux";
+import UserGroups, {CardHeader} from "./UserGroups";
+import {Box, Card, Container, Divider, List, ListItem} from "@material-ui/core";
+import {styled} from "@material-ui/styles";
+import {connect} from "react-redux";
 import Group from "./Group";
-import { getGroups } from "../../actions/groups";
-import { useEffect } from "react";
+import {getGroups} from "../../actions/groups";
+import {useEffect} from "react";
 
 const GroupsPage = styled(Container)({
   display: `flex`,
@@ -19,7 +19,7 @@ const AllGroups = styled(Card)({
 })
 
 const GroupsContainer = (props) => {
-  const { getGroups } = props;
+  const {getGroups} = props;
   const joinedGroupIds = props.userGroups.joined.map((group) => group._id);
   const createdGroupIds = props.userGroups.created.map((group) => group._id);
   const filtered = props.groups.filter(
@@ -38,11 +38,24 @@ const GroupsContainer = (props) => {
     <GroupsPage>
       <AllGroups>
         <CardHeader variant="h4">Public Groups</CardHeader>
-        {filtered.map((group) => (
-          <Group group={group} key={group._id} />
-        ))}
+        <List
+          disablePadding={true}
+          dense={true}
+        >
+          {filtered.map((group) => (
+            <Box key={group._id}>
+              <ListItem>
+                <Group group={group} />
+              </ListItem>
+              <Divider variant="middle" component="li"/>
+            </Box>
+          ))}
+        </List>
+        {/*{filtered.map((group) => (*/}
+        {/*  <Group group={group} key={group._id} />*/}
+        {/*))}*/}
       </AllGroups>
-      <UserGroups />
+      <UserGroups/>
     </GroupsPage>
   );
 };
@@ -54,4 +67,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getGroups })(GroupsContainer);
+export default connect(mapStateToProps, {getGroups})(GroupsContainer);
