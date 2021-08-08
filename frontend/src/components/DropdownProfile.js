@@ -7,22 +7,12 @@ import {Link} from "react-router-dom";
 import {logoutAction} from "../actions/user";
 import {connect} from "react-redux";
 import {useAuth} from "../context/AuthContext";
-
-const mapStateToProps = (state) => {
-  return {
-    userId: state.user.user_id,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleLogout: () => dispatch(logoutAction()),
-  };
-};
+import CloudinaryAvatar from "./shared-components/CloudinaryAvatar";
 
 const DropdownProfile = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const {logout, currentUser} = useAuth();
+  const { user } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,7 +32,7 @@ const DropdownProfile = (props) => {
   return (
     <div>
       <DropButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <AccountCircle/>
+        <CloudinaryAvatar publicId={user.image} size={40} />
       </DropButton>
       <Menu
         id="simple-menu"
@@ -60,5 +50,17 @@ const DropdownProfile = (props) => {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleLogout: () => dispatch(logoutAction()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropdownProfile);

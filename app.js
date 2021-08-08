@@ -23,6 +23,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var eventsRouter = require("./routes/events");
 var groupsRouter = require("./routes/groups");
+var imagesRouter = require("./routes/images");
 
 var app = express();
 
@@ -31,7 +32,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({ limit: '50mb', extended: true}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -40,6 +41,7 @@ app.use(cors());
 app.use("/api/users", usersRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api/groups", groupsRouter);
+app.use("/api/images", imagesRouter);
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, "frontend/build")));

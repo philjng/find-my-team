@@ -14,6 +14,7 @@ const initialState = {
   },
   tags: [],
   emailAddress: null,
+  image: null,
 };
 
 // TODO: set user state once when app loads to match useAuth data
@@ -75,12 +76,8 @@ const userReducer = (state = initialState, action) => {
           that is managed by groups api call */
       return {
         ...state,
+        ...action.payload,
         user_id: action.payload._id,
-        displayName: action.payload.displayName,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        emailAddress: action.payload.emailAddress,
-        tags: action.payload.tags,
       };
     }
     default:
