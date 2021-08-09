@@ -8,20 +8,21 @@ export const Typography1 = styled(Typography)({
 });
 
 function Event(props) {
+  const { info } = props;
   const history = useHistory();
-  const startDate = new Date(props.info.startTime).toUTCString();
+  const startDate = new Date(info.startTime).toUTCString();
 
   const handleClick = () => {
-    history.push(`/events/${props.info._id}`)
+    history.push(`/events/${info._id}`)
   }
 
   return (
     <ItemContainer disableGutters={true} onClick={handleClick}>
       <Typography1 variant="h5" className="event_name">
-        {props.info.title}
+        {info.title}
       </Typography1>
       <Typography1 variant="body1" className="event_location">
-        Location: {props.info.location}
+        Location: {info.location}
       </Typography1>
       <Typography1 variant="body2" className="event_date">
         Date: {startDate}

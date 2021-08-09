@@ -87,13 +87,7 @@ export const createEvent = (data) => async (dispatch) => {
         });
       })
       .then(() => {
-        dispatch({
-          type: "SHOW_SNACKBAR",
-          payload: {
-            severity: SUCCESS,
-            message: "Event created",
-          },
-        });
+        dispatch(showSnackbar(SUCCESS, "Event created."));
       })
   } catch (e) {
     dispatch({
@@ -113,13 +107,7 @@ export const deleteEvent = async (dispatch, eventId) => {
         })
       })
       .then(() => {
-        dispatch({
-          type: "SHOW_SNACKBAR",
-          payload: {
-            severity: SUCCESS,
-            message: "Event deleted",
-          },
-        });
+        dispatch(showSnackbar(SUCCESS, "Event deleted."));
       })
   } catch (e) {
     dispatch({

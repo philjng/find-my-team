@@ -39,13 +39,7 @@ export const createGroup = (data) => async (dispatch) => {
         dispatch(getCreatedGroups(data.creatorId));
       })
       .then(() => {
-        dispatch({
-          type: "SHOW_SNACKBAR",
-          payload: {
-            severity: SUCCESS,
-            message: "Group created",
-          },
-        });
+        dispatch(showSnackbar(SUCCESS, "Group created."));
       });
   } catch (e) {
     dispatch({
@@ -86,13 +80,7 @@ export const deleteGroup = (groupId) => async (dispatch) => {
         });
       })
       .then(() => {
-        dispatch({
-          type: "SHOW_SNACKBAR",
-          payload: {
-            severity: SUCCESS,
-            message: "Group deleted",
-          },
-        });
+        dispatch(showSnackbar(SUCCESS, "Group deleted."));
       });
   } catch (e) {
     dispatch({
