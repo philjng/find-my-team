@@ -1,4 +1,9 @@
 import { genericApi } from "../api/genericApi";
+import { showSnackbar } from "./snackbar";
+import {
+  SUCCESS,
+  ERROR,
+} from "./../components/Snackbar/SnackbarSeverityConstants";
 
 export const loginAction = (user_id) => {
   return {
@@ -15,10 +20,26 @@ export const logoutAction = () => {
   };
 };
 
-export const signUpAction = () => {
-  return {
-    type: "SIGNUP",
-  };
+export const signUpAction = (id, data) => async (dispatch) => {
+  try {
+    await genericApi.post(`/api/users`, {
+      ...data,
+      _id: id,
+      lastModified: new Date(),
+      image: null,
+    });
+
+    showSnackbar(SUCCESS, "Account successfully created.");
+    return {
+      type: "SIGNUP",
+    };
+  } catch (error) {
+    showSnackbar(ERROR, error.message);
+    return {
+      type: "ERROR_SIGN_UP",
+      payload: error,
+    };
+  }
 };
 
 export const joinGroup = (data) => {

@@ -29,9 +29,8 @@ import { useAuth } from "../../context/AuthContext";
 import { connect } from "react-redux";
 import { signUpAction } from "../../actions/user";
 import { TAGS } from "../../tags";
-import { genericApi } from "../../api/genericApi";
 import { showSnackbar } from "../../actions/snackbar";
-import { ERROR, SUCCESS } from "../Snackbar/SnackbarSeverityConstants";
+import { ERROR } from "../Snackbar/SnackbarSeverityConstants";
 
 const SCBox = styled(Box)({
   marginTop: "80px",
@@ -121,21 +120,8 @@ function SignUpForm(props) {
     try {
       setLoading(true);
       let response = await signup(form.emailAddress, form.password);
-      await genericApi.post(`/api/users`, {
-        firstName: form.firstName,
-        lastName: form.lastName,
-        tags: tags,
-        emailAddress: form.emailAddress,
-        displayName: form.displayName,
-        eventsJoined: [],
-        eventsCreated: [],
-        groups: [],
-        _id: response.user.uid,
-        lastModified: new Date(),
-      });
-      handleSignUp();
+      handleSignUp(response.user.uid, form);
       history.push("/");
-      showSnackbar(SUCCESS, "Account successfully created.");
     } catch (error) {
       showSnackbar(ERROR, error.message);
     }
@@ -310,7 +296,7 @@ function SignUpForm(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleSignUp: (data) => dispatch(signUpAction(data)),
+    handleSignUp: (id, data) => dispatch(signUpAction(id, data)),
     showSnackbar: (severity, message) =>
       dispatch(showSnackbar(severity, message)),
   };

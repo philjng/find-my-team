@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -19,6 +18,7 @@ import {
 } from "../../actions/groups";
 import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
+import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
 const _ = require("lodash");
 
@@ -102,7 +102,7 @@ function GroupDetails(props) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    getGroupPageData(id)
+    getGroupPageData(id);
   }, [id, getGroupPageData]);
 
   const handleDelete = () => {
@@ -224,11 +224,10 @@ function GroupDetails(props) {
             <Typography variant="h6">
               {"Members (" + group.groupSize + ")"}
             </Typography>
-            {/*TODO: set up user names and icons*/}
             {groupMembers.map((groupMember) => (
               <Link to={`/profile/${groupMember._id}`} key={groupMember._id}>
                 <Member>
-                  <Avatar />
+                  <CloudinaryAvatar publicId={groupMember.image} size={40} />
                   <Name align="center">{groupMember.displayName}</Name>
                 </Member>
               </Link>

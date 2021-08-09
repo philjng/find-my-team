@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import mapboxgl from "!mapbox-gl";
 import mapboxSdk from "@mapbox/mapbox-sdk/services/geocoding";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
-const _ = require("lodash");
 
 function EventMap(props) {
   const mapContainer = useRef(null);

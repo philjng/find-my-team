@@ -4,6 +4,7 @@ import {
   WARNING,
 } from "../components/Snackbar/SnackbarSeverityConstants";
 import { showSnackbar } from "./snackbar";
+import { getUser } from "./user"
 
 export const getUserProfileGroups = (id) => async (dispatch) => {
   try {
@@ -50,13 +51,23 @@ export const getUserProfile = (id) => async (dispatch) => {
   }
 };
 
-export const editUserProfile = (id, data) => async (dispatch) => {
+export const editUserProfile = (id, data, base64Image) => async (dispatch) => {
   try {
-    const res = await genericApi.put(`/api/users/${id}`, data);
+    let imageUploadRes;
+    if (base64Image) {
+      imageUploadRes = await genericApi.post(`/api/images`, {
+        data: base64Image,
+      });
+      console.log(imageUploadRes.data);
+      data.image = imageUploadRes.data.public_id;
+    }
+
+    const updateRes = await genericApi.put(`/api/users/${id}`, data);
     dispatch({
       type: "GET_USER_PROFILE",
-      payload: res.data,
+      payload: updateRes.data,
     });
+    dispatch(getUser(id))
     dispatch(showSnackbar(SUCCESS, "Your changes have been saved."));
   } catch (e) {
     dispatch({
@@ -64,6 +75,7 @@ export const editUserProfile = (id, data) => async (dispatch) => {
       payload: e,
     });
     dispatch(getUserProfile(id));
+    dispatch(getUser(id))
     dispatch(
       showSnackbar(
         WARNING,
