@@ -4,18 +4,22 @@ import "./index.css";
 
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import 'mapbox-gl/dist/mapbox-gl.css';
+import "mapbox-gl/dist/mapbox-gl.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import store from "./store"
+import store from "./store";
+import { ThemeProvider } from "@material-ui/core";
+import { theme } from "./theme";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <AuthProvider>
-           <App />
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
         </AuthProvider>
       </BrowserRouter>
     </Provider>
