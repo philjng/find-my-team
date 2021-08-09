@@ -36,7 +36,9 @@ function EventParticipants(props) {
     <Box>
       <Typography variant="h5">Participants</Typography>
       <List1>
-        {_.isEmpty(participants) ? <CircularProgress color="primary" size={100}/>
+        {_.isEmpty(participants) ?
+          // <CircularProgress color="primary" size={100}/> // once we have LOADING state set up
+          <></>
           :
           participants.map((participant) => (
             <ListItem1 key={participant._id}>
