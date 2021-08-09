@@ -17,16 +17,16 @@ const List1 = styled(List)({
 function EventParticipants(props) {
   return (
     <Box>
-      <Typography variant="h5">Participants</Typography>
-      <List1>
-        {props.participants.map((participant) => (
-          <ListItem1 key={JSON.stringify(participant)}>
-            <Container>
-              <Typography>{participant}</Typography>
-            </Container>
-          </ListItem1>
-        ))}
-      </List1>
+      {/*<Typography variant="h5">Participants</Typography>*/}
+      {/*<List1>*/}
+      {/*  {props.participantIds.map((participantId) => (*/}
+      {/*    <ListItem1 key={JSON.stringify(participantId)}>*/}
+      {/*      <Container>*/}
+      {/*        <Typography>{participantId}</Typography>*/}
+      {/*      </Container>*/}
+      {/*    </ListItem1>*/}
+      {/*  ))}*/}
+      {/*</List1>*/}
     </Box>
   );
 }

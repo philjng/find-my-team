@@ -48,6 +48,7 @@ const Button1 = styled(Button)({
 function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
   const {id} = useParams();
+  const history = useHistory();
 
   const isCreator = event.creatorId === user.user_id;
   const [isParticipant, setIsParticipant] = useState(false);
@@ -60,20 +61,18 @@ function EventDetails(props) {
   }, [getEvent, id]);
 
   useEffect(() => {
-    !_.isEmpty(event) && setIsParticipant(event.participants.map((participants) => participants.uid).includes(user.user_id))
+    !_.isEmpty(event) && setIsParticipant(event.participantIds.includes(user.user_id))
   }, [event, user.user_id])
 
-  const history = useHistory();
-
   const addParticipant = () => {
-    participantJoin(id, user.user_id, user.email)
+    participantJoin(id, user.user_id)
       .then(() => {
         setIsParticipant(true)
       })
   };
 
   const removeParticipant = () => {
-    participantLeave(id, user.user_id, user.email)
+    participantLeave(id, user.user_id)
       .then(() => {
         setIsParticipant(false)
       })
@@ -188,8 +187,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEvent: (id) => getEvent(dispatch, id),
-    participantJoin: (eventId, userId, userEmail) => participantJoin(dispatch, eventId, userId, userEmail),
-    participantLeave: (eventId, userId, userEmail) => participantLeave(dispatch, eventId, userId, userEmail),
+    participantJoin: (eventId, userId) => participantJoin(dispatch, eventId, userId),
+    participantLeave: (eventId, userId) => participantLeave(dispatch, eventId, userId),
     deleteEvent: (eventId) => deleteEvent(dispatch, eventId)
   };
 };

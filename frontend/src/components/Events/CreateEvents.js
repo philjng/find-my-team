@@ -80,7 +80,7 @@ function Create(props) {
         startTime: new Date(eventStart),
         endTime: new Date(eventEnd),
         participantSize: 1,
-        participants: [user.displayName],
+        participantIds: [user.user_id],
         group: eventGroup,
         tags: tags,
         status: "status",
