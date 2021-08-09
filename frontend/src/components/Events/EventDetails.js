@@ -129,7 +129,7 @@ function EventDetails(props) {
                   color="secondary"
                   onClick={() => removeEvent()}
                 >
-                  Delete group
+                  Delete event
                 </Button1>
                 <Button1
                   disableElevation
