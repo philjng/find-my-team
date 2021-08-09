@@ -76,6 +76,7 @@ router.patch("/:id/comments", function (req, res, next) {
 router.patch("/:id/participants", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $push: { participantIds: req.body.userId },
+    $inc: { participantSize: 1 }
   })
     .then(() => res.send("success"))
     .catch((err) => {
@@ -87,6 +88,7 @@ router.patch("/:id/participants", function (req, res, next) {
 router.patch("/:id/removeParticipant", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $pull: { participantIds: req.body.userId },
+    $inc: { participantSize: -1 }
   })
     .then(() => res.send("success"))
     .catch((err) => {
