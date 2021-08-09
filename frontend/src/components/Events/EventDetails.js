@@ -1,8 +1,9 @@
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import TagChips from "./TagChips.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
 import EventComments from "./EventComments";
+import DisplayMap from "./DisplayMap";
 import {
   Container,
   Typography,
@@ -16,17 +17,18 @@ import "firebase/auth";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
+import React from "react";
 
 const _ = require("lodash");
 
 const EventCard = styled(Card)({
   backgroundColor: "#f7fcfc",
-  margin: `2rem 0`
-})
+  margin: `2rem 0`,
+});
 
 const DateBox = styled(Box)({
-  marginBottom: `0.5rem`
-})
+  marginBottom: `0.5rem`,
+});
 
 const Box2 = styled(Box)({
   float: "left",
@@ -45,8 +47,6 @@ const Buttons = styled(Box)({
 const Button1 = styled(Button)({
   marginRight: "1rem"
 });
-
-const AdminButtons = styled(Box)({})
 
 function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
@@ -95,8 +95,10 @@ function EventDetails(props) {
     && history.push("/events")
   }
 
+  //TODO: Make displayNames appear
+  //TODO: Add ternary operator to display "No location set" when there is no location
   return _.isEmpty(event) ? (
-    <CircularProgress/>
+    <CircularProgress />
   ) : (
     <Container>
       <EventCard>
@@ -119,7 +121,7 @@ function EventDetails(props) {
               </Button1>
             )}
             {isEditing && (
-              <AdminButtons>
+              <Box>
                 <Button1
                   disableElevation
                   size="small"
@@ -145,7 +147,7 @@ function EventDetails(props) {
                 >
                   Cancel
                 </Button1>
-              </AdminButtons>)}
+              </Box>)}
             <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
               <InputLabel id="outlined-participation-label">Attendance</InputLabel>
               <Select
@@ -165,14 +167,15 @@ function EventDetails(props) {
             <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
           </Typography>
           <TagChips tags={event.tags}/>
+          <EventParticipants/>
+          <EventComments eventId={id} comments={event.comments} />
           <Box2>
-            <EventDescription description={event.description}/>
-          </Box2>
-          <Box2>
-            <EventParticipants/>
-          </Box2>
-          <Box2>
-            <EventComments eventId={id} comments={event.comments}/>
+            <DisplayMap
+              location={event.location}
+              latitude={event.latitude}
+              longitude={event.longitude}
+              useCoordinates={event.useCoordinates}
+            />
           </Box2>
         </CardContent>
       </EventCard>

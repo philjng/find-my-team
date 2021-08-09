@@ -8,10 +8,7 @@ const UserSchema = new Schema({
   emailAddress: String,
   displayName: String,
   lastModified: Date,
-  eventsJoined: [Schema.Types.ObjectId],
-  eventsCreated: [Schema.Types.ObjectId],
-  groupsJoined: [Schema.Types.ObjectId],
-  groupsCreated: [Schema.Types.ObjectId],
+  image: String,
   _id: String,
 });
 UserSchema.index({'$**': 'text'});

@@ -14,6 +14,7 @@ import {
   ListItemText,
   Box,
   Typography,
+  Button,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
@@ -26,6 +27,9 @@ import { connect } from "react-redux";
 import { editUserProfile, getUserProfile } from "../../actions/profile";
 import SportsList from "./SportsList";
 import { useAuth } from "../../context/AuthContext";
+import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
+
+const _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -68,12 +72,19 @@ const SCBox = styled(Box)({
   alignItems: "center",
 });
 
+const SCAvatar = styled(Avatar)({
+  height: "400px",
+  width: "400px",
+});
+
 function UserInfo(props) {
   const classes = useStyles();
 
   const [initialForm, setInitialForm] = useState({});
   const [form, setForm] = useState({ tags: [] });
   const [isEditing, setIsEditing] = useState(false);
+  const [previewSource, setPreviewSource] = useState("");
+  const [imageEdited, setImageEdited] = useState(false);
   const { getUserProfile, editUserProfile, user } = props;
   const { currentUser } = useAuth();
   const { id } = useParams();
@@ -90,13 +101,19 @@ function UserInfo(props) {
   const handleDisplayNameChange = handleFormChange("displayName");
   const handleTagsChange = handleFormChange("tags");
 
-  const handleEdit = () => {
+  const handleEnableEdit = () => {
     setIsEditing(true);
   };
 
   const handleSaveChanges = () => {
-    editUserProfile(id, form);
+    if (imageEdited) {
+      editUserProfile(id, form, previewSource);
+    } else {
+      editUserProfile(id, form, null);
+    }
     setIsEditing(false);
+    setPreviewSource("");
+    setImageEdited(false);
   };
 
   const handleCancel = () => {
@@ -112,25 +129,36 @@ function UserInfo(props) {
     setInitialForm(user);
   }, [user]);
 
+  const handleImageInput = (event) => {
+    var file = event.target.files[0];
+    // Check file is image
+    // Also prevents error when cancelling image upload
+    if (file?.type.match("image.*")) {
+      console.log("file type is image");
+      previewFile(file);
+    }
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+      setImageEdited(true);
+    };
+  };
+
   return (
     <SCBox>
       <SCCard>
         <CardContent>
-          <Grid container align="center" direction="column">
-            <Grid item>
-              <Avatar alt="Profile Picture" className={classes.profile_pic} />
-            </Grid>
-            <Grid item>
-              <Typography>{form.emailAddress}</Typography>
-            </Grid>
-          </Grid>
           {isOwner && (
             <Grid container direction="row-reverse">
               <Grid item>
                 <Fab
                   disabled={isEditing}
                   variant="extended"
-                  onClick={handleEdit}
+                  onClick={handleEnableEdit}
                 >
                   <SCEditIcon />
                   Edit
@@ -138,6 +166,42 @@ function UserInfo(props) {
               </Grid>
             </Grid>
           )}
+          <Grid container align="center" direction="column">
+            <Grid item>
+              {imageEdited ? (
+                isEditing ? (
+                  <SCAvatar src={previewSource} />
+                ) : _.isEmpty(user.image) ? (
+                  <SCAvatar />
+                ) : (
+                  <CloudinaryAvatar publicId={user.image} size={400} />
+                )
+              ) : (
+                <CloudinaryAvatar publicId={user.image} size={400} />
+              )}
+            </Grid>
+            <Grid item>
+              <Typography>{form.emailAddress}</Typography>
+            </Grid>
+            {isEditing && (
+              <Grid item>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  style={{ display: "none" }}
+                  id="upload-button"
+                  multiple
+                  type="file"
+                  onChange={handleImageInput}
+                />
+                <label htmlFor="upload-button">
+                  <Button variant="outlined" component="span">
+                    Upload
+                  </Button>
+                </label>
+              </Grid>
+            )}
+          </Grid>
           <FormControl fullWidth>
             <TextField
               variant="outlined"
@@ -240,7 +304,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserProfile: (id) => dispatch(getUserProfile(id)),
-    editUserProfile: (id, data) => dispatch(editUserProfile(id, data)),
+    editUserProfile: (id, data, base64Image) =>
+      dispatch(editUserProfile(id, data, base64Image)),
   };
 };
 

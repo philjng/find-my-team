@@ -144,3 +144,10 @@ export const getEvent = (eventId) => async (dispatch) => {
     });
   }
 };
+
+export const addMapMarker = (dispatch, marker) => {
+  dispatch({
+    type: "ADD_MAP_MARKER",
+    payload: marker,
+  });
+};

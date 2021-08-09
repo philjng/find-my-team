@@ -1,3 +1,5 @@
+import {combineReducers} from "redux";
+
 const initialState = {
   events: [],
   searchResults: [],
@@ -29,4 +31,15 @@ const events = (state = initialState, action) => {
   }
 };
 
-export default events;
+const mapReducer = (marker = "", action) => {
+  if (action.type === "ADD_MAP_MARKER") {
+    return action.payload;
+  }
+  return marker;
+};
+
+export default combineReducers({
+  events,
+  marker: mapReducer
+});
+

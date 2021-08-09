@@ -42,7 +42,6 @@ function Search(props) {
   } = props;
 
   const performSearch = () => {
-    console.log("performSearch Called");
     searchEvents(searchText);
     searchGroups(searchText);
     searchUsers(searchText);

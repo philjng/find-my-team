@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
-import {useDispatch} from "react-redux";
-import {getUser} from "../actions/user";
+import { useDispatch } from "react-redux";
+import { getUser } from "../actions/user";
 
 const AuthContext = React.createContext();
 
@@ -10,7 +10,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -19,13 +19,15 @@ export function AuthProvider({ children }) {
   }
 
   function login(email, password) {
-    setLoading(true)
-    return auth.signInWithEmailAndPassword(email, password).finally(setLoading(false))
+    setLoading(true);
+    return auth
+      .signInWithEmailAndPassword(email, password)
+      .finally(setLoading(false));
   }
 
   function logout() {
-    setLoading(true)
-    return auth.signOut().finally(setLoading(false))
+    setLoading(true);
+    return auth.signOut().finally(setLoading(false));
   }
 
   useEffect(() => {
@@ -33,7 +35,6 @@ export function AuthProvider({ children }) {
       setCurrentUser(user);
       dispatch(getUser(user.uid)).finally(setLoading(false))
     })
-
   }, [dispatch]);
 
   const value = {

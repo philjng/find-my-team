@@ -1,6 +1,5 @@
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -9,17 +8,18 @@ import {
   Container,
   Typography,
 } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
-import { useEffect, useState } from "react";
+import {styled} from "@material-ui/styles";
+import {useEffect, useState} from "react";
 import {
   deleteGroup,
   addMember,
   removeMember,
   getGroupPageData,
 } from "../../actions/groups";
-import { Link, useHistory, useParams } from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
+import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
 const _ = require("lodash");
 
@@ -96,22 +96,22 @@ function GroupDetails(props) {
     removeMember,
   } = props;
   const history = useHistory();
-  const { id } = useParams();
+  const {id} = useParams();
 
   const isManager = group.creatorId === user.user_id;
   const isMember = group.memberIds?.includes(user.user_id);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    getGroupPageData(id)
+    getGroupPageData(id);
   }, [id, getGroupPageData]);
 
   const handleDelete = () => {
     window.confirm(
       "Are you sure you want to delete this group? This action cannot be undone."
     ) &&
-      deleteGroup(group._id) &&
-      history.goBack();
+    deleteGroup(group._id) &&
+    history.goBack();
   };
 
   const joinGroup = () => {
@@ -126,7 +126,7 @@ function GroupDetails(props) {
 
   // TODO: might want to abstract parts away and simplify this js file
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
-    <LoadingPage value="Loading data..." />
+    <LoadingPage value="Loading data..."/>
   ) : (
     <GroupPage>
       <GroupCard>
@@ -142,7 +142,7 @@ function GroupDetails(props) {
                 </Box>
                 <Box fontWeight="fontWeightLight">
                   {group.groupSize +
-                    (group.groupSize === 1 ? " member" : " members")}
+                  (group.groupSize === 1 ? " member" : " members")}
                 </Box>
               </Typography>
               {isEditing ? (
@@ -196,7 +196,7 @@ function GroupDetails(props) {
             </Box>
             <Box>
               <Typography variant="h6">Tags</Typography>
-              <TagChips tags={group.tags} />
+              <TagChips tags={group.tags}/>
             </Box>
           </LeftBox>
           {/*TODO: images for group*/}
@@ -227,12 +227,11 @@ function GroupDetails(props) {
             <Typography variant="h6">
               {"Members (" + group.groupSize + ")"}
             </Typography>
-            {/*TODO: set up user names and icons*/}
             {groupMembers.map((groupMember) => (
               <Link to={`/profile/${groupMember._id}`} key={groupMember._id}>
                 <Member>
-                  <Avatar />
-                  <Name align="center">{groupMember._id === user.user_id ? groupMember.displayName +  " (You)" : groupMember.displayName}</Name>
+                  <CloudinaryAvatar publicId={groupMember.image} size={40}/>
+                  <Name align="center">{groupMember.displayName}</Name>
                 </Member>
               </Link>
             ))}
