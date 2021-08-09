@@ -77,15 +77,49 @@ export const participantLeave = async (
   }
 };
 
+export const createEvent = (data) => async (dispatch) => {
+  try {
+    genericApi.post("/api/events", data)
+      .then((res) => {
+        dispatch({
+          type: "CREATE_EVENT",
+          payload: res.data,
+        });
+      })
+      .then(() => {
+        dispatch({
+          type: "SHOW_SNACKBAR",
+          payload: {
+            severity: SUCCESS,
+            message: "Event created",
+          },
+        });
+      })
+  } catch (e) {
+    dispatch({
+      type: "ERROR_CREATE_EVENT",
+      payload: e.message
+    })
+  }
+}
+
 export const deleteEvent = async (dispatch, eventId) => {
   try {
-    const res = await genericApi.delete(`/api/events/${eventId}`);
-    dispatch({
-      type: "DELETE_EVENT",
-      payload: res.data,
-    })
+    const res = genericApi.delete(`/api/events/${eventId}`)
       .then(() => {
-        getEvents(dispatch);
+        dispatch({
+          type: "DELETE_EVENT",
+          payload: res.data,
+        })
+      })
+      .then(() => {
+        dispatch({
+          type: "SHOW_SNACKBAR",
+          payload: {
+            severity: SUCCESS,
+            message: "Event deleted",
+          },
+        });
       })
   } catch (e) {
     dispatch({
@@ -97,15 +131,17 @@ export const deleteEvent = async (dispatch, eventId) => {
 
 export const addComment = async (dispatch, eventId, user, text) => {
   try {
-    const res = await genericApi.patch(`/api/events/${eventId}/comments`, {
+    const res = genericApi.patch(`/api/events/${eventId}/comments`, {
       comment: {user, text},
-    });
-    dispatch({
-      type: "ADD_COMMENT",
-      payload: res.data,
     })
       .then(() => {
-        getEvents(dispatch);
+        dispatch({
+          type: "ADD_COMMENT",
+          payload: res.data,
+        })
+      })
+      .then(() => {
+        dispatch(getEvent(eventId));
       })
   } catch (e) {
     dispatch({

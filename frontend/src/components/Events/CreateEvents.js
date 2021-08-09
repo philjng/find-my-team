@@ -16,6 +16,7 @@ import "firebase/auth";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { genericApi } from "../../api/genericApi";
+import {createEvent} from "../../actions/events";
 
 const CreateEventCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
@@ -76,7 +77,7 @@ const InputBox = styled(Box)({
 })
 
 function Create(props) {
-  const { user } = props;
+  const { user, createEvent } = props;
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -120,27 +121,26 @@ function Create(props) {
       window.alert("Event must belong to a group or be public");
       return;
     }
-    genericApi
-      .post("/api/events", {
-        creatorId: user.user_id,
-        creator: user.displayName,
-        title: eventTitle,
-        location: eventLocation.trim() === "" ? "No location" : eventLocation,
-        latitude: eventLatitude,
-        longitude: eventLongitude,
-        useCoordinates: isCoordinate,
-        description: eventDescription.trim() === "" ? "No description" : eventDescription,
-        startTime: new Date(eventStart),
-        endTime: new Date(eventEnd),
-        participantSize: 1,
-        participantIds: [user.user_id],
-        group: eventGroup,
-        tags: tags,
-        status: "status",
-        createdAt: new Date(),
-        lastModified: new Date(),
-        comments: []
-      })
+    createEvent({
+      creatorId: user.user_id,
+      creator: user.displayName,
+      title: eventTitle,
+      location: eventLocation.trim() === "" ? "No location" : eventLocation,
+      latitude: eventLatitude,
+      longitude: eventLongitude,
+      useCoordinates: isCoordinate,
+      description: eventDescription.trim() === "" ? "No description" : eventDescription,
+      startTime: new Date(eventStart),
+      endTime: new Date(eventEnd),
+      participantSize: 1,
+      participantIds: [user.user_id],
+      group: eventGroup,
+      tags: tags,
+      status: "status",
+      createdAt: new Date(),
+      lastModified: new Date(),
+      comments: []
+    })
       .then((result) => {
         setEventTitle("");
         setEventLocation("");
@@ -305,4 +305,11 @@ const mapStateToProps = (state) => {
     user: state.user,
   };
 };
-export default connect(mapStateToProps)(Create);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createEvent: (eventData) => dispatch(createEvent(eventData))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create);
