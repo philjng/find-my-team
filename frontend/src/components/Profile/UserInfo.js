@@ -66,7 +66,7 @@ const SCBox = styled(Box)({
   margin: "80px",
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
+  alignItems: "left",
 });
 
 const SCAvatar = styled(Avatar)({
