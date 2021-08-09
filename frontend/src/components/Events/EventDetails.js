@@ -38,12 +38,15 @@ const Box2 = styled(Box)({
 
 const Buttons = styled(Box)({
   float: "right",
-  marginLeft: "0.5rem"
+  marginLeft: "0.5rem",
+  display: "flex"
 })
 
 const Button1 = styled(Button)({
   marginRight: "1rem"
 });
+
+const AdminButtons = styled(Box)({})
 
 function EventDetails(props) {
   const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
@@ -88,8 +91,8 @@ function EventDetails(props) {
   const removeEvent = () => {
     window.confirm(
       "Are you sure you want to delete this event? This action cannot be undone."
-    ) && deleteEvent(id);
-    history.push("/events")
+    ) && deleteEvent(id)
+    && history.push("/events")
   }
 
   return _.isEmpty(event) ? (
@@ -105,24 +108,26 @@ function EventDetails(props) {
             </Box>
           </Typography>
           <Buttons>
-            {isCreator && (
+            {isCreator && !isEditing && (
               <Button1
                 disableElevation
                 size="small"
                 variant="contained"
+                onClick={() => setIsEditing(true)}
               >
                 Edit Event
               </Button1>
             )}
             {isEditing && (
-              <Box>
+              <AdminButtons>
                 <Button1
                   disableElevation
                   size="small"
                   variant="contained"
-                  onClick={() => setIsEditing(false)}
+                  color="secondary"
+                  onClick={() => removeEvent()}
                 >
-                  Cancel
+                  Delete group
                 </Button1>
                 <Button1
                   disableElevation
@@ -136,13 +141,11 @@ function EventDetails(props) {
                   disableElevation
                   size="small"
                   variant="contained"
-                  color="secondary"
-                  onClick={() => removeEvent()}
+                  onClick={() => setIsEditing(false)}
                 >
-                  Delete group
+                  Cancel
                 </Button1>
-              </Box>)}
-            {/*<Button1 onClick={removeEvent} disableElevation variant="contained">Edit Event</Button1>*/}
+              </AdminButtons>)}
             <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
               <InputLabel id="outlined-participation-label">Attendance</InputLabel>
               <Select
@@ -166,7 +169,7 @@ function EventDetails(props) {
             <EventDescription description={event.description}/>
           </Box2>
           <Box2>
-            <EventParticipants />
+            <EventParticipants/>
           </Box2>
           <Box2>
             <EventComments eventId={id} comments={event.comments}/>
