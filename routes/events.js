@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const Event = require("../models/event");
 var mongoose = require("mongoose");
+const User = require("../models/user");
 
 /* GET all events listing, ordered by the start time of event. */
 router.get("/", function (req, res, next) {
@@ -69,6 +70,27 @@ router.patch("/:id/comments", function (req, res, next) {
     .then(() => res.send("success"))
     .catch((err) => {
       res.status(500).send({ message: err.message });
+    });
+});
+
+/* GET event participants */
+router.get("/:id/participants", function (req, res, next) {
+  Event.findById(req.params.id)
+    .then((eventData) => {
+      return User.find({
+        _id: {
+          $in: eventData.participantIds,
+        },
+      });
+    })
+    .then((usersData) => {
+      res.send(usersData);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "There was an error while getting group members",
+      });
     });
 });
 

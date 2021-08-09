@@ -120,6 +120,7 @@ router.put("/:id", function (req, res, next) {
   });
 });
 
+/* GET group members */
 router.get("/:id/members", function (req, res, next) {
   Group.findById(req.params.id)
     .then((groupData) => {

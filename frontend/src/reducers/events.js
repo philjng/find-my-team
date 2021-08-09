@@ -1,30 +1,32 @@
-import { combineReducers } from "redux";
+const initialState = {
+  events: [],
+  searchResults: [],
+  event: {},
+  eventParticipants: []
+}
 
-const eventsReducer = (events = [], action) => {
+const events = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_COMMENT":
-      return events;
+      return state;
     case "GET_EVENTS":
-      return action.payload;
-    default:
-      return events;
-  }
-};
-
-const eventReducer = (event = {}, action) => {
-  switch (action.type) {
-    case "PARTICIPANT_JOIN":
-      return event;
+      return {
+        ...state,
+        events: action.payload
+      };
     case "GET_EVENT":
-      return action.payload;
-    case "ADD_COMMENT":
-      return event;
+      return {
+        ...state,
+        event: action.payload
+      };
+    case "GET_EVENT_PARTICIPANTS":
+      return {
+        ...state,
+        eventParticipants: action.payload
+      }
     default:
-      return event;
+      return state;
   }
 };
 
-export default combineReducers({
-  events: eventsReducer,
-  event: eventReducer,
-});
+export default events;

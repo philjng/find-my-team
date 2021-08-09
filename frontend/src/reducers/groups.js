@@ -5,7 +5,7 @@ const initialState = {
   groupMembers: [],
 };
 
-export const groups = (state = initialState, action) => {
+const groups = (state = initialState, action) => {
   switch (action.type) {
     case "GET_GROUPS": {
       return {

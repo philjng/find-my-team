@@ -11,7 +11,7 @@ import {
   CircularProgress, Card, CardContent, Select, MenuItem, FormControl, InputLabel,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
-import {getEvent, participantJoin, participantLeave, deleteEvent} from "../../actions/events.js";
+import {participantJoin, participantLeave, deleteEvent, getEventPageData, getEvent} from "../../actions/events.js";
 import "firebase/auth";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -166,7 +166,7 @@ function EventDetails(props) {
             <EventDescription description={event.description}/>
           </Box2>
           <Box2>
-            <EventParticipants participants={event.participants}/>
+            <EventParticipants />
           </Box2>
           <Box2>
             <EventComments eventId={id} comments={event.comments}/>
@@ -186,7 +186,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEvent: (id) => getEvent(dispatch, id),
+    getEvent: (id) => dispatch(getEvent(id)),
     participantJoin: (eventId, userId) => participantJoin(dispatch, eventId, userId),
     participantLeave: (eventId, userId) => participantLeave(dispatch, eventId, userId),
     deleteEvent: (eventId) => deleteEvent(dispatch, eventId)

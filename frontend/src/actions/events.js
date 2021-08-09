@@ -1,25 +1,26 @@
 import {genericApi} from "../api/genericApi";
+import {showSnackbar} from "./snackbar";
+import {SUCCESS} from "../components/Snackbar/SnackbarSeverityConstants";
 
-export const viewEventDetails = (event) => {
-  return {
-    type: "VIEW_EVENT_DETAILS",
-    value: event,
-  };
-};
+export const getEventPageData = (eventId) => async (dispatch) => {
+  dispatch(getEvent(eventId));
+  dispatch(getEventParticipants(eventId));
+}
 
-export const viewUpcomingEventsOnly = (events) => {
-  return {
-    type: "VIEW_UPCOMING_ONLY",
-    events: events,
-  };
-};
-
-export const viewAllEvents = (events) => {
-  return {
-    type: "VIEW_ALL_EVENTS",
-    events: events,
-  };
-};
+export const getEventParticipants = (eventId) => async dispatch => {
+  try {
+    const res = await genericApi.get(`/api/events/${eventId}/participants`);
+    dispatch({
+      type: "GET_EVENT_PARTICIPANTS",
+      payload: res.data
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_EVENT_PARTICIPANTS",
+      payload: e.message
+    })
+  }
+}
 
 export const participantJoin = async (dispatch, eventId, userId) => {
   try {
@@ -33,8 +34,11 @@ export const participantJoin = async (dispatch, eventId, userId) => {
         })
       })
       .then(() => {
-        getEvent(dispatch, eventId);
+        dispatch(getEventPageData(eventId))
       })
+      .then(() => {
+        dispatch(showSnackbar(SUCCESS, "You have joined the event."));
+      });
   } catch (e) {
     dispatch({
       type: "ERROR_PARTICIPANT_JOIN",
@@ -60,8 +64,11 @@ export const participantLeave = async (
         })
       })
       .then(() => {
-        getEvent(dispatch, eventId);
+        dispatch(getEventPageData(eventId))
       })
+      .then(() => {
+        dispatch(showSnackbar(SUCCESS, "You have left the event."));
+      });
   } catch (e) {
     dispatch({
       type: "ERROR_PARTICIPANT_LEAVE",
@@ -123,9 +130,9 @@ export const getEvents = async (dispatch) => {
   }
 };
 
-export const getEvent = async (dispatch, id) => {
+export const getEvent = (eventId) => async (dispatch) => {
   try {
-    const res = await genericApi.get(`/api/events/${id}`);
+    const res = await genericApi.get(`/api/events/${eventId}`);
     dispatch({
       type: "GET_EVENT",
       payload: res.data,
