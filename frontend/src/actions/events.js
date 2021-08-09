@@ -1,39 +1,44 @@
-import { genericApi } from "../api/genericApi";
+import {genericApi} from "../api/genericApi";
+import {showSnackbar} from "./snackbar";
+import {SUCCESS} from "../components/Snackbar/SnackbarSeverityConstants";
 
-export const viewEventDetails = (event) => {
-  return {
-    type: "VIEW_EVENT_DETAILS",
-    value: event,
-  };
-};
+export const getEventPageData = (eventId) => async (dispatch) => {
+  dispatch(getEvent(eventId));
+  dispatch(getEventParticipants(eventId));
+}
 
-export const viewUpcomingEventsOnly = (events) => {
-  return {
-    type: "VIEW_UPCOMING_ONLY",
-    events: events,
-  };
-};
-
-export const viewAllEvents = (events) => {
-  return {
-    type: "VIEW_ALL_EVENTS",
-    events: events,
-  };
-};
-
-export const participantJoin = async (dispatch, eventId, userId, username) => {
+export const getEventParticipants = (eventId) => async dispatch => {
   try {
-    const res = await genericApi.patch(`/api/events/${eventId}/participants`, {
-      participant: {
-        uid: userId,
-        displayName: username,
-      },
-    });
+    const res = await genericApi.get(`/api/events/${eventId}/participants`);
     dispatch({
-      type: "PARTICIPANT_JOIN",
-      payload: res.data,
+      type: "GET_EVENT_PARTICIPANTS",
+      payload: res.data
     });
-    getEvent(dispatch, eventId);
+  } catch (e) {
+    dispatch({
+      type: "ERROR_EVENT_PARTICIPANTS",
+      payload: e.message
+    })
+  }
+}
+
+export const participantJoin = async (dispatch, eventId, userId) => {
+  try {
+    const res = genericApi.patch(`/api/events/${eventId}/participants`, {
+      userId: userId,
+    })
+      .then(() => {
+        dispatch({
+          type: "PARTICIPANT_JOIN",
+          payload: res.data,
+        })
+      })
+      .then(() => {
+        dispatch(getEventPageData(eventId))
+      })
+      .then(() => {
+        dispatch(showSnackbar(SUCCESS, "You have joined the event."));
+      });
   } catch (e) {
     dispatch({
       type: "ERROR_PARTICIPANT_JOIN",
@@ -42,22 +47,28 @@ export const participantJoin = async (dispatch, eventId, userId, username) => {
   }
 };
 
-export const participantLeave = async (dispatch, eventId, userId, username) => {
+export const participantLeave = async (
+  dispatch,
+  eventId,
+  userId,
+) => {
   try {
-    const res = await genericApi.patch(
+    const res = genericApi.patch(
       `/api/events/${eventId}/removeParticipant`,
-      {
-        participant: {
-          uid: userId,
-          displayName: username,
-        },
-      }
-    );
-    dispatch({
-      type: "PARTICIPANT_LEAVE",
-      payload: res.data,
-    });
-    getEvent(dispatch, eventId);
+      {userId: userId}
+    )
+      .then(() => {
+        dispatch({
+          type: "PARTICIPANT_LEAVE",
+          payload: res.data,
+        })
+      })
+      .then(() => {
+        dispatch(getEventPageData(eventId))
+      })
+      .then(() => {
+        dispatch(showSnackbar(SUCCESS, "You have left the event."));
+      });
   } catch (e) {
     dispatch({
       type: "ERROR_PARTICIPANT_LEAVE",
@@ -66,14 +77,38 @@ export const participantLeave = async (dispatch, eventId, userId, username) => {
   }
 };
 
+export const createEvent = (data) => async (dispatch) => {
+  try {
+    genericApi.post("/api/events", data)
+      .then((res) => {
+        dispatch({
+          type: "CREATE_EVENT",
+          payload: res.data,
+        });
+      })
+      .then(() => {
+        dispatch(showSnackbar(SUCCESS, "Event created."));
+      })
+  } catch (e) {
+    dispatch({
+      type: "ERROR_CREATE_EVENT",
+      payload: e.message
+    })
+  }
+}
+
 export const deleteEvent = async (dispatch, eventId) => {
   try {
-    const res = await genericApi.delete(`/api/events/${eventId}`);
-    dispatch({
-      type: "DELETE_EVENT",
-      payload: res.data,
-    });
-    getEvents(dispatch);
+    const res = genericApi.delete(`/api/events/${eventId}`)
+      .then(() => {
+        dispatch({
+          type: "DELETE_EVENT",
+          payload: res.data,
+        })
+      })
+      .then(() => {
+        dispatch(showSnackbar(SUCCESS, "Event deleted."));
+      })
   } catch (e) {
     dispatch({
       type: "ERROR_DELETE_EVENT",
@@ -84,14 +119,18 @@ export const deleteEvent = async (dispatch, eventId) => {
 
 export const addComment = async (dispatch, eventId, user, text) => {
   try {
-    const res = await genericApi.patch(`/api/events/${eventId}/comments`, {
-      comment: { user, text },
-    });
-    dispatch({
-      type: "ADD_COMMENT",
-      payload: res.data,
-    });
-    getEvent(dispatch, eventId);
+    const res = genericApi.patch(`/api/events/${eventId}/comments`, {
+      comment: {user, text},
+    })
+      .then(() => {
+        dispatch({
+          type: "ADD_COMMENT",
+          payload: res.data,
+        })
+      })
+      .then(() => {
+        dispatch(getEvent(eventId));
+      })
   } catch (e) {
     dispatch({
       type: "ERROR_ADD_COMMENT",
@@ -115,9 +154,9 @@ export const getEvents = async (dispatch) => {
   }
 };
 
-export const getEvent = async (dispatch, id) => {
+export const getEvent = (eventId) => async (dispatch) => {
   try {
-    const res = await genericApi.get(`/api/events/${id}`);
+    const res = await genericApi.get(`/api/events/${eventId}`);
     dispatch({
       type: "GET_EVENT",
       payload: res.data,

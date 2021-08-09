@@ -1,7 +1,7 @@
 import Event from "./Event.js";
 import EventMap from "./EventMap";
 import React from "react";
-import { useState } from "react";
+import {useState} from "react";
 import {
   Container,
   Button,
@@ -11,7 +11,13 @@ import {
   Divider,
   ButtonGroup,
 } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
+import {styled} from "@material-ui/styles";
+
+const TabButton = styled(Button)({
+  "&:focus": {
+    background: "#d3d3d3" // the background button color
+  }
+})
 
 const SCContainer = styled(Container)({
   textAlign: "center",
@@ -22,7 +28,7 @@ const ButtonGroup1 = styled(ButtonGroup)({
 });
 
 function EventsContainer(props) {
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("upcoming");
   const [mapView, setMapView] = useState(false);
   const filterEvents = (events, filter) => {
     switch (filter) {
@@ -39,15 +45,12 @@ function EventsContainer(props) {
   };
 
   return (
-    <SCContainer className="events_container">
+    <SCContainer>
       <Box>
-        <ButtonGroup1
-          variant="text"
-          aria-label="contained primary button group"
-        >
-          <Button onClick={() => setFilter("all")}>All</Button>
-          <Button onClick={() => setFilter("upcoming")}>Upcoming</Button>
-        </ButtonGroup1>
+        <ButtonGroup variant="text" aria-label="contained primary button group">
+          <TabButton autoFocus onClick={() => setFilter("upcoming")}>Upcoming</TabButton>
+          <TabButton onClick={() => setFilter("all")}>All</TabButton>
+        </ButtonGroup>
         <ButtonGroup1
           variant="text"
           aria-label="contained primary button group"
@@ -55,24 +58,23 @@ function EventsContainer(props) {
           <Button onClick={() => setMapView(false)}>List</Button>
           <Button onClick={() => setMapView(true)}>Map</Button>
         </ButtonGroup1>
-        {mapView ? (
-          <EventMap events={filterEvents(props.events, filter)} />
-        ) : (
-          <List
-            disablePadding={true}
-            dense={true}
-            style={{ maxHeight: "50%", overflow: "auto" }}
-          >
-            {filterEvents(props.events, filter).map((event) => (
-              <React.Fragment key={event._id}>
-                <ListItem>
-                  <Event info={event} />
-                </ListItem>
-                <Divider variant="middle" component="li" />
-              </React.Fragment>
-            ))}
-          </List>
-        )}
+        {props.events.length === 0 ?
+          (<div>"There are no events! Start one yourself!"</div>) :
+          mapView ? <EventMap events={filterEvents(props.events, filter)}/> :
+            (<List
+              disablePadding={true}
+              dense={true}
+              style={{maxHeight: "50%", overflow: "auto"}}
+            >
+              {filterEvents(props.events, filter).map((event) => (
+                <React.Fragment key={event._id}>
+                  <ListItem>
+                    <Event info={event}/>
+                  </ListItem>
+                  <Divider variant="middle" component="li"/>
+                </React.Fragment>
+              ))}
+            </List>)}
       </Box>
     </SCContainer>
   );

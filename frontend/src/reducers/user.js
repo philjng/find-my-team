@@ -4,6 +4,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   displayName: "",
+  emailAddress: null,
   userEvents: {
     created: [],
     joined: [],
@@ -13,7 +14,6 @@ const initialState = {
     joined: [],
   },
   tags: [],
-  emailAddress: null,
   image: null,
 };
 

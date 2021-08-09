@@ -4,7 +4,7 @@ var router = express.Router();
 const Group = require("../models/group");
 const User = require("../models/user");
 
-/* GET groups listing. */
+/* GET groups listing by latest creation date. */
 router.get("/", function (req, res, next) {
   Group.find()
     .sort({ createdAt: -1 })
@@ -60,7 +60,7 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
-/* POST endpoint */
+/* POST endpoint: Create group */
 router.post("/", function (req, res, next) {
   const newGroup = new Group(req.body);
   newGroup.save((error) => {
@@ -83,7 +83,7 @@ router.delete("/:id", function (req, res, next) {
     });
 });
 
-/* PUT endpoint to update group */
+/* PUT endpoint to update group - add or remove member */
 router.put("/:id", function (req, res, next) {
   // TODO: find new method - current one without the 'useFindAndModify' option set to false is deprecated
   const newGroup = req.body;
@@ -120,6 +120,7 @@ router.put("/:id", function (req, res, next) {
   });
 });
 
+/* GET group members */
 router.get("/:id/members", function (req, res, next) {
   Group.findById(req.params.id)
     .then((groupData) => {

@@ -2,10 +2,12 @@ var express = require("express");
 var router = express.Router();
 const Event = require("../models/event");
 var mongoose = require("mongoose");
+const User = require("../models/user");
 
-/* GET events listing. */
+/* GET all events listing, ordered by the start time of event. */
 router.get("/", function (req, res, next) {
   Event.find()
+    .sort({ startTime: 1 })
     .then((data) => {
       res.send(data);
     })
@@ -16,6 +18,7 @@ router.get("/", function (req, res, next) {
     });
 });
 
+/* GET a single event */
 router.get("/:id", function (req, res, next) {
   Event.findById(req.params.id)
     .then((data) => {
@@ -28,6 +31,7 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
+/* Search for keyword in events collection */
 router.get("/search/:text", function (req, res, next) {
   const searchText = req.params.text;
   Event.find(
@@ -45,24 +49,12 @@ router.get("/search/:text", function (req, res, next) {
     });
 });
 
+/* Create a new event */
 router.post("/", function (req, res, next) {
-  const newEvent = new Event({
-    ...req.body,
-    creator: req.body.user.uid,
-    startTime: new Date(req.body.start),
-    endTime: new Date(req.body.end),
-    participantSize: "1",
-    participants: [req.body.user],
-    group: mongoose.Types.ObjectId(req.body.group),
-    status: "status",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
+  const newEvent = new Event(req.body);
   newEvent.save((error) => {
     if (error) {
-      console.log("Ooops, something happened to event POST");
-      console.log(error);
-      res.send(error);
+      res.status(500).send({ message: error.message || "POST event failed" });
     } else {
       console.log("POST event successful");
       res.send(req.body);
@@ -70,6 +62,7 @@ router.post("/", function (req, res, next) {
   });
 });
 
+/*Add a comment to an event posting */
 router.patch("/:id/comments", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $push: { comments: req.body.comment },
@@ -80,9 +73,32 @@ router.patch("/:id/comments", function (req, res, next) {
     });
 });
 
+/* GET event participants */
+router.get("/:id/participants", function (req, res, next) {
+  Event.findById(req.params.id)
+    .then((eventData) => {
+      return User.find({
+        _id: {
+          $in: eventData.participantIds,
+        },
+      });
+    })
+    .then((usersData) => {
+      res.send(usersData);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "There was an error while getting group members",
+      });
+    });
+});
+
+/* Add participant */
 router.patch("/:id/participants", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
-    $push: { participants: req.body.participant },
+    $push: { participantIds: req.body.userId },
+    $inc: { participantSize: 1 }
   })
     .then(() => res.send("success"))
     .catch((err) => {
@@ -90,9 +106,11 @@ router.patch("/:id/participants", function (req, res, next) {
     });
 });
 
+/* Remove participant */
 router.patch("/:id/removeParticipant", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
-    $pull: { participants: req.body.participant },
+    $pull: { participantIds: req.body.userId },
+    $inc: { participantSize: -1 }
   })
     .then(() => res.send("success"))
     .catch((err) => {
@@ -100,6 +118,7 @@ router.patch("/:id/removeParticipant", function (req, res, next) {
     });
 });
 
+/* Delete event */
 router.delete("/:id", function (req, res, next) {
   Event.findOneAndDelete({ _id: req.params.id })
     .then((result) => {

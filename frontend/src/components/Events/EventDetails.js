@@ -9,24 +9,15 @@ import {
   Typography,
   Box,
   Button,
-  CircularProgress,
-  Card,
-  CardContent,
+  CircularProgress, Card, CardContent, Select, MenuItem, FormControl, InputLabel,
 } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
-import {
-  getEvent,
-  participantJoin,
-  participantLeave,
-  deleteEvent,
-} from "../../actions/events.js";
+import {styled} from "@material-ui/styles";
+import {participantJoin, participantLeave, deleteEvent, getEventPageData, getEvent} from "../../actions/events.js";
 import "firebase/auth";
-import { useParams } from "react-router";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import {useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useHistory} from "react-router-dom";
 import React from "react";
-
-// Followed mapbox tutorial: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 
 const _ = require("lodash");
 
@@ -47,53 +38,63 @@ const Box2 = styled(Box)({
   overflow: "auto",
 });
 
-const Button1 = styled(Button)({
+const Buttons = styled(Box)({
   float: "right",
   marginLeft: "0.5rem",
+  display: "flex"
+})
+
+const Button1 = styled(Button)({
+  marginRight: "1rem"
 });
 
 function EventDetails(props) {
-  const {
-    event,
-    getEvent,
-    participantJoin,
-    participantLeave,
-    deleteEvent,
-    user,
-  } = props;
+  const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
+  const {id} = useParams();
+  const history = useHistory();
 
-  const { id } = useParams();
-
-  const [isParticipant, setIsParticipant] = useState(
-    event?.participants
-      ?.map((participants) => participants.uid)
-      .includes(user.user_id)
-  );
+  const isCreator = event.creatorId === user.user_id;
+  const [isParticipant, setIsParticipant] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const date = new Date(event.startTime).toUTCString();
 
   useEffect(() => {
-    getEvent(id).then(() => {});
+    getEvent(id)
   }, [getEvent, id]);
 
-  const history = useHistory();
+  useEffect(() => {
+    !_.isEmpty(event) && setIsParticipant(event.participantIds.includes(user.user_id))
+  }, [event, user.user_id])
 
   const addParticipant = () => {
-    participantJoin(id, user.user_id, user.displayName).then(() => {
-      setIsParticipant(true);
-    });
+    participantJoin(id, user.user_id)
+      .then(() => {
+        setIsParticipant(true)
+      })
   };
 
   const removeParticipant = () => {
-    participantLeave(id, user.user_id, user.displayName).then(() => {
-      setIsParticipant(false);
-    });
-  };
+    participantLeave(id, user.user_id)
+      .then(() => {
+        setIsParticipant(false)
+      })
+  }
+
+  const handleChange = (e) => {
+    const willParticipate = e.target.value;
+    if (e.target.value !== isParticipant) {
+      willParticipate ? addParticipant() : removeParticipant()
+    }
+  }
 
   const removeEvent = () => {
-    deleteEvent(id);
-    history.push("/events");
-  };
+    window.confirm(
+      "Are you sure you want to delete this event? This action cannot be undone."
+    ) && deleteEvent(id)
+    && history.push("/events")
+  }
+
   //TODO: Make displayNames appear
   //TODO: Add ternary operator to display "No location set" when there is no location
   return _.isEmpty(event) ? (
@@ -103,38 +104,71 @@ function EventDetails(props) {
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
-          <Button1
-            onClick={removeEvent}
-            disableElevation
-            variant="contained"
-            color="secondary"
-          >
-            Delete Event
-          </Button1>
-          <Button1
-            disableElevation
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              isParticipant ? removeParticipant() : addParticipant();
-            }}
-          >
-            {isParticipant ? "Going" : "Not Going"}
-          </Button1>
           <Typography component={"span"}>
+            <Box fontWeight="fontWeightLight">
+              {"Created by " + (isCreator ? "You" : event.creator)}
+            </Box>
+          </Typography>
+          <Buttons>
+            {isCreator && !isEditing && (
+              <Button1
+                disableElevation
+                size="small"
+                variant="contained"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Event
+              </Button1>
+            )}
+            {isEditing && (
+              <Box>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => removeEvent()}
+                >
+                  Delete event
+                </Button1>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                >
+                  Update
+                </Button1>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </Button1>
+              </Box>)}
+            <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
+              <InputLabel id="outlined-participation-label">Attendance</InputLabel>
+              <Select
+                labelId="participation-label"
+                id="participation"
+                value={isParticipant}
+                onChange={handleChange}
+                label="participation"
+              >
+                <MenuItem value={true}>Going</MenuItem>
+                <MenuItem value={false}> Not Going</MenuItem>
+              </Select>
+            </FormControl>
+          </Buttons>
+          <Typography component={'span'}>
             <Box fontWeight="fontWeightMedium">{event.location}</Box>
             <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
           </Typography>
-          <TagChips genreTags={event.genreTags} />
-          <Box2>
-            <EventDescription description={event.description} />
-          </Box2>
-          <Box2>
-            <EventParticipants participants={event.participants} />
-          </Box2>
-          <Box2>
-            <EventComments eventId={id} comments={event.comments} />
-          </Box2>
+          <TagChips tags={event.tags}/>
+          <EventParticipants/>
+          <EventComments eventId={id} comments={event.comments} />
           <Box2>
             <DisplayMap
               location={event.location}
@@ -158,12 +192,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEvent: (id) => getEvent(dispatch, id),
-    participantJoin: (eventId, userId, displayName) =>
-      participantJoin(dispatch, eventId, userId, displayName),
-    participantLeave: (eventId, userId, displayName) =>
-      participantLeave(dispatch, eventId, userId, displayName),
-    deleteEvent: (eventId) => deleteEvent(dispatch, eventId),
+    getEvent: (id) => dispatch(getEvent(id)),
+    participantJoin: (eventId, userId) => participantJoin(dispatch, eventId, userId),
+    participantLeave: (eventId, userId) => participantLeave(dispatch, eventId, userId),
+    deleteEvent: (eventId) => deleteEvent(dispatch, eventId)
   };
 };
 

@@ -32,13 +32,13 @@ const UserGroupsContainer = (props) => {
                 {(props.userGroups.created.length === 0) &&
                 <Typography>You do not own any groups.</Typography>}
                 {props.userGroups.created.map((group) => (
-                  <Group group={group} isMember={true} isCreator={true} key={group.name+group.creatorId}/>
+                  <Group group={group} isMainList={false} key={group.name+group.creatorId}/>
                 ))}
                 <Typography variant="h6">Groups you joined</Typography>
                 {(props.userGroups.joined.length === 0) &&
                 <Typography>You are not currently in any groups!</Typography>}
                 {props.userGroups.joined.map((group) => (
-                    <Group group={group} isMember={true} key={group.name+group.creatorId}/>
+                    <Group group={group} isMainList={false} key={group.name+group.creatorId}/>
                 ))}
             </CardContent>
         </UserGroup>
