@@ -1,5 +1,4 @@
 const initialState = {
-  searchResults: [],
   user_id: null,
   firstName: "",
   lastName: "",

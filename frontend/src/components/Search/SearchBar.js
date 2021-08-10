@@ -8,6 +8,12 @@ const TextFieldSearch = styled(TextField)({
   marginLeft: `1rem`
 });
 
+const SearchIcon = styled(Search)({
+  "&:hover": {
+    cursor: "pointer"
+  }
+})
+
 export const SearchBar = () => {
   const history = useHistory();
 
@@ -21,7 +27,9 @@ export const SearchBar = () => {
       size="small"
       placeholder="Search for..."
       InputProps={{
-        endAdornment: <InputAdornment position="end"><Search onClick={handleClick}/></InputAdornment>
+        endAdornment: <InputAdornment position="end">
+          <SearchIcon onClick={handleClick}/>
+        </InputAdornment>
       }}
     />
   )

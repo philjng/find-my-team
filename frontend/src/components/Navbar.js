@@ -3,12 +3,10 @@ import {Link} from "react-router-dom";
 import React from "react";
 import styled from "styled-components"
 import {DropdownAdd} from "./DropdownAdd";
-import SearchButton from "./SearchButton";
 
 import DropdownProfile from "./DropdownProfile";
 import {Box} from "@material-ui/core";
 import {styled as Styled} from "@material-ui/styles" ;
-import {Search} from "@material-ui/icons";
 import {SearchBar} from "./Search/SearchBar";
 
 const Sticky = Styled(Box)({
@@ -30,7 +28,7 @@ const Links = styled.div`
 `
 
 const NavLink = styled(Link)`
-  color: #fff; // will want to remove pure black and white later
+  color: #fff; 
   text-decoration: none;
   margin: 0 1rem;
 `
@@ -53,7 +51,6 @@ export const Navbar = () => {
         <Icons>
           <DropdownAdd/>
           <DropdownProfile/>
-          {/*<SearchButton/>*/}
         </Icons>
       </Nav>
     </Sticky>

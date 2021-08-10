@@ -1,4 +1,5 @@
 const initialState = {
+  searchKey: "",
   users: [],
   groups: [],
   events: [],

@@ -1,6 +1,5 @@
 const initialState = {
   groups: [],
-  searchResults: [],
   group: {},
   groupMembers: [],
   groupEvents: []
