@@ -3,7 +3,7 @@ import { styled } from "@material-ui/styles";
 import Event from "./Event";
 
 const SCCard = styled(Card)({
-  backgroundColor: `#8bbdda`,
+  backgroundColor: `#f7fdfc`,
 });
 
 function NextEvent(props) {
@@ -14,7 +14,7 @@ function NextEvent(props) {
       <CardHeader title="Up Next" />
       {event ? (
         <>
-          <CardMedia image={event.image}></CardMedia>
+          <CardMedia image={event.image} />
           <CardContent>
             <Event info={event} />
           </CardContent>
