@@ -63,7 +63,7 @@ function EventComments(props) {
         <TextField1
           multiline
           rowsMax={5}
-          placeholder=" Add a comment"
+          placeholder="Add a comment"
           value={textComment}
           onChange={changeTextComment}
           variant="outlined"

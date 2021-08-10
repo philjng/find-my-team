@@ -8,6 +8,8 @@ import SearchButton from "./SearchButton";
 import DropdownProfile from "./DropdownProfile";
 import {Box} from "@material-ui/core";
 import {styled as Styled} from "@material-ui/styles" ;
+import {Search} from "@material-ui/icons";
+import {SearchBar} from "./Search/SearchBar";
 
 const Sticky = Styled(Box)({
   position: "sticky",
@@ -46,11 +48,12 @@ export const Navbar = () => {
           <NavLink to="/home"><h3>FindMyTeam</h3></NavLink>
           <NavLink to="/events">All Events</NavLink>
           <NavLink to="/groups">Groups</NavLink>
+          <SearchBar/>
         </Links>
         <Icons>
           <DropdownAdd/>
           <DropdownProfile/>
-          <SearchButton/>
+          {/*<SearchButton/>*/}
         </Icons>
       </Nav>
     </Sticky>
