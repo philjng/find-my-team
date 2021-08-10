@@ -53,14 +53,14 @@ function EventsContainer(props) {
           <TabButton
             onClick={() => setFilter("upcoming")}
             variant={filter === "upcoming" ? "contained" : ""}
-            color={filter === "upcoming" ? "primary" : ""}
+            color={filter === "upcoming" ? "default" : ""}
           >
             Upcoming
           </TabButton>
           <TabButton
             onClick={() => setFilter("past")}
             variant={filter === "past" ? "contained" : ""}
-            color={filter === "past" ? "primary" : ""}
+            color={filter === "past" ? "default" : ""}
           >
             Past
           </TabButton>
@@ -72,14 +72,14 @@ function EventsContainer(props) {
           <Button
             onClick={() => setMapView(false)}
             variant={!mapView ? "contained" : ""}
-            color={!mapView ? "primary" : ""}
+            color={!mapView ? "default" : ""}
           >
             List
           </Button>
           <Button
             onClick={() => setMapView(true)}
             variant={mapView ? "contained" : ""}
-            color={mapView ? "primary" : ""}
+            color={mapView ? "default" : ""}
           >
             Map
           </Button>
