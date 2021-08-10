@@ -15,7 +15,6 @@ import { CardHeader } from "../Groups/UserGroups";
 import "firebase/auth";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { genericApi } from "../../api/genericApi";
 import {createEvent} from "../../actions/events";
 
 const CreateEventCard = styled(Card)({

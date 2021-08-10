@@ -20,6 +20,7 @@ import {Link, useHistory, useParams} from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
+import {EventList} from "../Events/EventList";
 
 const _ = require("lodash");
 
@@ -90,6 +91,7 @@ function GroupDetails(props) {
     user,
     group,
     groupMembers,
+    groupEvents,
     getGroupPageData,
     deleteGroup,
     addMember,
@@ -217,8 +219,7 @@ function GroupDetails(props) {
         <EventCard>
           <VerticalContent>
             <Typography variant="h6">Events</Typography>
-            {/*TODO: set up group related events listing*/}
-            <Typography align="center">This group has no events.</Typography>
+            <EventList events={groupEvents} isEventPage={false}/>
           </VerticalContent>
         </EventCard>
         {/*TODO: abstract out members card into it's own component with own fetching*/}
@@ -247,6 +248,7 @@ const mapStateToProps = (state) => {
     user: state.user,
     group: state.groups.group,
     groupMembers: state.groups.groupMembers,
+    groupEvents: state.groups.groupEvents
   };
 };
 

@@ -12,6 +12,7 @@ import {
   ButtonGroup,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
+import {EventList} from "./EventList";
 
 const TabButton = styled(Button)({
   "&:focus": {
@@ -58,23 +59,7 @@ function EventsContainer(props) {
           <Button onClick={() => setMapView(false)}>List</Button>
           <Button onClick={() => setMapView(true)}>Map</Button>
         </ButtonGroup1>
-        {props.events.length === 0 ?
-          (<div>"There are no events! Start one yourself!"</div>) :
-          mapView ? <EventMap events={filterEvents(props.events, filter)}/> :
-            (<List
-              disablePadding={true}
-              dense={true}
-              style={{maxHeight: "50%", overflow: "auto"}}
-            >
-              {filterEvents(props.events, filter).map((event) => (
-                <React.Fragment key={event._id}>
-                  <ListItem>
-                    <Event info={event}/>
-                  </ListItem>
-                  <Divider variant="middle" component="li"/>
-                </React.Fragment>
-              ))}
-            </List>)}
+        <EventList events={filterEvents(props.events, filter)} isEventPage={true}/>
       </Box>
     </SCContainer>
   );

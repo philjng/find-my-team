@@ -52,6 +52,7 @@ export const createGroup = (data) => async (dispatch) => {
 export const getGroupPageData = (groupId) => async (dispatch) => {
   dispatch(getGroup(groupId));
   dispatch(getGroupMembers(groupId));
+  dispatch(getGroupEvents(groupId));
 };
 
 export const getGroup = (groupId) => async (dispatch) => {
@@ -102,6 +103,21 @@ export const getGroupMembers = (groupId) => async (dispatch) => {
       type: "ERROR_GROUP_MEMBERS",
       payload: e.message,
     });
+  }
+};
+
+export const getGroupEvents = (groupId) => async (dispatch) => {
+  try {
+    const res = await genericApi.get(`/api/groups/${groupId}/events`);
+    dispatch({
+      type: "GET_GROUP_EVENTS",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_GROUP_EVENTS",
+      payload: e.message
+    })
   }
 };
 
