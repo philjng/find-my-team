@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import TagChips from "./TagChips.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
@@ -12,7 +12,7 @@ import {
   CircularProgress, Card, CardContent, Select, MenuItem, FormControl, InputLabel,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
-import {participantJoin, participantLeave, deleteEvent, getEventPageData, getEvent} from "../../actions/events.js";
+import {participantJoin, participantLeave, deleteEvent, getEvent} from "../../actions/events.js";
 import "firebase/auth";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -30,12 +30,10 @@ const DateBox = styled(Box)({
   marginBottom: `0.5rem`,
 });
 
-const Box2 = styled(Box)({
-  float: "left",
-  width: "80%",
-  marginTop: "1rem",
-  maxHeight: "25%",
-  overflow: "auto",
+const EventItems = styled(Box)({
+  "& > *": {
+    marginBottom: "1rem"
+  }
 });
 
 const Buttons = styled(Box)({
@@ -98,7 +96,7 @@ function EventDetails(props) {
   //TODO: Make displayNames appear
   //TODO: Add ternary operator to display "No location set" when there is no location
   return _.isEmpty(event) ? (
-    <CircularProgress />
+    <CircularProgress/>
   ) : (
     <Container>
       <EventCard>
@@ -166,17 +164,18 @@ function EventDetails(props) {
             <Box fontWeight="fontWeightMedium">{event.location}</Box>
             <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
           </Typography>
-          <TagChips tags={event.tags}/>
-          <EventParticipants/>
-          <EventComments eventId={id} comments={event.comments} />
-          <Box2>
+          <EventItems>
+            <TagChips tags={event.tags}/>
+            <EventDescription description={event.description}/>
+            <EventParticipants/>
+            <EventComments eventId={id} comments={event.comments}/>
             <DisplayMap
               location={event.location}
               latitude={event.latitude}
               longitude={event.longitude}
               useCoordinates={event.useCoordinates}
             />
-          </Box2>
+          </EventItems>
         </CardContent>
       </EventCard>
     </Container>

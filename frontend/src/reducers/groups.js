@@ -3,6 +3,7 @@ const initialState = {
   searchResults: [],
   group: {},
   groupMembers: [],
+  groupEvents: []
 };
 
 const groups = (state = initialState, action) => {
@@ -24,6 +25,12 @@ const groups = (state = initialState, action) => {
         ...state,
         groupMembers: action.payload,
       };
+    }
+    case "GET_GROUP_EVENTS": {
+      return {
+        ...state,
+        groupEvents: action.payload
+      }
     }
     default:
       return state;

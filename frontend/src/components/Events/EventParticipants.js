@@ -1,4 +1,4 @@
-import {Container, Typography, List, ListItem, Box, CircularProgress, Grid} from "@material-ui/core";
+import {Container, Typography, List, ListItem, Box, CircularProgress} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import {getEventParticipants} from "../../actions/events";

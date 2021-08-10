@@ -3,6 +3,7 @@ var router = express.Router();
 
 const Group = require("../models/group");
 const User = require("../models/user");
+const Event = require("../models/event")
 
 /* GET groups listing by latest creation date. */
 router.get("/", function (req, res, next) {
@@ -137,6 +138,21 @@ router.get("/:id/members", function (req, res, next) {
       res.status(500).send({
         message:
           error.message || "There was an error while getting group members",
+      });
+    });
+});
+
+/* GET group's events */
+router.get("/:id/events", function (req, res, next) {
+  Event.find({
+    group: req.params.id
+  })
+    .then((groupEvents) => {
+      res.send(groupEvents)
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message || "There was an error fetching group events"
       });
     });
 });
