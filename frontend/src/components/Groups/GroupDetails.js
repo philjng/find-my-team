@@ -20,7 +20,7 @@ import {Link, useHistory, useParams} from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
-import {EventList} from "../Events/EventList";
+import {GroupEvents} from "./GroupEvents";
 
 const _ = require("lodash");
 
@@ -59,12 +59,6 @@ const Image = styled(CardMedia)({
 const SecondBox = styled(FlexBox)({
   justifyContent: `space-between`,
   margin: `1rem 0`,
-});
-
-const EventCard = styled(Card)({
-  backgroundColor: `#f7fdfc`,
-  flexGrow: `2`,
-  marginRight: `1rem`,
 });
 
 const MembersCard = styled(Card)({
@@ -126,7 +120,7 @@ function GroupDetails(props) {
     ) && removeMember(group._id, user.user_id);
   };
 
-  // TODO: might want to abstract parts away and simplify this js file
+  // TODO: might want to abstract parts away and simplify this file
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
     <LoadingPage value="Loading data..."/>
   ) : (
@@ -215,13 +209,7 @@ function GroupDetails(props) {
         </GroupContent>
       </GroupCard>
       <SecondBox>
-        {/*TODO: abstract out event card into it's own component with own fetching*/}
-        <EventCard>
-          <VerticalContent>
-            <Typography variant="h6">Events</Typography>
-            <EventList events={groupEvents} isEventPage={false}/>
-          </VerticalContent>
-        </EventCard>
+        <GroupEvents events={groupEvents}/>
         {/*TODO: abstract out members card into it's own component with own fetching*/}
         <MembersCard>
           <VerticalContent>

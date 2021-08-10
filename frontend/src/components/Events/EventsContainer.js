@@ -1,24 +1,15 @@
-import Event from "./Event.js";
 import EventMap from "./EventMap";
 import React from "react";
 import {useState} from "react";
 import {
   Container,
   Button,
-  List,
-  ListItem,
   Box,
-  Divider,
   ButtonGroup,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {EventList} from "./EventList";
-
-const TabButton = styled(Button)({
-  "&:focus": {
-    background: "#d3d3d3" // the background button color
-  }
-})
+import {TabButton} from "../Groups/GroupEvents";
 
 const SCContainer = styled(Container)({
   textAlign: "center",
@@ -31,6 +22,7 @@ const ButtonGroup1 = styled(ButtonGroup)({
 function EventsContainer(props) {
   const [filter, setFilter] = useState("upcoming");
   const [mapView, setMapView] = useState(false);
+
   const filterEvents = (events, filter) => {
     switch (filter) {
       case "all":
@@ -59,7 +51,9 @@ function EventsContainer(props) {
           <Button onClick={() => setMapView(false)}>List</Button>
           <Button onClick={() => setMapView(true)}>Map</Button>
         </ButtonGroup1>
-        <EventList events={filterEvents(props.events, filter)} isEventPage={true}/>
+        {mapView ? <EventMap events={filterEvents(props.events, filter)}/>
+          : <EventList events={filterEvents(props.events, filter)} isEventPage={true}/>
+        }
       </Box>
     </SCContainer>
   );
