@@ -7,6 +7,12 @@ const initialState = {
 
 const searchReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "SET_SEARCH": {
+      return {
+        ...state,
+        searchKey: action.payload
+      }
+    }
     case "SEARCH_USERS": {
       return { ...state, users: action.payload };
     }

@@ -1,6 +1,16 @@
 import { genericApi } from "../api/genericApi";
 
-export const searchUsers = async (dispatch, searchText) => {
+export const setSearch = (searchText) => async (dispatch) => {
+  dispatch({
+    type: "SET_SEARCH",
+    payload: searchText
+  })
+  dispatch(searchUsers(searchText));
+  dispatch(searchGroups(searchText));
+  dispatch(searchEvents(searchText));
+};
+
+export const searchUsers = (searchText) => async (dispatch) => {
   try {
     genericApi.get(`api/users/search/${searchText}`).then((res) => {
       dispatch({
@@ -16,7 +26,7 @@ export const searchUsers = async (dispatch, searchText) => {
   }
 };
 
-export const searchGroups = async (dispatch, searchText) => {
+export const searchGroups = (searchText) => async (dispatch) => {
   try {
     genericApi.get(`api/groups/search/${searchText}`).then((res) => {
       dispatch({
@@ -32,7 +42,7 @@ export const searchGroups = async (dispatch, searchText) => {
   }
 };
 
-export const searchEvents = async (dispatch, searchText) => {
+export const searchEvents = (searchText) => async (dispatch) => {
   try {
     genericApi.get(`api/events/search/${searchText}`).then((res) => {
       dispatch({
