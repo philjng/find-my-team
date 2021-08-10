@@ -41,6 +41,10 @@ const GroupPageGrid = styled(Grid)({
 
 const GroupGrid = styled(Grid)({});
 
+const GroupCard = styled(Card)({
+  backgroundColor: "#f7fdfc"
+})
+
 const SecondGrid = styled(Grid)({});
 
 const EventsGrid = styled(Grid)({
@@ -134,7 +138,7 @@ function GroupDetails(props) {
         justifyContent="center"
       >
         <GroupGrid container item>
-          <Card>
+          <GroupCard>
             <GroupContent>
               <LeftBox>
                 <Box>
@@ -220,7 +224,7 @@ function GroupDetails(props) {
                 />
               </Image>
             </GroupContent>
-          </Card>
+          </GroupCard>
         </GroupGrid>
         <SecondGrid item container spacing="2" direction="row">
           <EventsGrid item>
