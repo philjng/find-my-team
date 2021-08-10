@@ -104,3 +104,26 @@ export const getUser = (id) => async (dispatch) => {
     });
   }
 };
+
+export const getUserEvents = (id) => async (dispatch) => {
+  try {
+    const res = await genericApi.get(`/api/users/${id}/events`);
+    dispatch({
+      type: "GET_USER_EVENTS",
+      payload: res.data,
+    });
+  } catch (e) {
+    showSnackbar(ERROR, "There was an error with getting user events");
+    dispatch({
+      type: "ERROR_GET_USER_EVENTS",
+      payload: e.message,
+    });
+  }
+};
+
+export const getHomePageData = (id) => async (dispatch) => {
+  dispatch(getUser(id));
+  dispatch(getCreatedGroups(id));
+  dispatch(getJoinedGroups(id));
+  dispatch(getUserEvents(id));
+};

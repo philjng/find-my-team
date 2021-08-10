@@ -1,4 +1,5 @@
 var express = require("express");
+const Event = require("../models/event");
 var router = express.Router();
 const User = require("../models/user");
 
@@ -67,6 +68,37 @@ router.get("/:id/groups", function (req, res, next) {
       }
     }
   );
+});
+
+router.get("/:id/events", function (req, res, next) {
+  const response = {};
+  Event.find({
+    creatorId: req.params.id,
+  })
+    .then((createdEventsData) => {
+      response.created = createdEventsData;
+      Event.find({
+        participantIds: { $in: req.params.id },
+      })
+        .then((joinedEventsData) => {
+          response.joined = joinedEventsData;
+          res.send(response);
+        })
+        .catch((error) => {
+          res.status(500).send({
+            message:
+              error.message ||
+              "There was an error while getting user's joined events",
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message ||
+          "There was an error while getting user's created events",
+      });
+    });
 });
 
 router.get("/search/:text", function (req, res, next) {
