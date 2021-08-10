@@ -10,7 +10,7 @@ const _ = require("lodash");
 const ListItem1 = styled(ListItem)({
   border: "1px solid grey",
   margin: "0.25rem",
-  backgroundColor: "white",
+  backgroundColor: "#f7fdfc",
   width: "25%",
 });
 
@@ -31,7 +31,7 @@ function EventParticipants(props) {
 
   return (
     <Box>
-      <Typography variant="h5">Participants</Typography>
+      <Typography variant="h5">{"Participants ("+ participants.length + ")"}</Typography>
       <List1>
         {_.isEmpty(participants) ? (
           // <CircularProgress color="primary" size={100}/> // once we have LOADING state set up
