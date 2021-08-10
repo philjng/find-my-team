@@ -96,6 +96,25 @@ made more efficient, as noted by the `TODOs` in the code.
 Some examples include having more admin actions for the group owner, adding photos to events, allowing more actions for commenting, etc.
 
 # 6. Contributions #
+- contributions can also be noted from PRs, and in the Project tab (some tickets have names attached for work done)
+Lucas Gustafson (u8h2b):
+
+
+Philip Ng (s3d1b): 
+- project managed(?), led some scrums, wrote tickets (under repo "projects"), led some designs, and wrote documentation
+- worked on unifying UI, color scheme, navigation bar and the starting point for the homepage
+- a lot of decision making into how Redux state should look, and how we should store and manage data
+- worked on Groups page; group creation, deletion, displaying group events (and the group details page) and group related endpoints
+  - ability for user to join and leave groups, and user related endpoints and state management
+- initiated the snackbar 
+- set up CI / CD from Heroku
+- holistic app changes (to make it more unified, went into Events after Lucas built the foundation)
+
+Samson Tsui (o5e1b
+
+
+Sidney Lu (b2p1b):
+
 
 # Prototypes #
 ## Add New Event Post Workflow ##
