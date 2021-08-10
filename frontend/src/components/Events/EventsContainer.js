@@ -41,7 +41,10 @@ function EventsContainer(props) {
 
   return (
     <EventCard>
-      <CardHeader title={headerValue ? headerValue : "Events"} />
+      <CardHeader
+        title={headerValue ? headerValue : "Events"}
+        titleTypographyProps={ !headerValue && {variant: "h4"}}
+      />
       <Grid container justify="center">
         <SCButtonGroup
           variant="text"
