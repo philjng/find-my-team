@@ -29,8 +29,6 @@ import SportsList from "./SportsList";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
-const _ = require("lodash");
-
 const useStyles = makeStyles((theme) => ({
   profile: {
     "margin-top": "50px",
@@ -171,8 +169,6 @@ function UserInfo(props) {
               {imageEdited ? (
                 isEditing ? (
                   <SCAvatar src={previewSource} />
-                ) : _.isEmpty(user.image) ? (
-                  <SCAvatar />
                 ) : (
                   <CloudinaryAvatar publicId={user.image} size={400} />
                 )

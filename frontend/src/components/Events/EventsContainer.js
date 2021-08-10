@@ -1,15 +1,7 @@
 import EventMap from "./EventMap";
 import React from "react";
 import { useState } from "react";
-import {
-  Typography,
-  Card,
-  Button,
-  Grid,
-  ButtonGroup,
-  Box,
-  CardHeader,
-} from "@material-ui/core";
+import { Card, Button, Grid, ButtonGroup, CardHeader } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import { EventList } from "./EventList";
 
