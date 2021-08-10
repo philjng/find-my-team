@@ -1,57 +1,59 @@
-import {Container, Typography} from "@material-ui/core";
-import {connect} from "react-redux";
-import {styled} from "@material-ui/styles";
+import { Container, Typography, Grid } from "@material-ui/core";
+import { connect } from "react-redux";
+import { styled } from "@material-ui/styles";
 import UserEvents from "./Events/UserEvents";
 import UserGroups from "./Groups/UserGroups";
-import {getUser} from "../actions/user";
-import {useEffect} from "react";
-import {useAuth} from "../context/AuthContext";
+import { getHomePageData } from "../actions/user";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
-const PageContainer = styled(Container)({
-  padding: 0,
-})
+const HomePageContainer = styled(Container)({
+  marginBottom: "3rem",
+});
 
 const WelcomeText = styled(Typography)({
-  padding: '1rem',
-  textAlign: 'center',
-})
+  padding: "1rem",
+  textAlign: "center",
+});
 
-const HomeInfo = styled(Container)({
-  display: `flex`,
-  justifyContent: `space-around`
-})
+const UserEventsGrid = styled(Grid)({
+  flexGrow: "1",
+});
 
+const UserGroupsGrid = styled(Grid)({});
 
 function Home(props) {
-  const { getUser } = props;
-  const { currentUser } = useAuth()
+  const { user, getHomePageData } = props;
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    getUser(currentUser.uid)
-  }, [getUser, currentUser.uid])
+    getHomePageData(currentUser.uid);
+  }, [getHomePageData, currentUser.uid]);
 
   return (
-    <PageContainer>
-      <WelcomeText variant="h5">
-        Welcome back, {props.user.displayName}
-      </WelcomeText>
-      <HomeInfo>
-        <UserEvents/>
-        <UserGroups/>
-      </HomeInfo>
-    </PageContainer>
+    <HomePageContainer>
+      <WelcomeText variant="h5">Welcome back, {user.displayName}</WelcomeText>
+      <Grid direction="row" container spacing="2">
+        <UserEventsGrid item>
+          <UserEvents />
+        </UserEventsGrid>
+        <UserGroupsGrid item>
+          <UserGroups />
+        </UserGroupsGrid>
+      </Grid>
+    </HomePageContainer>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: (id) => dispatch(getUser(id)),
+    getHomePageData: (id) => dispatch(getHomePageData(id)),
   };
 };
 

@@ -15,7 +15,8 @@ const GroupsPage = styled(Container)({
 const AllGroups = styled(Card)({
   padding: `1rem`,
   minWidth: `50vw`,
-  backgroundColor: `#f7fdfc`
+  backgroundColor: `#f7fdfc`,
+  marginRight: `1rem`
 })
 
 const GroupsContainer = (props) => {

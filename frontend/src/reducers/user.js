@@ -80,6 +80,15 @@ const userReducer = (state = initialState, action) => {
         user_id: action.payload._id,
       };
     }
+    case "GET_USER_EVENTS": {
+      return {
+        ...state,
+        userEvents: {
+          ...state.userEvents,
+          ...action.payload,
+        },
+      };
+    }
     default:
       return state;
   }

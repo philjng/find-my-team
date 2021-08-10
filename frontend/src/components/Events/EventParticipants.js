@@ -1,9 +1,9 @@
-import {Container, Typography, List, ListItem, Box, CircularProgress} from "@material-ui/core";
-import {styled} from "@material-ui/styles";
-import {connect} from "react-redux";
-import {getEventParticipants} from "../../actions/events";
-import {useEffect} from "react";
-import {useParams} from "react-router-dom";
+import { Container, Typography, List, ListItem, Box } from "@material-ui/core";
+import { styled } from "@material-ui/styles";
+import { connect } from "react-redux";
+import { getEventParticipants } from "../../actions/events";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const _ = require("lodash");
 
@@ -22,31 +22,29 @@ const List1 = styled(List)({
 });
 
 function EventParticipants(props) {
-  const {
-    getEventParticipants,
-    participants
-  } = props;
-  const {id} = useParams();
+  const { getEventParticipants, participants } = props;
+  const { id } = useParams();
 
   useEffect(() => {
-    getEventParticipants(id)
-  }, [id, getEventParticipants])
+    getEventParticipants(id);
+  }, [id, getEventParticipants]);
 
   return (
     <Box>
       <Typography variant="h5">Participants</Typography>
       <List1>
-        {_.isEmpty(participants) ?
+        {_.isEmpty(participants) ? (
           // <CircularProgress color="primary" size={100}/> // once we have LOADING state set up
           <></>
-          :
+        ) : (
           participants.map((participant) => (
             <ListItem1 key={participant._id}>
               <Container>
                 <Typography>{participant.displayName}</Typography>
               </Container>
             </ListItem1>
-          ))}
+          ))
+        )}
       </List1>
     </Box>
   );
@@ -54,13 +52,13 @@ function EventParticipants(props) {
 
 const mapStateToProps = (state) => {
   return {
-    participants: state.events.eventParticipants
-  }
-}
+    participants: state.events.eventParticipants,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEventParticipants: (eventId) => dispatch(getEventParticipants(eventId))
+    getEventParticipants: (eventId) => dispatch(getEventParticipants(eventId)),
   };
 };
 
