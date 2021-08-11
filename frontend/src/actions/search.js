@@ -12,7 +12,7 @@ export const setSearch = (searchText) => async (dispatch) => {
 
 export const searchUsers = (searchText) => async (dispatch) => {
   try {
-    if (searchText === '') {
+    if (searchText.trim() === '') {
       dispatch({
         type: "SEARCH_USERS",
         payload: [],
@@ -35,7 +35,7 @@ export const searchUsers = (searchText) => async (dispatch) => {
 
 export const searchGroups = (searchText) => async (dispatch) => {
   try {
-    if (searchText === '') {
+    if (searchText.trim() === '') {
       dispatch({
         type: "SEARCH_GROUPS",
         payload: [],
@@ -58,7 +58,7 @@ export const searchGroups = (searchText) => async (dispatch) => {
 
 export const searchEvents = (searchText) => async (dispatch) => {
   try {
-    if (searchText === '') {
+    if (searchText.trim() === '') {
       dispatch({
         type: "SEARCH_EVENTS",
         payload: [],
