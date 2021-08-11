@@ -7,10 +7,6 @@ import {
   TextField,
   Fab,
   Grid,
-  MenuItem,
-  InputLabel,
-  Select,
-  Checkbox,
   Box,
   Typography,
   Button,
@@ -20,8 +16,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
 import { styled } from "@material-ui/styles";
 import { useParams } from "react-router";
-import { Check, Input } from "@material-ui/icons";
-import { TAGS } from "../../tags";
+import { Check } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUserProfile } from "../../actions/profile";
