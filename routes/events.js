@@ -38,6 +38,7 @@ router.get("/search/:text?", function (req, res, next) {
     return [];
   }
   const searchText = req.params.text;
+  console.log(searchText);
   Event.find(
     { $text: { $search: searchText } },
     { score: { $meta: "textScore" } }
@@ -50,7 +51,7 @@ router.get("/search/:text?", function (req, res, next) {
           { location: { $regex: searchText, $options: "i" } },
           { description: { $regex: searchText, $options: "i" } },
           { tags: { $regex: searchText, $options: "i" } },
-          { comments: { $regex: searchText, $options: "i" } }
+          { "comments.text": { $regex: searchText, $options: "i" } }
 
         ]})
       .then(

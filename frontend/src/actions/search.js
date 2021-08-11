@@ -3,8 +3,8 @@ import { genericApi } from "../api/genericApi";
 export const setSearch = (searchText) => async (dispatch) => {
   dispatch({
     type: "SET_SEARCH",
-    payload: searchText
-  })
+    payload: searchText,
+  });
   dispatch(searchUsers(searchText));
   dispatch(searchGroups(searchText));
   dispatch(searchEvents(searchText));
@@ -12,9 +12,14 @@ export const setSearch = (searchText) => async (dispatch) => {
 
 export const searchUsers = (searchText) => async (dispatch) => {
   try {
-    if (searchText.trim() === '') {
+    if (
+      ['', '.'].includes(searchText.trim()) ||
+      ['#', '\\', '?'].includes(searchText.charAt(0)) ||
+      searchText.includes("/") ||
+      searchText.includes("%")
+    ) {
       dispatch({
-        type: "SEARCH_USERS",
+        type: "SEARCH_EVENTS",
         payload: [],
       });
       return;
@@ -27,7 +32,7 @@ export const searchUsers = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      type: "ERROR_USERS",
+      type: "ERROR",
       payload: console.log(e),
     });
   }
@@ -35,9 +40,14 @@ export const searchUsers = (searchText) => async (dispatch) => {
 
 export const searchGroups = (searchText) => async (dispatch) => {
   try {
-    if (searchText.trim() === '') {
+    if (
+      ['', '.'].includes(searchText.trim()) ||
+      ['#', '\\', '?'].includes(searchText.charAt(0)) ||
+      searchText.includes("/") ||
+      searchText.includes("%")
+    ) {
       dispatch({
-        type: "SEARCH_GROUPS",
+        type: "SEARCH_EVENTS",
         payload: [],
       });
       return;
@@ -50,7 +60,7 @@ export const searchGroups = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      type: "ERROR_GROUPS",
+      type: "ERROR",
       payload: console.log(e),
     });
   }
@@ -58,7 +68,12 @@ export const searchGroups = (searchText) => async (dispatch) => {
 
 export const searchEvents = (searchText) => async (dispatch) => {
   try {
-    if (searchText.trim() === '') {
+    if (
+      ['', '.'].includes(searchText.trim()) ||
+      ['#', '\\', '?'].includes(searchText.charAt(0)) ||
+      searchText.includes("/") ||
+      searchText.includes("%")
+    ) {
       dispatch({
         type: "SEARCH_EVENTS",
         payload: [],
@@ -73,7 +88,7 @@ export const searchEvents = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      type: "ERROR_EVENTS",
+      type: "ERROR",
       payload: console.log(e),
     });
   }
