@@ -112,8 +112,6 @@ function EventDetails(props) {
       history.push("/events");
   };
 
-  //TODO: Make displayNames appear
-  //TODO: Add ternary operator to display "No location set" when there is no location
   return _.isEmpty(event) ? (
     <CircularProgress />
   ) : (

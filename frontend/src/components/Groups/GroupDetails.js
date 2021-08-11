@@ -126,7 +126,6 @@ function GroupDetails(props) {
       removeMember(group._id, user.user_id);
   };
 
-  // TODO: might want to abstract parts away and simplify this file
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
     <LoadingPage value="Loading data..." />
   ) : (
@@ -212,7 +211,6 @@ function GroupDetails(props) {
                   <TagChips tags={group.tags} />
                 </Box>
               </LeftBox>
-              {/*TODO: images for group*/}
               <Image>
                 <img
                   src="https://i.ytimg.com/vi/NVuL7mLqT6g/maxresdefault.jpg"
@@ -230,7 +228,6 @@ function GroupDetails(props) {
           <EventsGrid item>
             <EventsContainer events={groupEvents} />
           </EventsGrid>
-          {/*TODO: abstract out members card into it's own component with own fetching*/}
           <MembersGrid item>
             <MembersCard>
               <VerticalContent>

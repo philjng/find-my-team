@@ -85,7 +85,6 @@ function Create(props) {
     setTagText("");
   };
 
-  //TODO: Add validation for fields and fix refresh bug
   const handleSubmit = () => {
     if (eventTitle.trim() === "") {
       window.alert("Event name is required");
@@ -325,4 +324,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Create);
- 
