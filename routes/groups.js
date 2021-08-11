@@ -162,8 +162,6 @@ router.get("/search/:text?", function (req, res, next) {
     return [];
   }
   const searchText = req.params.text;
-  console.log(searchText);
-  console.log(searchText.length);
   Group.find(
     { $text: { $search: searchText } },
     { score: { $meta: "textScore" } }

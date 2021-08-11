@@ -148,7 +148,6 @@ router.patch("/:id/removeParticipant", function (req, res, next) {
 router.delete("/:id", function (req, res, next) {
   Event.findOneAndDelete({ _id: req.params.id })
     .then((result) => {
-      console.log(result);
       res.send(result);
     })
     .catch((err) => {
