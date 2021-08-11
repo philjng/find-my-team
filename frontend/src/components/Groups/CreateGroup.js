@@ -219,7 +219,7 @@ const CreateGroupPage = (props) => {
                 color="primary"
                 variant="contained"
               >
-                Create Group
+                Submit
               </Button>
               <Button
                 variant="contained"

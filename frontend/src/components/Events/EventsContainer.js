@@ -8,7 +8,6 @@ import { EventList } from "./EventList";
 const EventCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
   flexGrow: `2`,
-  padding: "1rem 1rem 0rem",
 });
 
 export const SCButtonGroup = styled(ButtonGroup)({
