@@ -34,10 +34,6 @@ const useStyles = makeStyles((theme) => ({
     "margin-left": "50px",
     display: "inline-block",
   },
-  profile_pic: {
-    width: "350px",
-    height: "350px",
-  },
   name: {
     "margin-left": "50px",
     "font-style": "Calibri",
@@ -63,20 +59,26 @@ const SCEditIcon = styled(EditIcon)({
 });
 
 const SCBox = styled(Box)({
-  margin: "80px",
+  margin: "60px",
   display: "flex",
   flexDirection: "column",
   alignItems: "left",
 });
 
+const TextBox = styled(Box)({
+  margin: "30px",
+});
+
 const SCAvatar = styled(Avatar)({
-  height: "400px",
-  width: "400px",
+  height: "100px",
+  width: "100px",
 });
 
 const SCChip = styled(Chip)({
   marginRight: "10px",
 });
+
+const AVATAR_SIZE = 300;
 
 function UserInfo(props) {
   const classes = useStyles();
@@ -92,15 +94,30 @@ function UserInfo(props) {
   const isOwner = currentUser.uid === id;
 
   const handleFormChange = (property) => (event) => {
+    console.log("In handleFormChange");
     setForm({
       ...form,
       [property]: event.target.value,
     });
   };
+
+  const addTag = (newTag) => {
+    console.log(newTag);
+    const newTags = form.tags.concat(newTag);
+    console.log(newTags);
+    console.log(form.tags);
+    setForm({
+      ...form,
+      tags: newTags,
+    });
+    console.log(form.tags);
+  };
+
   const handleFirstNameChange = handleFormChange("firstName");
   const handleLastNameChange = handleFormChange("lastName");
   const handleDisplayNameChange = handleFormChange("displayName");
   const handleTagsChange = handleFormChange("tags");
+  const handleTagsInputTextChange = handleFormChange("tagsInputText");
 
   const handleEnableEdit = () => {
     setIsEditing(true);
@@ -173,10 +190,10 @@ function UserInfo(props) {
                 isEditing ? (
                   <SCAvatar src={previewSource} />
                 ) : (
-                  <CloudinaryAvatar publicId={user.image} size={400} />
+                  <CloudinaryAvatar publicId={user.image} size={AVATAR_SIZE} />
                 )
               ) : (
-                <CloudinaryAvatar publicId={user.image} size={400} />
+                <CloudinaryAvatar publicId={user.image} size={AVATAR_SIZE} />
               )}
             </Grid>
             <Grid item>
@@ -267,15 +284,46 @@ function UserInfo(props) {
                   })
                 }
                 MenuProps={{
+                  anchorOrigin: {
+                    vertical: "bottom",
+                    horizontal: "left",
+                  },
+                  transformOrigin: {
+                    vertical: "top",
+                    horizontal: "left",
+                  },
                   getContentAnchorEl: null,
                 }}
               >
-                {TAGS.map((tag) => (
-                  <MenuItem key={tag} value={tag}>
-                    <Checkbox checked={(form?.tags?.indexOf(tag) || 0) > -1} />
-                    <SCChip label={tag} />
-                  </MenuItem>
-                ))}
+                <MenuItem>
+                  <TextField
+                    onChange={handleTagsInputTextChange}
+                    id="outlined-basic"
+                    label="Tag"
+                    value={form.tagsInputText}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => addTag(form.tagsInputText)}
+                  >
+                    Add
+                  </Button>
+                  {/* <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    name="firstName"
+                    autoFocus
+                    value={
+                      isEditing ? form.firstName : initialForm.firstName || ""
+                    }
+                    onChange={handleFirstNameChange}
+                    disabled={!isEditing}
+                  /> */}
+                </MenuItem>
               </Select>
             </FormControl>
             {isEditing && (

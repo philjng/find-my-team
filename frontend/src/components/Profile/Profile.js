@@ -7,6 +7,7 @@ import {
   List,
   ListItem,
   Typography,
+  Grid,
 } from "@material-ui/core";
 import UserGroups from "../Groups/UserGroups";
 import { connect } from "react-redux";
@@ -14,6 +15,12 @@ import { useEffect } from "react";
 import { styled } from "@material-ui/styles";
 import Event from "../Events/Event";
 import { getEvents } from "../../actions/events";
+import UserEvents from "../Events/UserEvents";
+import { getHomePageData } from "../../actions/user";
+import TmpComponent from "./TmpComponent";
+import { useAuth } from "../../context/AuthContext";
+
+const fromTop = "60px";
 
 const SCBox = styled(Box)({
   display: "flex",
@@ -21,56 +28,57 @@ const SCBox = styled(Box)({
 
 const Box2 = styled(Box)({
   display: "flex",
-  margin: "64px",
+  margin: fromTop,
 });
 
 const Box3 = styled(Box)({
   display: "flex",
-  margin: "80px",
+  marginTop: fromTop,
+  marginLeft: "0px",
 });
 
 function Profile(props) {
-  const { getEvents } = props;
+  const { getHomePageData } = props;
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    getEvents();
-  }, [getEvents]);
+    getHomePageData(currentUser.uid);
+  }, [getHomePageData, currentUser.uid]);
 
   return (
     <SCBox>
       <UserInfo />
-      <Box3>
-        <Card>
-          <CardContent>
-            <Typography variant="h6">Your Events</Typography>
-            <List>
-              {props.events.map((event) => (
-                <ListItem key={JSON.stringify(event)}>
-                  <Container>
-                    <Event info={event} />
-                  </Container>
-                </ListItem>
-              ))}
-            </List>
-          </CardContent>
-        </Card>
-      </Box3>
-      <Box2>
-        <UserGroups />
-      </Box2>
+      <Grid>
+        <Box3>
+          <TmpComponent
+            title="Your Joined Events"
+            events={props.joinedEvents}
+          />
+          <TmpComponent
+            title="Your Created Events"
+            events={props.createdEvents}
+          />
+        </Box3>
+      </Grid>
+      <Grid>
+        <Box2>
+          <UserGroups />
+        </Box2>
+      </Grid>
     </SCBox>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    events: state.events.events,
+    createdEvents: state.user.userEvents.created,
+    joinedEvents: state.user.userEvents.joined,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEvents: () => getEvents(dispatch),
+    getHomePageData: (id) => dispatch(getHomePageData(id)),
   };
 };
 
