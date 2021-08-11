@@ -3,7 +3,7 @@ import React from "react";
 import Event from "./Event";
 import { styled } from "@material-ui/styles";
 
-const CenteredTypography = styled(Typography)({
+export const CenteredTypography = styled(Typography)({
   textAlign: "center",
   margin: "5rem",
 });

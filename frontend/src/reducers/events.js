@@ -1,7 +1,6 @@
 
 const initialState = {
   events: [],
-  searchResults: [],
   event: {},
   eventParticipants: [],
   marker: ""

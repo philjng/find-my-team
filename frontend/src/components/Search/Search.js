@@ -1,66 +1,68 @@
-import { TextField, Container, Button, Card } from "@material-ui/core";
-import { useState } from "react";
-import { searchUsers, searchGroups, searchEvents } from "../../actions/search";
-import { connect } from "react-redux";
-import React from "react";
+import {Card, Container} from "@material-ui/core";
+import {searchUsers, searchGroups, searchEvents} from "../../actions/search";
+import {connect} from "react-redux";
+import React, {useState} from "react";
 import EventSearchBox from "../Events/EventSearchBox";
 import GroupSearchBox from "../Groups/GroupSearchBox";
 import UserSearchBox from "../Profile/UserSearchBox";
-import { styled } from "@material-ui/styles";
+import {styled} from "@material-ui/styles";
+import {SCButtonGroup} from "../Events/EventsContainer";
+import Button from "@material-ui/core/Button";
 
-const SearchCard = styled(Card)({
-  margin: "auto",
-  marginTop: "1rem",
-  display: "flex",
-  justifyContent: "centre",
-  width: "50%",
-  backgroundColor: "#d6f5ef",
-});
-
-const SearchBar = styled(TextField)({
-  width: "70%",
-  float: "left",
-  border: "1px solid black",
-  backgroundColor: "white",
-  margin: "auto",
-  borderRadius: "1rem",
-  marginTop: "1rem",
-  marginBottom: "1rem",
-  padding: "0.25rem",
-});
+const ButtonContainer = styled(Card)({
+  backgroundColor: `#f7fdfc`,
+  width: `fit-content`,
+  margin: `2rem auto`,
+  padding: `0.5rem`
+})
 
 function Search(props) {
-  const [searchText, setSearchText] = useState("");
-
   const {
-    searchEvents,
-    searchGroups,
-    searchUsers,
     eventSearchResults,
     groupSearchResults,
     userSearchResults,
   } = props;
 
-  const performSearch = () => {
-    searchEvents(searchText);
-    searchGroups(searchText);
-    searchUsers(searchText);
-  };
+  const [filter, setFilter] = useState("events");
 
   return (
     <Container>
-      <SearchCard>
-        <SearchBar
-          value={searchText}
-          placeholder="Type here"
-          onChange={(e) => setSearchText(e.target.value)}
-          InputProps={{ disableUnderline: true }}
-        />
-        <Button onClick={performSearch}>Search</Button>
-      </SearchCard>
-      <EventSearchBox eventSearchResults={eventSearchResults} />
-      <GroupSearchBox groupSearchResults={groupSearchResults} />
-      <UserSearchBox userSearchResults={userSearchResults} />
+        <ButtonContainer>
+          <SCButtonGroup
+            variant="text"
+            aria-label="contained primary button group"
+          >
+            <Button
+              onClick={() => setFilter("events")}
+              variant={filter === "events" ? "contained" : ""}
+              color={filter === "events" ? "default" : ""}
+              disableElevation
+            >
+              Events
+            </Button>
+            <Button
+              onClick={() => setFilter("groups")}
+              variant={filter === "groups" ? "contained" : ""}
+              color={filter === "groups" ? "default" : ""}
+              disableElevation
+            >
+              Groups
+            </Button>
+            <Button
+              onClick={() => setFilter("users")}
+              variant={filter === "users" ? "contained" : ""}
+              color={filter === "users" ? "default" : ""}
+              disableElevation
+            >
+              Users
+            </Button>
+          </SCButtonGroup>
+        </ButtonContainer>
+        {filter === "events" ?
+          <EventSearchBox eventSearchResults={eventSearchResults}/>
+          : filter === "groups" ?
+            <GroupSearchBox groupSearchResults={groupSearchResults}/>
+            : <UserSearchBox userSearchResults={userSearchResults}/>}
     </Container>
   );
 }

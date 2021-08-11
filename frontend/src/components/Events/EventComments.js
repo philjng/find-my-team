@@ -13,8 +13,9 @@ import "firebase/auth";
 import { useState } from "react";
 
 const ListItem1 = styled(ListItem)({
-  border: "1px solid #272643",
+  borderLeft: "1px solid #2c698d",
   margin: "0.5rem 0",
+  width: "fit-content"
 });
 
 const Typography1 = styled(Typography)({
@@ -23,9 +24,7 @@ const Typography1 = styled(Typography)({
 });
 
 const TextField1 = styled(TextField)({
-  border: "1px solid #272643",
-  height: "20%",
-  width: "80%",
+  width: "60%",
   margin: "1rem 0",
 });
 
@@ -64,9 +63,11 @@ function EventComments(props) {
         <TextField1
           multiline
           rowsMax={5}
-          placeholder=" Add a comment"
+          placeholder="Add a comment"
           value={textComment}
           onChange={changeTextComment}
+          variant="outlined"
+          size="small"
         />
         <Button1 disableElevation variant="contained" color="primary" onClick={submitTextComment}>Submit</Button1>
       </Container>

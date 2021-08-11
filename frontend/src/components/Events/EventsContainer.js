@@ -5,15 +5,14 @@ import { Card, Button, Grid, ButtonGroup, CardHeader } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import { EventList } from "./EventList";
 
-const TabButton = styled(Button)({});
-
 const EventCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
   flexGrow: `2`,
   padding: "1rem 1rem 0rem",
+  marginBottom: `2rem`
 });
 
-const SCButtonGroup = styled(ButtonGroup)({
+export const SCButtonGroup = styled(ButtonGroup)({
   margin: "0rem 1.5rem 0rem",
   textAlign: "center",
 });
@@ -50,20 +49,20 @@ function EventsContainer(props) {
           variant="text"
           aria-label="contained primary button group"
         >
-          <TabButton
+          <Button
             onClick={() => setFilter("upcoming")}
             variant={filter === "upcoming" ? "contained" : ""}
-            color={filter === "upcoming" ? "primary" : ""}
+            color={filter === "upcoming" ? "default" : ""}
           >
             Upcoming
-          </TabButton>
-          <TabButton
+          </Button>
+          <Button
             onClick={() => setFilter("past")}
             variant={filter === "past" ? "contained" : ""}
-            color={filter === "past" ? "primary" : ""}
+            color={filter === "past" ? "default" : ""}
           >
             Past
-          </TabButton>
+          </Button>
         </SCButtonGroup>
         <SCButtonGroup
           variant="text"
@@ -72,14 +71,14 @@ function EventsContainer(props) {
           <Button
             onClick={() => setMapView(false)}
             variant={!mapView ? "contained" : ""}
-            color={!mapView ? "primary" : ""}
+            color={!mapView ? "default" : ""}
           >
             List
           </Button>
           <Button
             onClick={() => setMapView(true)}
             variant={mapView ? "contained" : ""}
-            color={mapView ? "primary" : ""}
+            color={mapView ? "default" : ""}
           >
             Map
           </Button>
