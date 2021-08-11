@@ -23,28 +23,6 @@ import { editUserProfile, getUserProfile } from "../../actions/profile";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
-const useStyles = makeStyles((theme) => ({
-  profile: {
-    "margin-top": "50px",
-    "margin-left": "50px",
-    display: "inline-block",
-  },
-  name: {
-    "margin-left": "50px",
-    "font-style": "Calibri",
-    "margin-bottom": "1px",
-    "padding-bottom": "1px",
-  },
-  email: {
-    "margin-left": "50px",
-    "font-style": "Calibri",
-    "margin-top": "1px",
-    "padding-top": "1px",
-    opacity: 0.75,
-    color: "grey",
-  },
-}));
-
 const SCCard = styled(Card)({
   width: 500,
 });
