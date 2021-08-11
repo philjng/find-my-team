@@ -16,9 +16,8 @@ const Participant = styled(ListItem)({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  border: "1px solid grey",
   marginRight: "1rem",
-  backgroundColor: "white",
+  backgroundColor: "#f7fdfc",
   width: "100px",
   height: "100px",
 });
