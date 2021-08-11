@@ -157,8 +157,13 @@ router.get("/:id/events", function (req, res, next) {
     });
 });
 
-router.get("/search/:text", function (req, res, next) {
+router.get("/search/:text?", function (req, res, next) {
+  if (req.params.text === '') {
+    return [];
+  }
   const searchText = req.params.text;
+  console.log(searchText);
+  console.log(searchText.length);
   Group.find(
     { $text: { $search: searchText } },
     { score: { $meta: "textScore" } }

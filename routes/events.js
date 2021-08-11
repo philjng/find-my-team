@@ -33,7 +33,10 @@ router.get("/:id", function (req, res, next) {
 });
 
 /* Search for keyword in events collection */
-router.get("/search/:text", function (req, res, next) {
+router.get("/search/:text?", function (req, res, next) {
+  if (req.params.text === '') {
+    return [];
+  }
   const searchText = req.params.text;
   Event.find(
     { $text: { $search: searchText } },

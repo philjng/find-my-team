@@ -12,6 +12,13 @@ export const setSearch = (searchText) => async (dispatch) => {
 
 export const searchUsers = (searchText) => async (dispatch) => {
   try {
+    if (searchText === '') {
+      dispatch({
+        type: "SEARCH_USERS",
+        payload: [],
+      });
+      return;
+    }
     genericApi.get(`api/users/search/${searchText}`).then((res) => {
       dispatch({
         type: "SEARCH_USERS",
@@ -28,6 +35,13 @@ export const searchUsers = (searchText) => async (dispatch) => {
 
 export const searchGroups = (searchText) => async (dispatch) => {
   try {
+    if (searchText === '') {
+      dispatch({
+        type: "SEARCH_GROUPS",
+        payload: [],
+      });
+      return;
+    }
     genericApi.get(`api/groups/search/${searchText}`).then((res) => {
       dispatch({
         type: "SEARCH_GROUPS",
@@ -44,6 +58,13 @@ export const searchGroups = (searchText) => async (dispatch) => {
 
 export const searchEvents = (searchText) => async (dispatch) => {
   try {
+    if (searchText === '') {
+      dispatch({
+        type: "SEARCH_EVENTS",
+        payload: [],
+      });
+      return;
+    }
     genericApi.get(`api/events/search/${searchText}`).then((res) => {
       dispatch({
         type: "SEARCH_EVENTS",
