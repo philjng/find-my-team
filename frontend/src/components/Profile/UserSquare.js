@@ -10,6 +10,7 @@ const Person = styled(ListItem)({
   },
   display: "flex",
   flexDirection: "column",
+  textAlign: "center",
   marginRight: "1rem",
   backgroundColor: "#f7fdfc",
   width: "100px",
