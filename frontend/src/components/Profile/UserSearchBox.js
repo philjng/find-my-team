@@ -1,27 +1,20 @@
 import {
-  List,
-  ListItem,
-  Divider,
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import UserListing from "./UserListing";
+import UserSquare from "./UserSquare";
 import {SearchResultsCard} from "../Events/EventSearchBox";
+import {FlexBox} from "../Groups/GroupDetails";
 
 function UserSearchBox(props) {
   return (
     <SearchResultsCard>
       <Typography variant="h4">People</Typography>
-      <List>
+      <FlexBox>
         {props.userSearchResults.map((user) => (
-          <React.Fragment key={user._id}>
-            <ListItem>
-              <UserListing user={user} />
-            </ListItem>
-            <Divider variant="middle" component="li" />
-          </React.Fragment>
+              <UserSquare user={user} key={user._id}/>
         ))}
-      </List>
+      </FlexBox>
     </SearchResultsCard>
   );
 }

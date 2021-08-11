@@ -1,26 +1,12 @@
-import {Typography, List, ListItem, Box} from "@material-ui/core";
+import {Typography, List, Box} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import {getEventParticipants} from "../../actions/events";
 import {useEffect} from "react";
-import {useHistory, useParams} from "react-router-dom";
-import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
+import {useParams} from "react-router-dom";
+import UserSquare from "../Profile/UserSquare";
 
 const _ = require("lodash");
-
-const Participant = styled(ListItem)({
-  "&:hover": {
-    cursor: "pointer",
-    backgroundColor: "#f7fdfc"
-  },
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  marginRight: "1rem",
-  backgroundColor: "#f7fdfc",
-  width: "100px",
-  height: "100px",
-});
 
 const List1 = styled(List)({
   display: "flex",
@@ -31,15 +17,10 @@ const List1 = styled(List)({
 function EventParticipants(props) {
   const {getEventParticipants, participants} = props;
   const {id} = useParams();
-  const history = useHistory();
 
   useEffect(() => {
     getEventParticipants(id);
   }, [id, getEventParticipants]);
-
-  const handleClick = (participant) => {
-    history.push(`/profile/${participant._id}`)
-  }
 
   return (
     <Box>
@@ -50,13 +31,7 @@ function EventParticipants(props) {
           <></>
         ) : (
           participants.map((participant) => (
-            <Participant key={participant._id} onClick={() => {handleClick(participant)}}>
-              <CloudinaryAvatar
-                publicId={participant.image}
-                size={40}
-              />
-              <Typography>{participant.displayName}</Typography>
-            </Participant>
+            <UserSquare user={participant } key={participant._id}/>
           ))
         )}
       </List1>

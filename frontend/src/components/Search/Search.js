@@ -1,4 +1,4 @@
-import {Card, Container, Grid} from "@material-ui/core";
+import {Card, Container} from "@material-ui/core";
 import {searchUsers, searchGroups, searchEvents} from "../../actions/search";
 import {connect} from "react-redux";
 import React, {useState} from "react";
