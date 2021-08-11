@@ -11,7 +11,7 @@ import {styled} from "@material-ui/styles";
 
 
 const SearchResultsCard = styled(Card)({
-  backgroundColor: `#d6f5ef`,
+  backgroundColor: `#f7fdfc`,
   margin: `2rem auto`,
   width: `75%`,
 });
