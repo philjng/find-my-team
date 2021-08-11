@@ -76,6 +76,17 @@ const SCAvatar = styled(Avatar)({
 
 const SCChip = styled(Chip)({
   marginRight: "10px",
+  marginTop: "10px",
+});
+
+const SCText = styled(Typography)({
+  marginRight: "10px",
+  marginTop: "10px",
+});
+
+const SCButton = styled(Button)({
+  marginTop: "7px",
+  marginLeft: "7px",
 });
 
 const AVATAR_SIZE = 300;
@@ -93,8 +104,11 @@ function UserInfo(props) {
   const { id } = useParams();
   const isOwner = currentUser.uid === id;
 
+  console.log(initialForm);
+
   const handleFormChange = (property) => (event) => {
     console.log("In handleFormChange");
+    console.log({ property, event });
     setForm({
       ...form,
       [property]: event.target.value,
@@ -102,15 +116,11 @@ function UserInfo(props) {
   };
 
   const addTag = (newTag) => {
-    console.log(newTag);
     const newTags = form.tags.concat(newTag);
-    console.log(newTags);
-    console.log(form.tags);
     setForm({
       ...form,
       tags: newTags,
     });
-    console.log(form.tags);
   };
 
   const handleFirstNameChange = handleFormChange("firstName");
@@ -118,6 +128,15 @@ function UserInfo(props) {
   const handleDisplayNameChange = handleFormChange("displayName");
   const handleTagsChange = handleFormChange("tags");
   const handleTagsInputTextChange = handleFormChange("tagsInputText");
+
+  const handleDeleteTag = (tag) => {
+    console.log("In handle delete tag");
+    const newTags = form.tags.filter((item) => item !== tag);
+    setForm({
+      ...form,
+      tags: newTags,
+    });
+  };
 
   const handleEnableEdit = () => {
     setIsEditing(true);
@@ -136,6 +155,7 @@ function UserInfo(props) {
 
   const handleCancel = () => {
     setIsEditing(false);
+    setForm(initialForm);
   };
 
   useEffect(() => {
@@ -260,7 +280,7 @@ function UserInfo(props) {
               onChange={handleDisplayNameChange}
               disabled={!isEditing}
             />
-            <FormControl margin="normal">
+            {/* <FormControl margin="normal">
               <InputLabel variant="outlined" id="tags-checkbox-label">
                 Interested Sports Tags
               </InputLabel>
@@ -272,17 +292,39 @@ function UserInfo(props) {
                 disabled={!isEditing}
                 label="Interested Sports Tags"
                 value={isEditing ? form.tags : initialForm.tags || []}
-                onChange={handleTagsChange}
+                // onChange={handleTagsChange}
                 inputProps={<Input />}
-                renderValue={(selected) =>
-                  TAGS.filter((tag) => selected.includes(tag)).map((item) => {
-                    return isEditing ? (
-                      <SCChip label={item} />
-                    ) : (
-                      <SCChip disabled label={item} />
-                    );
-                  })
-                }
+                renderValue={() => {
+                  return isEditing
+                    ? form.tags.map((item) => {
+                        return isEditing ? (
+                          <SCChip
+                            onDelete={() => handleDeleteTag(item)}
+                            label={item}
+                          />
+                        ) : (
+                          <SCChip
+                            onDelete={() => handleDeleteTag(item)}
+                            disabled
+                            label={item}
+                          />
+                        );
+                      })
+                    : initialForm.tags.map((item) => {
+                        return isEditing ? (
+                          <SCChip
+                            onDelete={() => handleDeleteTag(item)}
+                            label={item}
+                          />
+                        ) : (
+                          <SCChip
+                            onDelete={() => handleDeleteTag(item)}
+                            disabled
+                            label={item}
+                          />
+                        );
+                      });
+                }}
                 MenuProps={{
                   anchorOrigin: {
                     vertical: "bottom",
@@ -308,39 +350,63 @@ function UserInfo(props) {
                   >
                     Add
                   </Button>
-                  {/* <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    name="firstName"
-                    autoFocus
-                    value={
-                      isEditing ? form.firstName : initialForm.firstName || ""
-                    }
-                    onChange={handleFirstNameChange}
-                    disabled={!isEditing}
-                  /> */}
                 </MenuItem>
               </Select>
-            </FormControl>
-            {isEditing && (
-              <Grid container direction="row-reverse" spacing={2}>
-                <Grid item>
-                  <Fab onClick={handleCancel}>
-                    <CloseIcon />
-                  </Fab>
-                </Grid>
-                <Grid item>
-                  <Fab onClick={handleSaveChanges}>
-                    <Check />
-                  </Fab>
-                </Grid>
-              </Grid>
-            )}
+            </FormControl> */}
           </FormControl>
+          <SCText variant="h6">Interested Sports Tags</SCText>
+          {isEditing && (
+            <Grid
+              container
+              direction="column"
+              justifyContent="left"
+              alignItems="left"
+            >
+              <Grid item>
+                <TextField
+                  onChange={handleTagsInputTextChange}
+                  id="outlined-basic"
+                  label="Tag"
+                  // variant="filled"
+                  size="small"
+                  value={form.tagsInputText}
+                />
+                <SCButton
+                  variant="contained"
+                  onClick={() => addTag(form.tagsInputText)}
+                >
+                  Add
+                </SCButton>
+              </Grid>
+            </Grid>
+          )}
+          <Box>
+            {form.tags.map((item) => {
+              return isEditing ? (
+                <SCChip onDelete={() => handleDeleteTag(item)} label={item} />
+              ) : (
+                <SCChip
+                  onDelete={() => handleDeleteTag(item)}
+                  disabled
+                  label={item}
+                />
+              );
+            })}
+          </Box>
+          {isEditing && (
+            <Grid container direction="row-reverse" spacing={2}>
+              <Grid item>
+                <Fab onClick={handleCancel}>
+                  <CloseIcon />
+                </Fab>
+              </Grid>
+              <Grid item>
+                <Fab onClick={handleSaveChanges}>
+                  <Check />
+                </Fab>
+              </Grid>
+            </Grid>
+          )}
         </CardContent>
       </SCCard>
     </SCBox>
