@@ -53,7 +53,8 @@ const ButtonGroup = styled(Box)({
 });
 
 const CreateGroupPage = (props) => {
-  const { currentUser } = useAuth();
+  const { user } = props;
+
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
   const [checkbox, setCheckbox] = useState({
@@ -76,13 +77,14 @@ const CreateGroupPage = (props) => {
     const keys = Object.keys(checkbox);
     const filtered = keys.filter((key) => checkbox[key]);
     props.createGroup({
-      creatorId: currentUser.uid,
-      creator: props.user,
+      creatorId: user.user_id,
+      creator: user.displayName,
       name: groupName,
       description: description.trim() === "" ? "No description." : description,
       tags: filtered,
       createdAt: new Date(),
-      memberIds: [currentUser.uid],
+      lastModified: new Date(),
+      memberIds: [user.user_id],
       groupSize: 1,
     });
     setDescription("");
@@ -236,8 +238,7 @@ const CreateGroupPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  userId: state.user.user_id,
-  user: state.user.name,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, { createGroup })(CreateGroupPage);
