@@ -169,12 +169,12 @@ function EventDetails(props) {
             <EventDescription description={event.description}/>
             <EventParticipants/>
             <EventComments eventId={id} comments={event.comments}/>
-            <DisplayMap
+            {event.location !== "" && (<DisplayMap
               location={event.location}
               latitude={event.latitude}
               longitude={event.longitude}
               useCoordinates={event.useCoordinates}
-            />
+            />)}
           </EventItems>
         </CardContent>
       </EventCard>
