@@ -3,6 +3,7 @@ const Event = require("../models/event");
 var router = express.Router();
 const User = require("../models/user");
 
+/* GET all users */
 router.get("/", function (req, res, next) {
   User.find()
     .then((data) => {
@@ -15,6 +16,7 @@ router.get("/", function (req, res, next) {
     });
 });
 
+/* GET specific user */
 router.get("/:id", function (req, res, next) {
   User.findById(req.params.id)
     .then((data) => {
@@ -27,6 +29,7 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
+/* CREATE new user */
 router.post("/", function (req, res, next) {
   const newUser = new User(req.body);
   newUser.save((error) => {
@@ -40,6 +43,7 @@ router.post("/", function (req, res, next) {
   });
 });
 
+/* UPDATE user */
 router.put("/:id", function (req, res, next) {
   User.findByIdAndUpdate(
     req.params.id,
@@ -70,6 +74,7 @@ router.get("/:id/groups", function (req, res, next) {
   );
 });
 
+/* GET user created or joined events */
 router.get("/:id/events", function (req, res, next) {
   const response = {};
   Event.find({

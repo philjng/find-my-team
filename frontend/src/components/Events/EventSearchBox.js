@@ -1,34 +1,22 @@
 import {
   Card,
-  List,
-  ListItem,
-  Divider,
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import Event from "./Event";
 import {styled} from "@material-ui/styles";
+import {EventList} from "./EventList";
 
-const SearchResultsCard = styled(Card)({
+export const SearchResultsCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
   margin: `2rem auto`,
-  width: `75%`,
+  padding: `1rem`
 });
 
 function EventSearchBox(props) {
   return (
     <SearchResultsCard>
-      <Typography variant="h5">Events</Typography>
-      <List>
-        {props.eventSearchResults.map((event) => (
-          <React.Fragment key={event._id}>
-            <ListItem>
-              <Event info={event} />
-            </ListItem>
-            <Divider variant="middle" component="li" />
-          </React.Fragment>
-        ))}
-      </List>
+      <Typography variant="h4">Events</Typography>
+      <EventList events={props.eventSearchResults} isEventPage={false}/>
     </SearchResultsCard>
   );
 }

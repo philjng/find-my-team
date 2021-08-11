@@ -1,5 +1,4 @@
 import {
-  Card,
   List,
   ListItem,
   Divider,
@@ -7,17 +6,12 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import UserListing from "./UserListing";
-import {styled} from "@material-ui/styles";
+import {SearchResultsCard} from "../Events/EventSearchBox";
 
-const SearchResultsCard = styled(Card)({
-  backgroundColor: `#f7fdfc`,
-  margin: `2rem auto`,
-  width: `75%`,
-});
 function UserSearchBox(props) {
   return (
     <SearchResultsCard>
-      <Typography variant="h5">People</Typography>
+      <Typography variant="h4">People</Typography>
       <List>
         {props.userSearchResults.map((user) => (
           <React.Fragment key={user._id}>

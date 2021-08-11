@@ -14,7 +14,7 @@ const searchReducer = (state = initialState, action) => {
       }
     }
     case "SEARCH_USERS": {
-      return { ...state, users: action.payload };
+      return { ...state, users: action.payload === "" ? [] : action.payload};
     }
     case "SEARCH_GROUPS": {
       return { ...state, groups: action.payload };
