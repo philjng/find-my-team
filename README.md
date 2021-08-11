@@ -107,11 +107,12 @@ Philip Ng (s3d1b):
 - a lot of decision making into how Redux state should look, and how we should store and manage data
 - worked on Groups page; group creation, deletion, displaying group events (and the group details page) and group related endpoints
   - ability for user to join and leave groups, and user related endpoints and state management
+- edit functionality and modal for groups / events
 - initiated the snackbar 
 - set up CI / CD from Heroku
 - holistic app changes (to make it more unified, went into Events after Lucas built the foundation)
 
-Samson Tsui (o5e1b
+Samson Tsui (o5e1b):
 
 
 Sidney Lu (b2p1b):

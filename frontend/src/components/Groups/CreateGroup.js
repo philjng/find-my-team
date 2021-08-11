@@ -58,7 +58,6 @@ const CreateGroupPage = (props) => {
     const history = useHistory();
 
     const handleSubmit = () => {
-        // TODO: add more functionality for creating a group
         if (groupName.trim() === "") {
             window.alert("Group name is required.");
             return;
@@ -75,7 +74,6 @@ const CreateGroupPage = (props) => {
             memberIds: [currentUser.uid],
             groupSize: 1
         })
-        // TODO: create action for user to update createdGroups
         setDescription("");
         history.push("/groups");
     }
