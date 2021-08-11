@@ -23,6 +23,28 @@ import { editUserProfile, getUserProfile } from "../../actions/profile";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
+const useStyles = makeStyles((theme) => ({
+  profile: {
+    "margin-top": "50px",
+    "margin-left": "50px",
+    display: "inline-block",
+  },
+  name: {
+    "margin-left": "50px",
+    "font-style": "Calibri",
+    "margin-bottom": "1px",
+    "padding-bottom": "1px",
+  },
+  email: {
+    "margin-left": "50px",
+    "font-style": "Calibri",
+    "margin-top": "1px",
+    "padding-top": "1px",
+    opacity: 0.75,
+    color: "grey",
+  },
+}));
+
 const SCCard = styled(Card)({
   width: 500,
 });
@@ -253,79 +275,6 @@ function UserInfo(props) {
               onChange={handleDisplayNameChange}
               disabled={!isEditing}
             />
-            {/* <FormControl margin="normal">
-              <InputLabel variant="outlined" id="tags-checkbox-label">
-                Interested Sports Tags
-              </InputLabel>
-              <Select
-                variant="outlined"
-                labelId="tags-checkbox-label"
-                id="tags-checkbox"
-                multiple
-                disabled={!isEditing}
-                label="Interested Sports Tags"
-                value={isEditing ? form.tags : initialForm.tags || []}
-                // onChange={handleTagsChange}
-                inputProps={<Input />}
-                renderValue={() => {
-                  return isEditing
-                    ? form.tags.map((item) => {
-                        return isEditing ? (
-                          <SCChip
-                            onDelete={() => handleDeleteTag(item)}
-                            label={item}
-                          />
-                        ) : (
-                          <SCChip
-                            onDelete={() => handleDeleteTag(item)}
-                            disabled
-                            label={item}
-                          />
-                        );
-                      })
-                    : initialForm.tags.map((item) => {
-                        return isEditing ? (
-                          <SCChip
-                            onDelete={() => handleDeleteTag(item)}
-                            label={item}
-                          />
-                        ) : (
-                          <SCChip
-                            onDelete={() => handleDeleteTag(item)}
-                            disabled
-                            label={item}
-                          />
-                        );
-                      });
-                }}
-                MenuProps={{
-                  anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "left",
-                  },
-                  transformOrigin: {
-                    vertical: "top",
-                    horizontal: "left",
-                  },
-                  getContentAnchorEl: null,
-                }}
-              >
-                <MenuItem>
-                  <TextField
-                    onChange={handleTagsInputTextChange}
-                    id="outlined-basic"
-                    label="Tag"
-                    value={form.tagsInputText}
-                  />
-                  <Button
-                    variant="contained"
-                    onClick={() => addTag(form.tagsInputText)}
-                  >
-                    Add
-                  </Button>
-                </MenuItem>
-              </Select>
-            </FormControl> */}
           </FormControl>
           <SCText variant="h6">Interested Sports Tags</SCText>
           {isEditing && (
@@ -340,7 +289,6 @@ function UserInfo(props) {
                   onChange={handleTagsInputTextChange}
                   id="outlined-basic"
                   label="Tag"
-                  // variant="filled"
                   size="small"
                   value={form.tagsInputText}
                 />
