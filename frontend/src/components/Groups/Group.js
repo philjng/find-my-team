@@ -16,8 +16,9 @@ const Group = (props) => {
   const {group} = props;
   const history = useHistory();
 
-  const handleClick = () => {
-    history.push(`/groups/${group._id}`)
+  const handleClick = (e) => {
+    const notTag = !e.target.className.includes("MuiChip-label");
+    notTag && history.push(`/groups/${group._id}`)
   }
 
   return (
