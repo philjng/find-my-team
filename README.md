@@ -97,6 +97,7 @@ Some examples include having more admin actions for the group owner, adding phot
 
 # 6. Contributions #
 - contributions can also be noted from PRs, and in the Project tab (some tickets have names attached for work done)
+
 Lucas Gustafson (u8h2b):
 
 
