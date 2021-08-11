@@ -7,12 +7,15 @@ import {
 import React from "react";
 import Group from "./Group";
 import {SearchResultsCard} from "../Events/EventSearchBox";
+import {CenteredTypography} from "../Events/EventList";
 
 function GroupSearchBox(props) {
   return (
     <SearchResultsCard>
       <Typography variant="h4">Groups</Typography>
-      <List>
+      {props.groupSearchResults.length === 0 ? <CenteredTypography>There are no groups.</CenteredTypography>
+        :
+        <List>
         {props.groupSearchResults.map((group) => (
           <React.Fragment key={group._id}>
             <ListItem>
@@ -21,7 +24,7 @@ function GroupSearchBox(props) {
             <Divider variant="middle" component="li" />
           </React.Fragment>
         ))}
-      </List>
+      </List>}
     </SearchResultsCard>
   );
 }
