@@ -3,6 +3,7 @@ var router = express.Router();
 const Event = require("../models/event");
 var mongoose = require("mongoose");
 const User = require("../models/user");
+const _ = require("lodash");
 
 /* GET all events listing, ordered by the start time of event. */
 router.get("/", function (req, res, next) {
@@ -40,7 +41,29 @@ router.get("/search/:text", function (req, res, next) {
   )
     .sort({ score: { $meta: "textScore" } })
     .then((data) => {
-      res.send(data);
+      Event.find(
+        {$or: [
+          { title: { $regex: searchText, $options: "i" } },
+          { location: { $regex: searchText, $options: "i" } },
+          { description: { $regex: searchText, $options: "i" } },
+          { tags: { $regex: searchText, $options: "i" } },
+          { comments: { $regex: searchText, $options: "i" } }
+
+        ]})
+      .then(
+        (data2) => {
+          let allResults = data.concat(data2);
+          let uniqueIds = [];
+          let uniqueResults = [];
+          for (let i = 0; i < allResults.length; i++) {
+            if (!uniqueIds.includes(allResults[i]._id.toString())) {
+              uniqueIds.push(allResults[i]._id.toString());
+              uniqueResults.push(allResults[i]);
+            }
+          }
+          res.send(uniqueResults);
+        }
+      );
     })
     .catch((error) => {
       res.status(500).send({
@@ -98,7 +121,7 @@ router.get("/:id/participants", function (req, res, next) {
 router.patch("/:id/participants", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $push: { participantIds: req.body.userId },
-    $inc: { participantSize: 1 }
+    $inc: { participantSize: 1 },
   })
     .then(() => res.send("success"))
     .catch((err) => {
@@ -110,7 +133,7 @@ router.patch("/:id/participants", function (req, res, next) {
 router.patch("/:id/removeParticipant", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $pull: { participantIds: req.body.userId },
-    $inc: { participantSize: -1 }
+    $inc: { participantSize: -1 },
   })
     .then(() => res.send("success"))
     .catch((err) => {

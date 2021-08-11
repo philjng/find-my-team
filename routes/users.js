@@ -114,7 +114,27 @@ router.get("/search/:text", function (req, res, next) {
   )
     .sort({ score: { $meta: "textScore" } })
     .then((data) => {
-      res.send(data);
+      User.find(
+        {$or: [
+          { firstName: { $regex: searchText, $options: "i" } },
+          { lastName: { $regex: searchText, $options: "i" } },
+          { tags: { $regex: searchText, $options: "i" } },
+          { displayName: { $regex: searchText, $options: "i" } }
+        ]})
+      .then(
+        (data2) => {
+          let allResults = data.concat(data2);
+          let uniqueIds = [];
+          let uniqueResults = [];
+          for (let i = 0; i < allResults.length; i++) {
+            if (!uniqueIds.includes(allResults[i]._id.toString())) {
+              uniqueIds.push(allResults[i]._id.toString());
+              uniqueResults.push(allResults[i]);
+            }
+          }
+          res.send(uniqueResults);
+        }
+      );
     })
     .catch((error) => {
       res.status(500).send({

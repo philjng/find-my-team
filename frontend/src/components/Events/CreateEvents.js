@@ -124,7 +124,7 @@ function Create(props) {
       creatorId: user.user_id,
       creator: user.displayName,
       title: eventTitle,
-      location: eventLocation.trim() === "" ? "No location" : eventLocation,
+      location: eventLocation.trim() === "" ? "" : eventLocation,
       latitude: eventLatitude,
       longitude: eventLongitude,
       useCoordinates: isCoordinate,
@@ -254,10 +254,10 @@ function Create(props) {
                 onChange={(e) => setEventGroup(e.target.value)}
               >
                 <MenuItem value={"000000000000000000000000"}>Public</MenuItem>
-                {props.user.userGroups.created.map((group) => (
+                {user.userGroups.created.map((group) => (
                   <MenuItem value={group._id}>{group.name}</MenuItem>
                 ))}
-                {props.user.userGroups.joined.map((group) => (
+                {user.userGroups.joined.map((group) => (
                   <MenuItem value={group._id}>{group.name}</MenuItem>
                 ))}
               </Dropdown>
