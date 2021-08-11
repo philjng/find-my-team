@@ -24,7 +24,7 @@ const SearchBar = (props) => {
 
   const handleClick = () => {
     setSearch(searchText);
-    history.push(`/Search`);
+    history.push(`/search`);
   }
 
   return (

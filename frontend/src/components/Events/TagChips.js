@@ -19,7 +19,7 @@ function TagChips(props) {
 
   const handleClick = (tag) => {
     setSearch(tag);
-    history.push(`/Search`);
+    history.push(`/search`);
   }
 
   return (
