@@ -8,16 +8,16 @@ import {
   Container,
   Typography,
   Box,
-  Button,
   CircularProgress, Card, CardContent, Select, MenuItem, FormControl, InputLabel,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
-import {participantJoin, participantLeave, deleteEvent, getEvent} from "../../actions/events.js";
+import {participantJoin, participantLeave, getEvent} from "../../actions/events.js";
 import "firebase/auth";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
 import React from "react";
+import EditModal, {ButtonMR} from "../shared-components/EditModal";
+import {setModalOpen} from "../../actions/modal";
 
 const _ = require("lodash");
 
@@ -42,18 +42,12 @@ const Buttons = styled(Box)({
   display: "flex"
 })
 
-const Button1 = styled(Button)({
-  marginRight: "1rem"
-});
-
 function EventDetails(props) {
-  const {event, getEvent, participantJoin, participantLeave, deleteEvent, user} = props;
+  const {event, getEvent, participantJoin, participantLeave, user, setModalOpen} = props;
   const {id} = useParams();
-  const history = useHistory();
 
   const isCreator = event.creatorId === user.user_id;
   const [isParticipant, setIsParticipant] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
   const date = new Date(event.startTime).toUTCString();
 
@@ -86,17 +80,11 @@ function EventDetails(props) {
     }
   }
 
-  const removeEvent = () => {
-    window.confirm(
-      "Are you sure you want to delete this event? This action cannot be undone."
-    ) && deleteEvent(id)
-    && history.push("/events")
-  }
-
   return _.isEmpty(event) ? (
     <CircularProgress/>
   ) : (
     <Container>
+      <EditModal isEvent={true}/>
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
@@ -106,44 +94,16 @@ function EventDetails(props) {
             </Box>
           </Typography>
           <Buttons>
-            {isCreator && !isEditing && (
-              <Button1
+            {isCreator && (
+              <ButtonMR
                 disableElevation
                 size="small"
                 variant="contained"
-                onClick={() => setIsEditing(true)}
+                onClick={() => {setModalOpen(true)}}
               >
                 Edit Event
-              </Button1>
+              </ButtonMR>
             )}
-            {isEditing && (
-              <Box>
-                <Button1
-                  disableElevation
-                  size="small"
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => removeEvent()}
-                >
-                  Delete event
-                </Button1>
-                <Button1
-                  disableElevation
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                >
-                  Update
-                </Button1>
-                <Button1
-                  disableElevation
-                  size="small"
-                  variant="contained"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Cancel
-                </Button1>
-              </Box>)}
             <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
               <InputLabel id="outlined-participation-label">Attendance</InputLabel>
               <Select
@@ -192,7 +152,7 @@ const mapDispatchToProps = (dispatch) => {
     getEvent: (id) => dispatch(getEvent(id)),
     participantJoin: (eventId, userId) => participantJoin(dispatch, eventId, userId),
     participantLeave: (eventId, userId) => participantLeave(dispatch, eventId, userId),
-    deleteEvent: (eventId) => deleteEvent(dispatch, eventId)
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen))
   };
 };
 
