@@ -28,7 +28,6 @@ const EditModal = (props) => {
   const { isEvent, modal, setModalOpen, deleteEvent, deleteGroup } = props;
   const {id} = useParams();
   const history = useHistory();
-  console.log("id: ", id)
 
   const handleClose = () => {
     setModalOpen(false);
