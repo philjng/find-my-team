@@ -9,7 +9,6 @@ const EventCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
   flexGrow: `2`,
   padding: "1rem 1rem 0rem",
-  marginBottom: `2rem`
 });
 
 export const SCButtonGroup = styled(ButtonGroup)({
@@ -42,7 +41,7 @@ function EventsContainer(props) {
     <EventCard>
       <CardHeader
         title={headerValue ? headerValue : "Events"}
-        titleTypographyProps={ !headerValue && {variant: "h4"}}
+        titleTypographyProps={!headerValue && { variant: "h4" }}
       />
       <Grid container justify="center">
         <SCButtonGroup
