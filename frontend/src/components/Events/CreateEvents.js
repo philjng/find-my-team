@@ -297,7 +297,7 @@ function Create(props) {
             <Button
               variant="contained"
               onClick={() => {
-                history.goBack();
+                history.push("/events");
               }}
             >
               Cancel

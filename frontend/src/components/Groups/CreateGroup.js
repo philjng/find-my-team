@@ -223,7 +223,7 @@ const CreateGroupPage = (props) => {
               <Button
                 variant="contained"
                 onClick={() => {
-                  history.goBack();
+                  history.push("/groups");
                 }}
               >
                 Cancel
