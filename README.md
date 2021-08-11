@@ -5,15 +5,6 @@ meet up with other people, meet new people, or try new activities!
 Users can create event postings and join events posted by other users, 
 and similarly create groups and join groups created by other users.
 
-The application will store user data (Eg., a profile: name, profile picture, email address, interests / sports they play), 
-group data (group name, users in the group, group interests / type / genre), 
-posting data (event name, event date, event duration, event type, event location, event size, participants, comments on the post). 
-
-Users would be able to make a profile, see other people’s profiles (and contact through email), join / create events and groups, 
-and make postings or interact with existing postings. 
-Users will be able to search for other users or groups with similar interests. 
-Additional functionality may include shareability of event postings with other users / groups, creating leagues, and publicity of groups.
-
 # 2. Project Requirements #
 ## Minimal Requirements ##
 [:heavy_check_mark:] User can create an account (and login to account)  
@@ -32,11 +23,11 @@ Additional functionality may include shareability of event postings with other u
 [:heavy_check_mark:] Users can join events   
 
 ## Standard Requirements ##
-[:grey_exclamation:] Users can search
+[:heavy_check_mark:] Users can search
 - [:heavy_check_mark:] events
 - [:heavy_check_mark:] groups
 - [:heavy_check_mark:] people
-- [:x:] tags
+- [:heavy_check_mark:] clicking a tag will do search for content with that tag!
 
 [:heavy_check_mark:] Users can create groups  
 [:heavy_check_mark:] Users can join existing groups  
@@ -118,12 +109,22 @@ Samson Tsui (o5e1b):
 Sidney Lu (b2p1b):
 
 
-# Prototypes #
-## Add New Event Post Workflow ##
+# Previous README material #
+The application will store user data (Eg., a profile: name, profile picture, email address, interests / sports they play),
+group data (group name, users in the group, group interests / type / genre),
+posting data (event name, event date, event duration, event type, event location, event size, participants, comments on the post).
+
+Users would be able to make a profile, see other people’s profiles (and contact through email), join / create events and groups,
+and make postings or interact with existing postings.
+Users will be able to search for other users or groups with similar interests.
+Additional functionality may include shareability of event postings with other users / groups, creating leagues, and publicity of groups.
+
+## Prototypes ##
+### Add New Event Post Workflow ###
 ![workflow 1 image 1](frontend/img/CPSC_455_PP1_AddEvent1.png)
 ![workflow 1 image 2](frontend/img/CPSC_455_PP1_AddEvent2.png)
 ![workflow 1 image 3](frontend/img/CPSC_455_AddEvent2.png)
-## Login Workflow ##
+### Login Workflow ###
 ![login image 1](frontend/img/CPSC_455_Login_1.png)
 ![login image 2](frontend/img/CPSC_455_Login_2.png)
 ![login image 3](frontend/img/CPSC_455_Login_3.png)
