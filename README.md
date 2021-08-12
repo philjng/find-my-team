@@ -85,7 +85,7 @@ Mongoose is used to help model our data, and for schema validation (moving data 
 ### Release Engineering
 
 We are using Heroku to host and deploy our application, as Heroku provides a place to keep our application running for public use.
-We have it integrated such that we have CI / CD - every push to the master branch Heroku will rebuild and redeploy the app,
+We have it integrated such that we have CI / CD - on every push to the master branch, Heroku will rebuild and redeploy the app,
 providing users with the most up to date version of the application.
 The application file structure was modified to make it more deployable - the frontend now sits within the express app (root),
 and on deployment, a static version of the client is built, for the server to serve.
@@ -93,15 +93,14 @@ and on deployment, a static version of the client is built, for the server to se
 # 4. Above and Beyond
 
 A Mapbox API was used so users can connect events with locations on a map, which serves as a core purpose of our application
-(to set up events, and meet people in real time to participate in said event).
+(to set up events, and meet people in real time to participate in said event). Implementing this was difficult as the Mapbox API also manipulates the DOM, meaning that correctly rendering maps within React components was an added challenge.
 
 # 5. Next Steps
 
 We have a very basic MVP set up, as seen by the stretch goals we have yet to hit,
 there are more features lined up that are not currently implemented (eg., adding contacts, sharing events / groups).  
 There are also working functionality that can be improved on, and certain parts of the code that could potentially be refactored /
-made more efficient, as noted by the `TODOs` in the code.
-Some examples include having more admin actions for the group owner, adding photos to events, allowing more actions for commenting, etc.
+made more efficient. Some examples include having more admin actions for the group owner, adding photos to events, allowing more actions for commenting, etc.
 
 # 6. Contributions
 
