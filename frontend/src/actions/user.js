@@ -68,7 +68,7 @@ export const getCreatedGroups = (data) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -85,7 +85,7 @@ export const getJoinedGroups = (data) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -100,7 +100,7 @@ export const getUser = (id) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_USER",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };

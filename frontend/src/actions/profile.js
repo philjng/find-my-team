@@ -18,7 +18,7 @@ export const getUserProfileCreatedGroups = (data) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GET_USER_PROFILE_CREATED_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -35,7 +35,7 @@ export const getUserProfileJoinedGroups = (data) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_USER_PROFILE_JOINED_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };

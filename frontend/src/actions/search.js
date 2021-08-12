@@ -21,7 +21,7 @@ export const searchUsers = (searchText) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_USERS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -37,7 +37,7 @@ export const searchGroups = (searchText) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -53,7 +53,7 @@ export const searchEvents = (searchText) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_EVENTS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
