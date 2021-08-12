@@ -23,7 +23,7 @@ const UserEventsGrid = styled(Grid)({
 const UserGroupsGrid = styled(Grid)({});
 
 function Home(props) {
-  const { user, getHomePageData } = props;
+  const { user, userGroups, getHomePageData } = props;
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function Home(props) {
           <UserEvents />
         </UserEventsGrid>
         <UserGroupsGrid item>
-          <UserGroups />
+          <UserGroups userGroups={userGroups} />
         </UserGroupsGrid>
       </Grid>
     </HomePageContainer>
@@ -48,6 +48,7 @@ function Home(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    userGroups: state.user.userGroups,
   };
 };
 
