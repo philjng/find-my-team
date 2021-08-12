@@ -102,7 +102,12 @@ Philip Ng (s3d1b):
 - set up CI / CD from Heroku
 - holistic app changes (to make it more unified, went into Events after Lucas built the foundation)
 
-Samson Tsui (o5e1b
+Samson Tsui (o5e1b);
+- Implemented Firebase Authentication service in conjunction with our user model backend for our login sign up system
+- Initiated user profile page front and back end
+- Developed app image uploading system using 3rd party service Cloudinary
+- Set up URL id param for user, events, and groups page
+- General UI updates and code refactoring across the app
 
 
 Sidney Lu (b2p1b):
