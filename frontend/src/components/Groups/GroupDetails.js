@@ -129,8 +129,8 @@ function GroupDetails(props) {
     window.confirm(
       "Are you sure you want to delete this group? This action cannot be undone."
     ) &&
-      deleteGroup(id) &&
-      history.push("/groups");
+      deleteGroup(id)
+        .then(() => history.push("/groups"))
   };
 
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (

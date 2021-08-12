@@ -20,7 +20,7 @@ export const getGroups = () => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -53,7 +53,7 @@ export const createGroup = (data, base64Image) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -74,7 +74,7 @@ export const getGroup = (groupId) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUP",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };
@@ -95,7 +95,7 @@ export const deleteGroup = (groupId) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUPS",
-      payload: console.log(e),
+      payload: e.message,
     });
   }
 };

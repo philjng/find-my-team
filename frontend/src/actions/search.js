@@ -32,8 +32,8 @@ export const searchUsers = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      type: "ERROR",
-      payload: console.log(e),
+      type: "ERROR_USERS",
+      payload: e.message,
     });
   }
 };
@@ -60,8 +60,8 @@ export const searchGroups = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      type: "ERROR",
-      payload: console.log(e),
+      type: "ERROR_GROUPS",
+      payload: e.message,
     });
   }
 };
@@ -88,8 +88,8 @@ export const searchEvents = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      type: "ERROR",
-      payload: console.log(e),
+      type: "ERROR_EVENTS",
+      payload: e.message,
     });
   }
 };

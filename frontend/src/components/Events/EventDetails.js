@@ -110,8 +110,8 @@ function EventDetails(props) {
     window.confirm(
       "Are you sure you want to delete this event? This action cannot be undone."
     ) &&
-      deleteEvent(id) &&
-      history.push("/events");
+      deleteEvent(id)
+        .then(() => history.push("/events"))
   };
 
   return _.isEmpty(event) ? (

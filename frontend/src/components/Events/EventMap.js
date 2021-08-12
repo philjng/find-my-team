@@ -70,7 +70,6 @@ function EventMap(props) {
               .addTo(map.current);
           })
           .catch((err) => {
-            console.log(err);
           });
       }
     });
