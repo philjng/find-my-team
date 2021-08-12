@@ -3,6 +3,7 @@ var router = express.Router();
 const Event = require("../models/event");
 var mongoose = require("mongoose");
 const User = require("../models/user");
+const _ = require("lodash");
 
 /* GET all events listing, ordered by the start time of event. */
 router.get("/", function (req, res, next) {
@@ -32,15 +33,41 @@ router.get("/:id", function (req, res, next) {
 });
 
 /* Search for keyword in events collection */
-router.get("/search/:text", function (req, res, next) {
+router.get("/search/:text?", function (req, res, next) {
+  if (req.params.text === '') {
+    return [];
+  }
   const searchText = req.params.text;
+  console.log(searchText);
   Event.find(
     { $text: { $search: searchText } },
     { score: { $meta: "textScore" } }
   )
     .sort({ score: { $meta: "textScore" } })
     .then((data) => {
-      res.send(data);
+      Event.find(
+        {$or: [
+          { title: { $regex: searchText, $options: "i" } },
+          { location: { $regex: searchText, $options: "i" } },
+          { description: { $regex: searchText, $options: "i" } },
+          { tags: { $regex: searchText, $options: "i" } },
+          { "comments.text": { $regex: searchText, $options: "i" } }
+
+        ]})
+      .then(
+        (data2) => {
+          let allResults = data.concat(data2);
+          let uniqueIds = [];
+          let uniqueResults = [];
+          for (let i = 0; i < allResults.length; i++) {
+            if (!uniqueIds.includes(allResults[i]._id.toString())) {
+              uniqueIds.push(allResults[i]._id.toString());
+              uniqueResults.push(allResults[i]);
+            }
+          }
+          res.send(uniqueResults);
+        }
+      );
     })
     .catch((error) => {
       res.status(500).send({
