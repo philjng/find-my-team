@@ -33,8 +33,12 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      dispatch(getUser(user.uid)).finally(setLoading(false))
-    })
+      if (user) {
+        dispatch(getUser(user.uid)).finally(setLoading(false));
+      } else {
+        setLoading(false);
+      }
+    });
   }, [dispatch]);
 
   const value = {
