@@ -13,7 +13,6 @@ import { setModalOpen } from "../../actions/modal";
 import { deleteEvent } from "../../actions/events";
 import { deleteGroup } from "../../actions/groups";
 import { useHistory, useParams } from "react-router-dom";
-import { showSnackbar } from "../../actions/snackbar";
 
 export const ButtonMR = styled(Button)({
   marginRight: "1rem",
