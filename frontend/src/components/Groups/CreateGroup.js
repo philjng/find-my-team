@@ -10,8 +10,8 @@ import { styled } from "@material-ui/styles";
 import { CardHeader } from "./UserGroups";
 import React, {useState} from "react";
 import { connect } from "react-redux";
-import { createGroup } from "../../actions/groups";
-import { useHistory } from "react-router-dom";
+import {createGroup, updateGroup} from "../../actions/groups";
+import {useHistory, useParams} from "react-router-dom";
 import {AddTagButton, ProfileTags} from "../Profile/UserInfo";
 import {setModalOpen} from "../../actions/modal";
 
@@ -36,9 +36,11 @@ const CreateGroupPage = (props) => {
     user,
     isEditMode,
     createGroup,
-    setModalOpen
+    setModalOpen,
+    updateGroup
   } = props;
   const history = useHistory();
+  const { id } = useParams();
 
   const [groupName, setGroupName] = useState(props.group ? props.group.name : "");
   const [description, setDescription] = useState(props.group ? props.group.description : "");
@@ -59,6 +61,19 @@ const CreateGroupPage = (props) => {
       window.alert("Group name is required.");
       return;
     }
+    isEditMode ?
+    updateGroup(id, {
+      creatorId: user.user_id,
+      creator: user.displayName,
+      name: groupName,
+      description: description.trim() === "" ? "No description." : description,
+      tags: tags,
+      createdAt: props.group.createdAt,
+      lastModified: props.group.lastModified,
+      memberIds: props.group.memberIds,
+      groupSize: props.group.groupSize,
+    }).then(() => setModalOpen(false))
+      :
     createGroup({
       creatorId: user.user_id,
       creator: user.displayName,
@@ -69,9 +84,9 @@ const CreateGroupPage = (props) => {
       lastModified: new Date(),
       memberIds: [user.user_id],
       groupSize: 1,
-    });
+    })
+      .then(() => history.push("/groups"));
     setDescription("");
-    history.push("/groups");
   };
 
   return (
@@ -168,6 +183,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    updateGroup: (id, groupData) => dispatch(updateGroup(id, groupData)),
     createGroup: (groupData) => dispatch(createGroup(groupData)),
     setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
   }
