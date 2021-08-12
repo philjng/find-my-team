@@ -3,7 +3,7 @@ var router = express.Router();
 
 const Group = require("../models/group");
 const User = require("../models/user");
-const Event = require("../models/event")
+const Event = require("../models/event");
 
 /* GET groups listing by latest creation date. */
 router.get("/", function (req, res, next) {
@@ -82,7 +82,7 @@ router.delete("/:id", function (req, res, next) {
     });
 });
 
-/* PUT endpoint to update group - add or remove member */
+/* PUT endpoint to update group or add or remove member */
 router.put("/:id", function (req, res, next) {
   const newGroup = req.body;
   Group.findById(req.params.id, (err, group) => {
@@ -142,14 +142,14 @@ router.get("/:id/members", function (req, res, next) {
 /* GET group's events */
 router.get("/:id/events", function (req, res, next) {
   Event.find({
-    group: req.params.id
+    group: req.params.id,
   })
     .then((groupEvents) => {
-      res.send(groupEvents)
+      res.send(groupEvents);
     })
     .catch((error) => {
       res.status(500).send({
-        message: error.message || "There was an error fetching group events"
+        message: error.message || "There was an error fetching group events",
       });
     });
 });

@@ -1,4 +1,4 @@
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import TagChips from "./TagChips.js";
 import EventDescription from "./EventDescription.js";
 import EventParticipants from "./EventParticipants.js";
@@ -9,17 +9,28 @@ import {
   Typography,
   Box,
   Button,
-  CircularProgress, Card, CardContent, Select, MenuItem, FormControl, InputLabel,
+  CircularProgress,
+  Card,
+  CardContent,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@material-ui/core";
-import {styled} from "@material-ui/styles";
-import {participantJoin, participantLeave, deleteEvent, getEvent} from "../../actions/events.js";
+import { styled } from "@material-ui/styles";
+import {
+  participantJoin,
+  participantLeave,
+  deleteEvent,
+  getEvent,
+} from "../../actions/events.js";
 import "firebase/auth";
-import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import React from "react";
 import EditModal from "../shared-components/EditModal";
-import {setModalOpen} from "../../actions/modal";
+import { setModalOpen } from "../../actions/modal";
 
 const _ = require("lodash");
 
@@ -34,18 +45,18 @@ const DateBox = styled(Box)({
 
 const EventItems = styled(Box)({
   "& > *": {
-    marginBottom: "1rem"
-  }
+    marginBottom: "1rem",
+  },
 });
 
 const Buttons = styled(Box)({
   float: "right",
   marginLeft: "0.5rem",
-  display: "flex"
-})
+  display: "flex",
+});
 
 const Button1 = styled(Button)({
-  marginRight: "1rem"
+  marginRight: "1rem",
 });
 
 function EventDetails(props) {
@@ -56,9 +67,9 @@ function EventDetails(props) {
     participantLeave,
     deleteEvent,
     user,
-    setModalOpen
+    setModalOpen,
   } = props;
-  const {id} = useParams();
+  const { id } = useParams();
   const history = useHistory();
 
   const isCreator = event.creatorId === user.user_id;
@@ -68,46 +79,46 @@ function EventDetails(props) {
   const date = new Date(event.startTime).toUTCString();
 
   useEffect(() => {
-    getEvent(id)
+    getEvent(id);
   }, [getEvent, id]);
 
   useEffect(() => {
-    !_.isEmpty(event) && setIsParticipant(event.participantIds.includes(user.user_id))
-  }, [event, user.user_id])
+    !_.isEmpty(event) &&
+      setIsParticipant(event.participantIds.includes(user.user_id));
+  }, [event, user.user_id]);
 
   const addParticipant = () => {
-    participantJoin(id, user.user_id)
-      .then(() => {
-        setIsParticipant(true)
-      })
+    participantJoin(id, user.user_id).then(() => {
+      setIsParticipant(true);
+    });
   };
 
   const removeParticipant = () => {
-    participantLeave(id, user.user_id)
-      .then(() => {
-        setIsParticipant(false)
-      })
-  }
+    participantLeave(id, user.user_id).then(() => {
+      setIsParticipant(false);
+    });
+  };
 
   const handleChange = (e) => {
     const willParticipate = e.target.value;
     if (e.target.value !== isParticipant) {
-      willParticipate ? addParticipant() : removeParticipant()
+      willParticipate ? addParticipant() : removeParticipant();
     }
-  }
+  };
 
   const removeEvent = () => {
     window.confirm(
       "Are you sure you want to delete this event? This action cannot be undone."
-    ) && deleteEvent(id)
-    && history.push("/events")
-  }
+    ) &&
+      deleteEvent(id) &&
+      history.push("/events");
+  };
 
   return _.isEmpty(event) ? (
-    <CircularProgress/>
+    <CircularProgress />
   ) : (
     <Container>
-      <EditModal isEvent={true}/>
+      <EditModal isEvent={true} event={event} />
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
@@ -153,11 +164,18 @@ function EventDetails(props) {
                   variant="contained"
                   onClick={() => setIsEditing(false)}
                 >
-                  Cancel
+                  Submit
                 </Button1>
-              </Box>)}
-            <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
-              <InputLabel id="outlined-participation-label">Attendance</InputLabel>
+              </Box>
+            )}
+            <FormControl
+              variant="outlined"
+              style={{ minWidth: 120 }}
+              color="primary"
+            >
+              <InputLabel id="outlined-participation-label">
+                Attendance
+              </InputLabel>
               <Select
                 labelId="participation-label"
                 id="participation"
@@ -170,15 +188,15 @@ function EventDetails(props) {
               </Select>
             </FormControl>
           </Buttons>
-          <Typography component={'span'}>
+          <Typography component={"span"}>
             <Box fontWeight="fontWeightMedium">{event.location}</Box>
             <DateBox fontWeight="fontWeightMedium>">{date}</DateBox>
           </Typography>
           <EventItems>
-            <TagChips tags={event.tags}/>
-            <EventDescription description={event.description}/>
-            <EventParticipants/>
-            <EventComments eventId={id} comments={event.comments}/>
+            <TagChips tags={event.tags} />
+            <EventDescription description={event.description} />
+            <EventParticipants />
+            <EventComments eventId={id} comments={event.comments} />
             <DisplayMap
               location={event.location}
               latitude={event.latitude}
@@ -202,10 +220,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEvent: (id) => dispatch(getEvent(id)),
-    participantJoin: (eventId, userId) => participantJoin(dispatch, eventId, userId),
-    participantLeave: (eventId, userId) => participantLeave(dispatch, eventId, userId),
+    participantJoin: (eventId, userId) =>
+      participantJoin(dispatch, eventId, userId),
+    participantLeave: (eventId, userId) =>
+      participantLeave(dispatch, eventId, userId),
     setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
-    deleteEvent: (eventId) => deleteEvent(dispatch, eventId)
+    deleteEvent: (eventId) => deleteEvent(dispatch, eventId),
   };
 };
 
