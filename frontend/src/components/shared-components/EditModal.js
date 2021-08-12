@@ -4,17 +4,11 @@ import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import {setModalOpen} from "../../actions/modal";
 import CreateGroupPage from "../Groups/CreateGroup";
+import Create from "../Events/CreateEvents";
 
 export const ButtonMR = styled(Button)({
   marginRight: "1rem"
 });
-
-const ModalContainer = styled(Container)({
-  backgroundColor: "#f7fdfc",
-  overflow: "hidden",
-  height: "auto",
-  marginTop: "2rem"
-})
 
 const EditGroupModal = (props) => {
   const {modal, setModalOpen, isEvent} = props;
@@ -36,10 +30,7 @@ const EditGroupModal = (props) => {
       }}
     >
       <Fade in={modal.isOpen}>
-        <ModalContainer>
-          <h2>{"Edit Group"}</h2>
-          <CreateGroupPage/>
-        </ModalContainer>
+        {isEvent ? <Create/> : <CreateGroupPage/>}
       </Fade>
     </Modal>
   );
