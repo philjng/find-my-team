@@ -90,6 +90,19 @@ Some examples include having more admin actions for the group owner, adding phot
 - contributions can also be noted from PRs, and in the Project tab (some tickets have names attached for work done)
 
 Lucas Gustafson (u8h2b):
+- set up initial Redux structure
+- worked on events functionality:
+  - worked on event listing page; getting events, filtering events, linking to event details page and event display related endpoints
+  - worked on event details page; commenting, joining/leaving group
+  - worked on event creation page; field validation and event creation endpoint
+- worked on search functionality
+  - worked on search results page 
+  - worked on search endpoints for events, users and groups 
+- worked on maps functionality
+  - researched maps APIs
+  - chose and implemented MapBox API
+  - set up searching of event locations into coordinates
+  - integrated maps into event details and event listing pages
 
 
 Philip Ng (s3d1b): 
