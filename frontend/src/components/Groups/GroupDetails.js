@@ -10,19 +10,19 @@ import {
   Grid,
 } from "@material-ui/core";
 import {styled} from "@material-ui/styles";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {
   addMember,
   removeMember,
-  getGroupPageData,
+  getGroupPageData, deleteGroup,
 } from "../../actions/groups";
-import {Link, useParams} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 import EventsContainer from "../Events/EventsContainer";
 import {setModalOpen} from "../../actions/modal";
-import EditGroupModal from "./EditGroupModal";
+import EditModal from "../shared-components/EditModal";
 
 const _ = require("lodash");
 
@@ -97,12 +97,15 @@ function GroupDetails(props) {
     getGroupPageData,
     addMember,
     removeMember,
-    setModalOpen
+    setModalOpen,
+    deleteGroup,
   } = props;
   const {id} = useParams();
+  const history = useHistory();
 
   const isManager = group.creatorId === user.user_id;
   const isMember = group.memberIds?.includes(user.user_id);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     getGroupPageData(id);
@@ -117,11 +120,19 @@ function GroupDetails(props) {
     removeMember(group._id, user.user_id);
   };
 
+  const handleDelete = () => {
+    window.confirm(
+      "Are you sure you want to delete this group? This action cannot be undone."
+    ) &&
+    deleteGroup(id) &&
+    history.push("/groups");
+  }
+
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
     <LoadingPage value="Loading data..."/>
   ) : (
     <Container>
-      <EditGroupModal description={group.description} tags={group.tags}/>
+      <EditModal isEvent={false}/>
       <GroupPageGrid
         container
         direction="column"
@@ -145,13 +156,42 @@ function GroupDetails(props) {
                       (group.groupSize === 1 ? " member" : " members")}
                     </Box>
                   </Typography>
+                  {isEditing ? (
+                  <Box>
+                    <GroupOption
+                      disableElevation
+                      size="small"
+                      variant="contained"
+                      onClick={() => setIsEditing(false)}
+                    >
+                      Submit
+                    </GroupOption>
+                    <GroupOption
+                      disableElevation
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setModalOpen(true)}
+                    >
+                      Update
+                    </GroupOption>
+                    <GroupOption
+                      disableElevation
+                      size="small"
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDelete()}
+                    >
+                      Delete group
+                    </GroupOption>
+                  </Box>) : (
                   <GroupOption
                     disableElevation
                     size="small"
                     variant="contained"
                     onClick={() => {
                       if (isManager) {
-                        setModalOpen(true);
+                        setIsEditing(true);
                       } else {
                         isMember ? leaveGroup() : joinGroup();
                       }
@@ -163,6 +203,7 @@ function GroupDetails(props) {
                         ? "Leave Group"
                         : "Join Group"}
                   </GroupOption>
+                  )}
                 </Box>
                 <Box>
                   <Typography variant="h6">Group Description</Typography>
@@ -233,7 +274,8 @@ const mapDispatchToProps = (dispatch) => {
     getGroupPageData: (groupId) => dispatch(getGroupPageData(groupId)),
     addMember: (groupId, userId) => dispatch(addMember(groupId, userId)),
     removeMember: (groupId, userId) => dispatch(removeMember(groupId, userId)),
-    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen))
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+    deleteGroup: (groupId) => dispatch(deleteGroup(groupId)),
   };
 };
 
