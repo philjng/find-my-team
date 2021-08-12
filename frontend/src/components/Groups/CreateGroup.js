@@ -123,7 +123,6 @@ const CreateGroupPage = (props) => {
           },
           previewSource
         ).then(() => history.push("/groups"));
-    setDescription("");
   };
 
   return (

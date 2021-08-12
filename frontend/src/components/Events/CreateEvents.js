@@ -188,16 +188,6 @@ function Create(props) {
         }).then(() => {
           history.push("/events");
         });
-    setEventTitle("");
-    setEventLocation("");
-    setEventDescription("");
-    setEventStart("");
-    setEventEnd("");
-    setTags([]);
-    setEventGroup("");
-    setIsCoordinate(false);
-    setEventLatitude(0);
-    setEventLongitude(0);
   };
 
   return (
