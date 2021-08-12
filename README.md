@@ -93,7 +93,7 @@ Lucas Gustafson (u8h2b):
 - set up initial Redux structure
 - worked on events functionality:
   - worked on event listing page; getting events, filtering events, linking to event details page and event display related endpoints
-  - worked on event details page; commenting, joining/leaving group
+  - worked on event details page; commenting, joining/leaving group and related endpoints
   - worked on event creation page; field validation and event creation endpoint
 - worked on search functionality
   - worked on search results page 
@@ -101,7 +101,7 @@ Lucas Gustafson (u8h2b):
 - worked on maps functionality
   - researched maps APIs
   - chose and implemented MapBox API
-  - set up searching of event locations into coordinates
+  - set up translation of event locations names into coordinates and markers
   - integrated maps into event details and event listing pages
 
 
