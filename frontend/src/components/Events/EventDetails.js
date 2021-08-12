@@ -27,8 +27,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
 import { CenteredTypography } from "./EventList.js";
-import EditModal, {ButtonMR} from "../shared-components/EditModal";
 import {setModalOpen} from "../../actions/modal";
+import EditEventModal, {ButtonMR} from "./EditEventModal";
 
 const _ = require("lodash");
 
@@ -100,7 +100,7 @@ function EventDetails(props) {
     <CircularProgress />
   ) : (
     <Container>
-      <EditModal isEvent={true}/>
+      <EditEventModal />
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>

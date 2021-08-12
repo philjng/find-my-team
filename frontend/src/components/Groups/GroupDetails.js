@@ -21,8 +21,8 @@ import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 import EventsContainer from "../Events/EventsContainer";
-import EditModal from "../shared-components/EditModal";
 import {setModalOpen} from "../../actions/modal";
+import EditGroupModal from "./EditGroupModal";
 
 const _ = require("lodash");
 
@@ -121,7 +121,7 @@ function GroupDetails(props) {
     <LoadingPage value="Loading data..."/>
   ) : (
     <Container>
-      <EditModal isEvent={false}/>
+      <EditGroupModal />
       <GroupPageGrid
         container
         direction="column"
