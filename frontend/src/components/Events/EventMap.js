@@ -45,7 +45,6 @@ function EventMap(props) {
           .send()
           .then((res) => {
             if (!res.body?.features?.length) {
-              console.log("Could not find location");
               return;
             }
             let center = res.body.features[0].center;

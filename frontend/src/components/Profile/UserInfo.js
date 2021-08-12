@@ -97,11 +97,8 @@ function UserInfo(props) {
   const { id } = useParams();
   const isOwner = currentUser.uid === id;
 
-  console.log(initialForm);
 
   const handleFormChange = (property) => (event) => {
-    console.log("In handleFormChange");
-    console.log({ property, event });
     setForm({
       ...form,
       [property]: event.target.value,
@@ -163,7 +160,6 @@ function UserInfo(props) {
     // Check file is image
     // Also prevents error when cancelling image upload
     if (file?.type.match("image.*")) {
-      console.log("file type is image");
       previewFile(file);
     }
   };

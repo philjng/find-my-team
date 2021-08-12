@@ -146,7 +146,7 @@ function EventDetails(props) {
             {event.location === "No location" &&
             event.useCoordinates === false ? (
               <CenteredTypography>
-                No map is shown due to missing location and coordinates
+                No map is shown due to missing location and coordinates.
               </CenteredTypography>
             ) : (
               <DisplayMap

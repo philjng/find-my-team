@@ -42,7 +42,6 @@ router.get("/joined", function (req, res, next) {
       res.send(data);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send({
         message: error.message || "There was an error while getting groups",
       });
@@ -79,7 +78,6 @@ router.delete("/:id", function (req, res, next) {
       res.send(req.params.id);
     })
     .catch((e) => {
-      console.log(e);
       res.status(500).send({ message: e.message || "DELETE group failed" });
     });
 });

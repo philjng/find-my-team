@@ -5,7 +5,6 @@ import {
   Container,
   Grid,
   TextField,
-  Typography,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import { CardHeader } from "./UserGroups";
