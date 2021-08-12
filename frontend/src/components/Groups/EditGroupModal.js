@@ -34,6 +34,7 @@ const EditGroupModal = (props) => {
       "Are you sure you want to delete this group? This action cannot be undone."
     ) &&
     deleteGroup(id) &&
+      setModalOpen(false) &&
     history.push("/groups");
   }
 

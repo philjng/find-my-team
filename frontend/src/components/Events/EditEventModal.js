@@ -35,7 +35,8 @@ const EditEventModal = (props) => {
   const handleDelete = () => {
     window.confirm(
       "Are you sure you want to delete this event? This action cannot be undone."
-    ) && deleteEvent(id)
+    ) && deleteEvent(id) &&
+    setModalOpen(false)
     && history.push("/events")
   }
 
