@@ -101,7 +101,6 @@ const CreateGroupPage = (props) => {
                 />
               </Grid>
               <Grid item>
-                <Typography variant="h6">Tags</Typography>
                 <Grid
                   container
                   direction="column"

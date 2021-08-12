@@ -23,6 +23,7 @@ import {
   getJoinedGroups,
 } from "../../actions/user";
 import { useAuth } from "../../context/AuthContext";
+import {AddTagButton, ProfileTags} from "../Profile/UserInfo";
 
 const leftGridWidth = 50;
 
@@ -62,7 +63,7 @@ function Create(props) {
   const [eventDescription, setEventDescription] = useState("");
   const [eventStart, setEventStart] = useState("");
   const [eventEnd, setEventEnd] = useState("");
-  const [tagText, setTagText] = useState("");
+  const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
   const [eventGroup, setEventGroup] = useState("");
   const [isCoordinate, setIsCoordinate] = useState(false);
@@ -78,12 +79,14 @@ function Create(props) {
     getJoinedGroups(currentUser.uid);
   }, [getCreatedGroups, getJoinedGroups, currentUser]);
 
-  const addTag = () => {
-    let tags_cpy = [...tags];
-    tags_cpy.push(tagText);
-    setTags(tags_cpy);
-    setTagText("");
-  };
+  const addTag = (newTag) => {
+    newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]))
+    setTag("");
+  }
+
+  const handleDeleteTag = (tagToDelete) => {
+    setTags(tags.filter((tag) => tag !== tagToDelete))
+  }
 
   const handleSubmit = () => {
     if (eventTitle.trim() === "") {
@@ -267,20 +270,34 @@ function Create(props) {
             </Grid>
             <Grid item container direction="row" spacing="2">
               <SCGrid item>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  label="Tags"
-                  fullWidth
-                  value={tagText}
-                  onChange={(e) => setTagText(e.target.value)}
-                />
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="left"
+                  alignItems="left"
+                >
+                  <Grid item>
+                    <TextField
+                      onChange={(e) => setTag(e.target.value)}
+                      id="outlined-basic"
+                      label="Tag"
+                      size="small"
+                      value={tag}
+                    />
+                    <AddTagButton
+                      variant="contained"
+                      onClick={() => {addTag(tag)}}
+                    >
+                      Add
+                    </AddTagButton>
+                    <Box>
+                      {tags.map((item) => (
+                        <ProfileTags label={item} onDelete={() => handleDeleteTag(item)} />
+                      ))}
+                    </Box>
+                  </Grid>
+                </Grid>
               </SCGrid>
-              <Grid item>
-                <Button variant="contained" onClick={addTag}>
-                  Add
-                </Button>
-              </Grid>
             </Grid>
           </RightGrid>
         </FormGrid>
