@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { createGroup } from "../../actions/groups";
 import { useHistory } from "react-router-dom";
 import {AddTagButton, ProfileTags} from "../Profile/UserInfo";
+import {setModalOpen} from "../../actions/modal";
 
 const CreateGroupCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
@@ -31,13 +32,18 @@ const ButtonGroup = styled(Box)({
 });
 
 const CreateGroupPage = (props) => {
-  const { user } = props;
+  const {
+    user,
+    isEditMode,
+    createGroup,
+    setModalOpen
+  } = props;
   const history = useHistory();
 
-  const [groupName, setGroupName] = useState("");
-  const [description, setDescription] = useState("");
+  const [groupName, setGroupName] = useState(props.group ? props.group.name : "");
+  const [description, setDescription] = useState(props.group ? props.group.description : "");
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState(props.group ? props.group.tags : [])
 
   const addTag = (newTag) => {
     newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]))
@@ -53,7 +59,7 @@ const CreateGroupPage = (props) => {
       window.alert("Group name is required.");
       return;
     }
-    props.createGroup({
+    createGroup({
       creatorId: user.user_id,
       creator: user.displayName,
       name: groupName,
@@ -74,7 +80,7 @@ const CreateGroupPage = (props) => {
         <Grid container direction="column" spacing="2">
           <Grid item>
             <CardHeader align="center" variant="h5">
-              Create Group
+              {isEditMode ? "Edit Group" : "Create Group"}
             </CardHeader>
           </Grid>
             <Grid item container direction="column" spacing="2">
@@ -142,7 +148,8 @@ const CreateGroupPage = (props) => {
               <Button
                 variant="contained"
                 onClick={() => {
-                  history.push("/groups");
+                  isEditMode ? setModalOpen(false) :
+                  history.goBack();
                 }}
               >
                 Cancel
@@ -159,4 +166,11 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { createGroup })(CreateGroupPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createGroup: (groupData) => dispatch(createGroup(groupData)),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateGroupPage);

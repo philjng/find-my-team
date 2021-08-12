@@ -30,7 +30,9 @@ const EditGroupModal = (props) => {
       }}
     >
       <Fade in={modal.isOpen}>
-        {isEvent ? <Create/> : <CreateGroupPage/>}
+        {isEvent ?
+          <Create isEditMode={true}/>
+          : <CreateGroupPage isEditMode={true} group={props.group}/>}
       </Fade>
     </Modal>
   );

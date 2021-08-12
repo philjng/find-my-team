@@ -57,7 +57,7 @@ const RightGrid = styled(Grid)({
 });
 
 function Create(props) {
-  const { user, createEvent, getCreatedGroups, getJoinedGroups } = props;
+  const { user, createEvent, getCreatedGroups, getJoinedGroups, isEditMode } = props;
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -314,7 +314,7 @@ function Create(props) {
             <Button
               variant="contained"
               onClick={() => {
-                history.push("/events");
+                history.goBack();
               }}
             >
               Cancel

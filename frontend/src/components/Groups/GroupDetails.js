@@ -132,7 +132,7 @@ function GroupDetails(props) {
     <LoadingPage value="Loading data..."/>
   ) : (
     <Container>
-      <EditModal isEvent={false}/>
+      <EditModal isEvent={false} group={group}/>
       <GroupPageGrid
         container
         direction="column"
