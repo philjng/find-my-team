@@ -1,21 +1,12 @@
 import UserInfo from "./UserInfo";
 import {
-  Container,
-  Card,
   Box,
-  CardContent,
-  List,
-  ListItem,
-  Typography,
   Grid,
 } from "@material-ui/core";
 import UserGroups from "../Groups/UserGroups";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { styled } from "@material-ui/styles";
-import Event from "../Events/Event";
-import { getEvents } from "../../actions/events";
-import UserEvents from "../Events/UserEvents";
 import { getHomePageData } from "../../actions/user";
 import TmpComponent from "./TmpComponent";
 import { useAuth } from "../../context/AuthContext";

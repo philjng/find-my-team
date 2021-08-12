@@ -70,10 +70,6 @@ const SCBox = styled(Box)({
   alignItems: "left",
 });
 
-const TextBox = styled(Box)({
-  margin: "30px",
-});
-
 const SCAvatar = styled(Avatar)({
   height: "100px",
   width: "100px",
@@ -121,7 +117,6 @@ function UserInfo(props) {
   const handleFirstNameChange = handleFormChange("firstName");
   const handleLastNameChange = handleFormChange("lastName");
   const handleDisplayNameChange = handleFormChange("displayName");
-  const handleTagsChange = handleFormChange("tags");
   const handleTagsInputTextChange = handleFormChange("tagsInputText");
 
   const handleDeleteTag = (tag) => {

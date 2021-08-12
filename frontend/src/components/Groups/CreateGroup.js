@@ -1,7 +1,7 @@
 import {
   Box,
   Button,
-  Card, CardContent, Chip,
+  Card,
   Container,
   Grid,
   TextField,
@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import { CardHeader } from "./UserGroups";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { connect } from "react-redux";
 import { createGroup } from "../../actions/groups";
 import { useHistory } from "react-router-dom";
