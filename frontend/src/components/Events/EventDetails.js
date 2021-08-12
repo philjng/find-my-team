@@ -202,7 +202,7 @@ function EventDetails(props) {
               latitude={event.latitude}
               longitude={event.longitude}
               useCoordinates={event.useCoordinates}
-            />)}
+            />
           </EventItems>
         </CardContent>
       </EventCard>
