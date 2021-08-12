@@ -8,6 +8,7 @@ import {
   Container,
   Typography,
   Box,
+  Button,
   CircularProgress,
   Card,
   CardContent,
@@ -20,15 +21,16 @@ import { styled } from "@material-ui/styles";
 import {
   participantJoin,
   participantLeave,
+  deleteEvent,
   getEvent,
 } from "../../actions/events.js";
 import "firebase/auth";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import React from "react";
-import { CenteredTypography } from "./EventList.js";
-import EditModal, {ButtonMR} from "../shared-components/EditModal";
-import {setModalOpen} from "../../actions/modal";
+import EditModal from "../shared-components/EditModal";
+import { setModalOpen } from "../../actions/modal";
 
 const _ = require("lodash");
 
@@ -53,18 +55,26 @@ const Buttons = styled(Box)({
   display: "flex",
 });
 
+const Button1 = styled(Button)({
+  marginRight: "1rem",
+});
+
 function EventDetails(props) {
   const {
     event,
     getEvent,
     participantJoin,
     participantLeave,
+    deleteEvent,
     user,
-    setModalOpen
+    setModalOpen,
   } = props;
   const { id } = useParams();
+  const history = useHistory();
+
   const isCreator = event.creatorId === user.user_id;
   const [isParticipant, setIsParticipant] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const date = new Date(event.startTime).toUTCString();
 
@@ -96,11 +106,19 @@ function EventDetails(props) {
     }
   };
 
+  const removeEvent = () => {
+    window.confirm(
+      "Are you sure you want to delete this event? This action cannot be undone."
+    ) &&
+      deleteEvent(id) &&
+      history.push("/events");
+  };
+
   return _.isEmpty(event) ? (
     <CircularProgress />
   ) : (
     <Container>
-      <EditModal isEvent={true}/>
+      <EditModal isEvent={true} event={event} />
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
@@ -110,18 +128,54 @@ function EventDetails(props) {
             </Box>
           </Typography>
           <Buttons>
-            {isCreator && (
-              <ButtonMR
+            {isCreator && !isEditing && (
+              <Button1
                 disableElevation
                 size="small"
                 variant="contained"
-                onClick={() => {setModalOpen(true)}}
+                onClick={() => setIsEditing(true)}
               >
                 Edit Event
-              </ButtonMR>
+              </Button1>
             )}
-            <FormControl variant="outlined" style={{minWidth: 120}} color="primary">
-              <InputLabel id="outlined-participation-label">Attendance</InputLabel>
+            {isEditing && (
+              <Box>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => removeEvent()}
+                >
+                  Delete event
+                </Button1>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setModalOpen(true)}
+                >
+                  Update
+                </Button1>
+                <Button1
+                  disableElevation
+                  size="small"
+                  variant="contained"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Submit
+                </Button1>
+              </Box>
+            )}
+            <FormControl
+              variant="outlined"
+              style={{ minWidth: 120 }}
+              color="primary"
+            >
+              <InputLabel id="outlined-participation-label">
+                Attendance
+              </InputLabel>
               <Select
                 labelId="participation-label"
                 id="participation"
@@ -143,19 +197,12 @@ function EventDetails(props) {
             <EventDescription description={event.description} />
             <EventParticipants />
             <EventComments eventId={id} comments={event.comments} />
-            {event.location === "No location" &&
-            event.useCoordinates === false ? (
-              <CenteredTypography>
-                No map is shown due to missing location and coordinates.
-              </CenteredTypography>
-            ) : (
-              <DisplayMap
-                location={event.location}
-                latitude={event.latitude}
-                longitude={event.longitude}
-                useCoordinates={event.useCoordinates}
-              />
-            )}
+            <DisplayMap
+              location={event.location}
+              latitude={event.latitude}
+              longitude={event.longitude}
+              useCoordinates={event.useCoordinates}
+            />
           </EventItems>
         </CardContent>
       </EventCard>
@@ -173,9 +220,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEvent: (id) => dispatch(getEvent(id)),
-    participantJoin: (eventId, userId) => participantJoin(dispatch, eventId, userId),
-    participantLeave: (eventId, userId) => participantLeave(dispatch, eventId, userId),
-    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen))
+    participantJoin: (eventId, userId) =>
+      participantJoin(dispatch, eventId, userId),
+    participantLeave: (eventId, userId) =>
+      participantLeave(dispatch, eventId, userId),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+    deleteEvent: (eventId) => deleteEvent(dispatch, eventId),
   };
 };
 
