@@ -26,9 +26,7 @@ function EventParticipants(props) {
     <Box>
       <Typography variant="h5">{"Participants (" + participants.length + ")"}</Typography>
       <List1>
-        {_.isEmpty(participants) ? (
-          <></>
-        ) : (
+        {!_.isEmpty(participants) && (
           participants.map((participant) => (
             <UserSquare user={participant } key={participant._id}/>
           ))
