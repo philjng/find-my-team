@@ -1,5 +1,5 @@
 import React from "react";
-import {Backdrop, Button, Container, Fade, Modal} from "@material-ui/core";
+import {Backdrop, Button, Fade, Modal} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import {setModalOpen} from "../../actions/modal";
@@ -31,7 +31,7 @@ const EditGroupModal = (props) => {
     >
       <Fade in={modal.isOpen}>
         {isEvent ?
-          <Create isEditMode={true}/>
+          <Create isEditMode={true} event={props.event}/>
           : <CreateGroupPage isEditMode={true} group={props.group}/>}
       </Fade>
     </Modal>

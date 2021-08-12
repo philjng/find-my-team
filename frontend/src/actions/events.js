@@ -1,6 +1,6 @@
 import {genericApi} from "../api/genericApi";
 import {showSnackbar} from "./snackbar";
-import {SUCCESS} from "../components/Snackbar/SnackbarSeverityConstants";
+import {SUCCESS, WARNING} from "../components/Snackbar/SnackbarSeverityConstants";
 
 export const getEventPageData = (eventId) => async (dispatch) => {
   dispatch(getEvent(eventId));
@@ -21,6 +21,30 @@ export const getEventParticipants = (eventId) => async dispatch => {
     })
   }
 }
+
+export const updateEvent = (eventId, updatedData) => async (dispatch) => {
+  try {
+    genericApi.put(`/api/events/${eventId}`, updatedData)
+      .then((res) => {
+        dispatch({
+          type: "UPDATE_EVENT",
+          payload: res.data
+        })
+        dispatch(getEventPageData(eventId));
+        dispatch(showSnackbar(SUCCESS, "Event has been updated."));
+      })
+  } catch (e) {
+    dispatch({
+      type: "UPDATE_EVENT_ERROR",
+      payload: e.message,
+    });
+    dispatch(
+      showSnackbar(
+        WARNING,
+        "There was an error with updating the event. Please try again."
+      )
+    );
+  }}
 
 export const participantJoin = async (dispatch, eventId, userId) => {
   try {

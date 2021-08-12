@@ -107,7 +107,7 @@ function EventDetails(props) {
     <CircularProgress/>
   ) : (
     <Container>
-      <EditModal isEvent={true}/>
+      <EditModal isEvent={true} event={event}/>
       <EventCard>
         <CardContent>
           <Typography variant="h4">{event.title}</Typography>
@@ -153,7 +153,7 @@ function EventDetails(props) {
                   variant="contained"
                   onClick={() => setIsEditing(false)}
                 >
-                  Cancel
+                  Submit
                 </Button1>
               </Box>)}
             <FormControl variant="outlined" style={{minWidth: 120}} color="primary">

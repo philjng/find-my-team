@@ -82,7 +82,7 @@ router.delete("/:id", function (req, res, next) {
     });
 });
 
-/* PUT endpoint to update group - add or remove member */
+/* PUT endpoint to update group or add or remove member */
 router.put("/:id", function (req, res, next) {
   const newGroup = req.body;
   Group.findById(req.params.id, (err, group) => {

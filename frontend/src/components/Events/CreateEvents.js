@@ -16,14 +16,14 @@ import React, { useState, useEffect } from "react";
 import { CardHeader } from "../Groups/UserGroups";
 import "firebase/auth";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { createEvent } from "../../actions/events";
+import {useHistory, useParams} from "react-router-dom";
+import {createEvent, updateEvent} from "../../actions/events";
 import {
   getCreatedGroups,
   getJoinedGroups,
 } from "../../actions/user";
-import { useAuth } from "../../context/AuthContext";
 import {AddTagButton, ProfileTags} from "../Profile/UserInfo";
+import {setModalOpen} from "../../actions/modal";
 
 const leftGridWidth = 50;
 
@@ -57,27 +57,36 @@ const RightGrid = styled(Grid)({
 });
 
 function Create(props) {
-  const { user, createEvent, getCreatedGroups, getJoinedGroups, isEditMode } = props;
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventLocation, setEventLocation] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [eventStart, setEventStart] = useState("");
-  const [eventEnd, setEventEnd] = useState("");
+  const {
+    user,
+    createEvent,
+    getCreatedGroups,
+    getJoinedGroups,
+    isEditMode,
+    setModalOpen,
+    updateEvent,
+    event
+  } = props;
+  const [eventTitle, setEventTitle] = useState(event ? event.title : "");
+  const [eventLocation, setEventLocation] = useState(event ? event.location : "");
+  const [eventDescription, setEventDescription] = useState(event ? event.description : "");
+  const [eventStart, setEventStart] = useState(event ? event.startTime.split(".")[0] : "");
+  const [eventEnd, setEventEnd] = useState(event ? event.endTime.split(".")[0] : "");
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState([]);
-  const [eventGroup, setEventGroup] = useState("");
-  const [isCoordinate, setIsCoordinate] = useState(false);
-  const [eventLatitude, setEventLatitude] = useState(0);
-  const [eventLongitude, setEventLongitude] = useState(0);
+  const [tags, setTags] = useState(event ? event.tags : []);
+  const [eventGroup, setEventGroup] = useState(event ? event.group : "");
+  const [isCoordinate, setIsCoordinate] = useState(event ? event.useCoordinates : false);
+  const [eventLatitude, setEventLatitude] = useState(event ? event.latitude : 0);
+  const [eventLongitude, setEventLongitude] = useState(event ? event.longitude : 0);
   const [viewCoordinates, setViewCoordinates] = useState(false);
 
   const history = useHistory();
-  const { currentUser } = useAuth();
+  const { id } = useParams();
 
   useEffect(() => {
-    getCreatedGroups(currentUser.uid);
-    getJoinedGroups(currentUser.uid);
-  }, [getCreatedGroups, getJoinedGroups, currentUser]);
+    getCreatedGroups(user.user_id);
+    getJoinedGroups(user.user_id);
+  }, [getCreatedGroups, getJoinedGroups, user.user_id]);
 
   const addTag = (newTag) => {
     newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]))
@@ -108,6 +117,29 @@ function Create(props) {
       window.alert("Event must belong to a group or be public");
       return;
     }
+    isEditMode ?
+    updateEvent(id, {
+      creatorId: user.user_id,
+      creator: user.displayName,
+      title: eventTitle,
+      location: eventLocation.trim() === "" ? "No location" : eventLocation,
+      latitude: eventLatitude,
+      longitude: eventLongitude,
+      useCoordinates: isCoordinate,
+      description:
+        eventDescription.trim() === "" ? "No description" : eventDescription,
+      startTime: new Date(eventStart),
+      endTime: new Date(eventEnd),
+      participantSize: event.participantSize,
+      participantIds: event.participantIds,
+      group: eventGroup,
+      tags: tags,
+      status: "status",
+      createdAt: event.createdAt,
+      lastModified: event.lastModified,
+      comments: event.comments,
+    }).then(() => setModalOpen(false))
+      :
     createEvent({
       creatorId: user.user_id,
       creator: user.displayName,
@@ -129,20 +161,19 @@ function Create(props) {
       lastModified: new Date(),
       comments: [],
     })
-      .then((result) => {
-        setEventTitle("");
-        setEventLocation("");
-        setEventDescription("");
-        setEventStart("");
-        setEventEnd("");
-        setTags([]);
-        setEventGroup("");
-        setIsCoordinate(false);
-        setEventLatitude(0);
-        setEventLongitude(0);
+      .then(() => {
         history.push("/events");
       })
-      .catch((err) => console.log(err));
+    setEventTitle("");
+    setEventLocation("");
+    setEventDescription("");
+    setEventStart("");
+    setEventEnd("");
+    setTags([]);
+    setEventGroup("");
+    setIsCoordinate(false);
+    setEventLatitude(0);
+    setEventLongitude(0);
   };
 
   return (
@@ -150,7 +181,7 @@ function Create(props) {
       <Grid container direction="column" spacing="2">
         <Grid item>
           <CardHeader align="center" variant="h5">
-            Create Event
+            {isEditMode ? "Edit Event" : "Create Event"}
           </CardHeader>
         </Grid>
         <FormGrid item container direction="row" spacing="3">
@@ -314,7 +345,7 @@ function Create(props) {
             <Button
               variant="contained"
               onClick={() => {
-                history.goBack();
+                isEditMode ? setModalOpen(false) : history.goBack();
               }}
             >
               Cancel
@@ -337,6 +368,8 @@ const mapDispatchToProps = (dispatch) => {
     createEvent: (eventData) => dispatch(createEvent(eventData)),
     getCreatedGroups: (id) => dispatch(getCreatedGroups(id)),
     getJoinedGroups: (id) => dispatch(getJoinedGroups(id)),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+    updateEvent: (id, eventData) => dispatch(updateEvent(id, eventData))
   };
 };
 
