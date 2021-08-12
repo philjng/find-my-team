@@ -4,19 +4,38 @@ import {
   WARNING,
 } from "../components/Snackbar/SnackbarSeverityConstants";
 import { showSnackbar } from "./snackbar";
-import { getUser } from "./user"
+import { getUser } from "./user";
 
-export const getUserProfileGroups = (id) => async (dispatch) => {
+export const getUserProfileCreatedGroups = (data) => async (dispatch) => {
   try {
-    const res = await genericApi.get(`/api/users/${id}/groups`);
+    const res = await genericApi.get(`/api/groups/created`, {
+      params: { userId: data },
+    });
     dispatch({
-      type: "GET_USER_PROFILE_GROUPS",
+      type: "GET_USER_PROFILE_CREATED_GROUPS",
       payload: res.data,
     });
   } catch (e) {
     dispatch({
-      type: "ERROR_USER_PROFILE_GROUPS",
-      payload: e,
+      type: "ERROR_GET_USER_PROFILE_CREATED_GROUPS",
+      payload: console.log(e),
+    });
+  }
+};
+
+export const getUserProfileJoinedGroups = (data) => async (dispatch) => {
+  try {
+    const res = await genericApi.get(`/api/groups/joined`, {
+      params: { userId: data },
+    });
+    dispatch({
+      type: "GET_USER_PROFILE_JOINED_GROUPS",
+      payload: res.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: "ERROR_USER_PROFILE_JOINED_GROUPS",
+      payload: console.log(e),
     });
   }
 };
@@ -58,7 +77,6 @@ export const editUserProfile = (id, data, base64Image) => async (dispatch) => {
       imageUploadRes = await genericApi.post(`/api/images`, {
         data: base64Image,
       });
-      console.log(imageUploadRes.data);
       data.image = imageUploadRes.data.public_id;
     }
 
@@ -67,7 +85,7 @@ export const editUserProfile = (id, data, base64Image) => async (dispatch) => {
       type: "GET_USER_PROFILE",
       payload: updateRes.data,
     });
-    dispatch(getUser(id))
+    dispatch(getUser(id));
     dispatch(showSnackbar(SUCCESS, "Your changes have been saved."));
   } catch (e) {
     dispatch({
@@ -75,7 +93,7 @@ export const editUserProfile = (id, data, base64Image) => async (dispatch) => {
       payload: e,
     });
     dispatch(getUserProfile(id));
-    dispatch(getUser(id))
+    dispatch(getUser(id));
     dispatch(
       showSnackbar(
         WARNING,
@@ -83,4 +101,11 @@ export const editUserProfile = (id, data, base64Image) => async (dispatch) => {
       )
     );
   }
+};
+
+export const getUserProfilePageData = (id) => async (dispatch) => {
+  dispatch(getUserProfile(id));
+  dispatch(getUserProfileCreatedGroups(id));
+  dispatch(getUserProfileJoinedGroups(id));
+  dispatch(getUserProfileEvents(id));
 };

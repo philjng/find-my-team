@@ -1,175 +1,271 @@
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
-    TextField,
-    Typography
+  Box,
+  Button,
+  Card,
+  Container,
+  Grid,
+  TextField,
 } from "@material-ui/core";
-import {styled} from "@material-ui/styles";
-import {CardHeader} from "./UserGroups";
-import React, {useState} from "react";
-import {BASKETBALL, BIKING, FRISBEE, RUNNING, SOCCER, TENNIS, VOLLEYBALL} from "../../tags";
-import {connect} from "react-redux";
-import {createGroup} from "../../actions/groups";
-import {useHistory} from "react-router-dom";
-import {useAuth} from "../../context/AuthContext";
+import { styled } from "@material-ui/styles";
+import { CardHeader } from "./UserGroups";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { createGroup, updateGroup } from "../../actions/groups";
+import { useHistory, useParams } from "react-router-dom";
+import { AddTagButton, ProfileTags } from "../Profile/UserInfo";
+import { setModalOpen } from "../../actions/modal";
+import { PanoramaOutlined } from "@material-ui/icons";
 
 const CreateGroupCard = styled(Card)({
-    backgroundColor: `#f7fdfc`,
-    margin: `2rem auto`,
-    width: `75%`,
-})
+  backgroundColor: `#f7fdfc`,
+  margin: `2rem`,
+  padding: "2rem",
+});
 
-const Form = styled(Box)({
-    display: `flex`,
-    justifyContent: `space-around`
-})
+const SCContainer = styled(Container)({
+  maxWidth: "750px",
+});
 
-const Input = styled(TextField)({
-    marginBottom: `1rem`
-})
+const ImageGrid = styled(Grid)({
+  maxWidth: "100%",
+  height: "300px",
+  border: "1px solid rgb(190 194 194)",
+  borderRadius: "5px",
+  backgroundColor: "#ebfaf7",
+});
+
+const SCPanoramaOutlined = styled(PanoramaOutlined)({
+  transform: "scale(6)",
+});
 
 const ButtonGroup = styled(Box)({
-    display: `flex`,
-    float: `right`,
-    margin: `1rem`,
-    columnGap: `1rem`,
-})
+  display: `flex`,
+  float: `right`,
+  columnGap: `1rem`,
+});
 
 const CreateGroupPage = (props) => {
-    const { currentUser } = useAuth()
-    const [groupName, setGroupName] = useState("");
-    const [description, setDescription] = useState("");
-    const [checkbox, setCheckbox] = useState({
-        Basketball: false,
-        Biking: false,
-        Frisbee: false,
-        Running: false,
-        Soccer: false,
-        Tennis: false,
-        Volleyball: false,
-    });
-    
-    const history = useHistory();
+  const { user, isEditMode, createGroup, setModalOpen, updateGroup } = props;
+  const history = useHistory();
+  const { id } = useParams();
 
-    const handleSubmit = () => {
-        // TODO: add more functionality for creating a group
-        if (groupName.trim() === "") {
-            window.alert("Group name is required.");
-            return;
-        }
-        const keys = Object.keys(checkbox)
-        const filtered = keys.filter((key) => checkbox[key])
-        props.createGroup({
-            creatorId: currentUser.uid,
-            creator: props.user,
-            name: groupName,
-            description: description.trim() === "" ? "No description." : description,
-            tags: filtered,
-            createdAt: new Date(),
-            memberIds: [currentUser.uid],
-            groupSize: 1
-        })
-        // TODO: create action for user to update createdGroups
-        setDescription("");
-        history.push("/groups");
+  const [groupName, setGroupName] = useState(
+    props.group ? props.group.name : ""
+  );
+  const [description, setDescription] = useState(
+    props.group ? props.group.description : ""
+  );
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState(props.group ? props.group.tags : []);
+
+  const [previewSource, setPreviewSource] = useState("");
+
+  const handleImageInput = (event) => {
+    var file = event.target.files[0];
+    // Check file is image
+    // Also prevents error when cancelling image upload
+    if (file?.type.match("image.*")) {
+      previewFile(file);
     }
+  };
 
-    const handleCheckboxChange = (event) => {
-        setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
     };
+  };
 
-    return (
-        <CreateGroupCard>
-            <CardContent>
-                <CardHeader align="center" variant="h5">Create Group</CardHeader>
-                <Form>
-                    <FormControl onSubmit={handleSubmit}>
-                        <Typography>Group name:</Typography>
-                        <Input
-                            variant="filled"
-                            size="small"
-                            value={groupName}
-                            required
-                            onChange={(e) => setGroupName(e.target.value)}
-                        />
-                        <Typography>Group description:</Typography>
-                        <Input
-                            variant="filled"
-                            value={description}
-                            multiline
-                            rows={5}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </FormControl>
-                    <FormGroup>
-                        <Typography>Group tags:</Typography>
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Basketball} onChange={handleCheckboxChange} name="Basketball" />}
-                            label={BASKETBALL}
-                            color="primary"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Biking} onChange={handleCheckboxChange} name="Biking" />}
-                            label={TENNIS}
-                            color="primary"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Frisbee} onChange={handleCheckboxChange} name="Frisbee" />}
-                            label={SOCCER}
-                            color="primary"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Running} onChange={handleCheckboxChange} name="Running" />}
-                            label={FRISBEE}
-                            color="primary"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Soccer} onChange={handleCheckboxChange} name="Soccer" />}
-                            label={VOLLEYBALL}
-                            color="primary"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Tennis} onChange={handleCheckboxChange} name="Tennis" />}
-                            label={BIKING}
-                            color="primary"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={checkbox.Volleyball} onChange={handleCheckboxChange} name="Volleyball" />}
-                            label={RUNNING}
-                            color="primary"
-                        />
-                    </FormGroup>
-                </Form>
-                <ButtonGroup>
-                    <Button
-                        type="submit"
-                        onClick={handleSubmit}
-                        color="primary"
-                        variant="contained"
-                    >
-                        Create Group
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={() => {history.goBack()}}
-                    >
-                        Cancel
-                    </Button>
-                </ButtonGroup>
-            </CardContent>
-        </CreateGroupCard>
-    )
-}
+  const addTag = (newTag) => {
+    newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]));
+    setTag("");
+  };
+
+  const handleDeleteTag = (tagToDelete) => {
+    setTags(tags.filter((tag) => tag !== tagToDelete));
+  };
+
+  const handleSubmit = () => {
+    if (groupName.trim() === "") {
+      window.alert("Group name is required.");
+      return;
+    }
+    isEditMode
+      ? updateGroup(
+          id,
+          {
+            creatorId: user.user_id,
+            creator: user.displayName,
+            name: groupName,
+            description:
+              description.trim() === "" ? "No description." : description,
+            tags: tags,
+            createdAt: props.group.createdAt,
+            lastModified: props.group.lastModified,
+            memberIds: props.group.memberIds,
+            groupSize: props.group.groupSize,
+          },
+          previewSource
+        ).then(() => setModalOpen(false))
+      : createGroup(
+          {
+            creatorId: user.user_id,
+            creator: user.displayName,
+            name: groupName,
+            description:
+              description.trim() === "" ? "No description." : description,
+            tags: tags,
+            createdAt: new Date(),
+            lastModified: new Date(),
+            memberIds: [user.user_id],
+            groupSize: 1,
+          },
+          previewSource
+        ).then(() => history.push("/groups"));
+    setDescription("");
+  };
+
+  return (
+    <SCContainer>
+      <CreateGroupCard>
+        <Grid container direction="column" spacing="2">
+          <Grid item>
+            <CardHeader align="center" variant="h5">
+              {isEditMode ? "Edit Group" : "Create Group"}
+            </CardHeader>
+          </Grid>
+          <Grid item>
+            <ImageGrid container justify="center" alignContent="center">
+              <Grid item>
+                {previewSource === "" ? (
+                  <SCPanoramaOutlined />
+                ) : (
+                  <Box width="574px" height="300px">
+                    <img
+                      src={previewSource}
+                      alt="Preview"
+                      style={{
+                        "object-fit": "contain",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  </Box>
+                )}
+              </Grid>
+            </ImageGrid>
+          </Grid>
+          <Grid item>
+            <input
+              accept="image/*"
+              style={{ display: "none" }}
+              id="upload-button"
+              multiple
+              type="file"
+              onChange={handleImageInput}
+            />
+            <label htmlFor="upload-button">
+              <Button variant="outlined" component="span">
+                Upload
+              </Button>
+            </label>
+          </Grid>
+          <Grid item container direction="column" spacing="2">
+            <Grid item>
+              <TextField
+                variant="outlined"
+                label="Group Name"
+                value={groupName}
+                required
+                fullWidth
+                onChange={(e) => setGroupName(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                variant="outlined"
+                label="Group Description"
+                value={description}
+                multiline
+                fullWidth
+                rows={5}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <Grid
+                container
+                direction="column"
+                justifyContent="left"
+                alignItems="left"
+              >
+                <Grid item>
+                  <TextField
+                    onChange={(e) => setTag(e.target.value)}
+                    id="outlined-basic"
+                    label="Tag"
+                    size="small"
+                    value={tag}
+                  />
+                  <AddTagButton
+                    variant="contained"
+                    onClick={() => {
+                      addTag(tag);
+                    }}
+                  >
+                    Add
+                  </AddTagButton>
+                  <Box>
+                    {tags.map((item) => (
+                      <ProfileTags
+                        label={item}
+                        onDelete={() => handleDeleteTag(item)}
+                      />
+                    ))}
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <ButtonGroup>
+              <Button
+                type="submit"
+                onClick={handleSubmit}
+                color="primary"
+                variant="contained"
+              >
+                Submit
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  isEditMode ? setModalOpen(false) : history.goBack();
+                }}
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </Grid>
+        </Grid>
+      </CreateGroupCard>
+    </SCContainer>
+  );
+};
 
 const mapStateToProps = (state) => ({
-    userId: state.user.user_id,
-    user: state.user.name
-})
+  user: state.user,
+});
 
-export default connect(mapStateToProps, {createGroup})(CreateGroupPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateGroup: (id, groupData, base64Image) =>
+      dispatch(updateGroup(id, groupData, base64Image)),
+    createGroup: (groupData, base64Image) =>
+      dispatch(createGroup(groupData, base64Image)),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateGroupPage);

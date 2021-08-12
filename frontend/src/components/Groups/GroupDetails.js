@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia,
   Container,
   Typography,
   Grid,
@@ -12,16 +11,19 @@ import {
 import { styled } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import {
-  deleteGroup,
   addMember,
   removeMember,
   getGroupPageData,
+  deleteGroup,
 } from "../../actions/groups";
 import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 import EventsContainer from "../Events/EventsContainer";
+import { setModalOpen } from "../../actions/modal";
+import EditModal from "../shared-components/EditModal";
+import { Image, Transformation } from "cloudinary-react";
 
 const _ = require("lodash");
 
@@ -42,8 +44,8 @@ const GroupPageGrid = styled(Grid)({
 const GroupGrid = styled(Grid)({});
 
 const GroupCard = styled(Card)({
-  backgroundColor: "#f7fdfc"
-})
+  backgroundColor: "#f7fdfc",
+});
 
 const SecondGrid = styled(Grid)({});
 
@@ -64,8 +66,12 @@ const LeftBox = styled(Box)({
   justifyContent: `space-between`,
 });
 
-const Image = styled(CardMedia)({
-  width: `50%`,
+const ImageGrid = styled(Grid)({
+  maxWidth: "600px",
+  height: "330px",
+  border: "1px solid rgb(190 194 194)",
+  borderRadius: "5px",
+  backgroundColor: "#ebfaf7",
 });
 
 const MembersCard = styled(Card)({
@@ -94,12 +100,13 @@ function GroupDetails(props) {
     groupMembers,
     groupEvents,
     getGroupPageData,
-    deleteGroup,
     addMember,
     removeMember,
+    setModalOpen,
+    deleteGroup,
   } = props;
-  const history = useHistory();
   const { id } = useParams();
+  const history = useHistory();
 
   const isManager = group.creatorId === user.user_id;
   const isMember = group.memberIds?.includes(user.user_id);
@@ -108,14 +115,6 @@ function GroupDetails(props) {
   useEffect(() => {
     getGroupPageData(id);
   }, [id, getGroupPageData]);
-
-  const handleDelete = () => {
-    window.confirm(
-      "Are you sure you want to delete this group? This action cannot be undone."
-    ) &&
-      deleteGroup(group._id) &&
-      history.goBack();
-  };
 
   const joinGroup = () => {
     addMember(group._id, user.user_id);
@@ -126,18 +125,26 @@ function GroupDetails(props) {
       removeMember(group._id, user.user_id);
   };
 
-  // TODO: might want to abstract parts away and simplify this file
+  const handleDelete = () => {
+    window.confirm(
+      "Are you sure you want to delete this group? This action cannot be undone."
+    ) &&
+      deleteGroup(id) &&
+      history.push("/groups");
+  };
+
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
     <LoadingPage value="Loading data..." />
   ) : (
     <Container>
+      <EditModal isEvent={false} group={group} />
       <GroupPageGrid
         container
         direction="column"
         spacing="2"
         justifyContent="center"
       >
-        <GroupGrid container item>
+        <GroupGrid item>
           <GroupCard>
             <GroupContent>
               <LeftBox>
@@ -162,13 +169,14 @@ function GroupDetails(props) {
                         variant="contained"
                         onClick={() => setIsEditing(false)}
                       >
-                        Cancel
+                        Submit
                       </GroupOption>
                       <GroupOption
                         disableElevation
                         size="small"
                         variant="contained"
                         color="primary"
+                        onClick={() => setModalOpen(true)}
                       >
                         Update
                       </GroupOption>
@@ -212,17 +220,24 @@ function GroupDetails(props) {
                   <TagChips tags={group.tags} />
                 </Box>
               </LeftBox>
-              {/*TODO: images for group*/}
-              <Image>
-                <img
-                  src="https://i.ytimg.com/vi/NVuL7mLqT6g/maxresdefault.jpg"
-                  alt="default"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                  }}
-                />
-              </Image>
+              <ImageGrid container justify="center" alignContent="center">
+                <Grid item>
+                  {group?.image ? (
+                    <Image publicId={group.image} cloudName="findmyteam">
+                      <Transformation width="600" height="330" crop="fit" />
+                    </Image>
+                  ) : (
+                    <img
+                      src="https://i.ytimg.com/vi/NVuL7mLqT6g/maxresdefault.jpg"
+                      alt="default"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                      }}
+                    />
+                  )}
+                </Grid>
+              </ImageGrid>
             </GroupContent>
           </GroupCard>
         </GroupGrid>
@@ -230,7 +245,6 @@ function GroupDetails(props) {
           <EventsGrid item>
             <EventsContainer events={groupEvents} />
           </EventsGrid>
-          {/*TODO: abstract out members card into it's own component with own fetching*/}
           <MembersGrid item>
             <MembersCard>
               <VerticalContent>
@@ -272,9 +286,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getGroupPageData: (groupId) => dispatch(getGroupPageData(groupId)),
-    deleteGroup: (groupId) => dispatch(deleteGroup(groupId)),
     addMember: (groupId, userId) => dispatch(addMember(groupId, userId)),
     removeMember: (groupId, userId) => dispatch(removeMember(groupId, userId)),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+    deleteGroup: (groupId) => dispatch(deleteGroup(groupId)),
   };
 };
 

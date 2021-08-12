@@ -6,7 +6,7 @@ import Events from "./components/Events/Events";
 import Profile from "./components/Profile/Profile";
 import Home from "./components/Home";
 import Groups from "./components/Groups/Groups";
-import Create from "./components/Events/CreateEvents";
+import CreateEvents from "./components/Events/CreateEvents";
 import GroupDetails from "./components/Groups/GroupDetails";
 import EventDetails from "./components/Events/EventDetails";
 import LoginRoute from "./LoginRoute";
@@ -29,7 +29,7 @@ function App() {
         <ProtectedRoute path="/profile/:id" component={Profile} />
         <ProtectedRoute path="/home" component={Home} />
         <ProtectedRoute exact path="/groups" component={Groups} />
-        <ProtectedRoute path="/create" component={Create} />
+        <ProtectedRoute path="/create-event" component={CreateEvents} />
         <ProtectedRoute path="/create-group" component={CreateGroupPage} />
         <ProtectedRoute exact path="/groups/:id" component={GroupDetails} />
         <ProtectedRoute path="/search" component={Search} />

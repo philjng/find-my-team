@@ -83,8 +83,43 @@ router.post("/", function (req, res, next) {
     if (error) {
       res.status(500).send({ message: error.message || "POST event failed" });
     } else {
-      console.log("POST event successful");
       res.send(req.body);
+    }
+  });
+});
+
+/* UPDATE event */
+router.put("/:id", function (req, res, next) {
+  const newEvent = req.body;
+  Event.findById(req.params.id, (err, event) => {
+    if (err) {
+      res.status(err.code).send(err);
+    } else {
+      if (
+        event.lastModified === undefined ||
+        newEvent.lastModified === undefined ||
+        new Date(newEvent.lastModified).getTime() ===
+          new Date(event.lastModified).getTime()
+      ) {
+        newEvent.lastModified = new Date();
+        Event.findByIdAndUpdate(
+          req.params.id,
+          newEvent,
+          { new: true, useFindAndModify: false },
+          (error, result) => {
+            if (error) {
+              res.status(error.code).send(error);
+            } else {
+              res.send(req.body);
+            }
+          }
+        );
+      } else {
+        res.status(400).send({
+          status: 400,
+          message: "Resource was modified. Try again.",
+        });
+      }
     }
   });
 });

@@ -80,11 +80,13 @@ router.get("/:id/events", function (req, res, next) {
   Event.find({
     creatorId: req.params.id,
   })
+    .sort({ startTime: 1 })
     .then((createdEventsData) => {
       response.created = createdEventsData;
       Event.find({
         participantIds: { $in: req.params.id },
       })
+        .sort({ startTime: 1 })
         .then((joinedEventsData) => {
           response.joined = joinedEventsData;
           res.send(response);

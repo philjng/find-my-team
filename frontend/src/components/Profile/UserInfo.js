@@ -15,13 +15,15 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
 import { styled } from "@material-ui/styles";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { Check } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUserProfile } from "../../actions/profile";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
+
+const AVATAR_SIZE = 300;
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -45,6 +47,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const ProfileTags = styled(Chip)({
+  marginRight: "0.5rem",
+  marginTop: "1rem",
+  backgroundColor: "#339999",
+  color: "white"
+});
+
+export const AddTagButton = styled(Button)({
+  marginTop: "0.5rem",
+  marginLeft: "0.5rem",
+});
+
 const SCCard = styled(Card)({
   width: 500,
 });
@@ -60,18 +74,9 @@ const SCBox = styled(Box)({
   alignItems: "left",
 });
 
-const TextBox = styled(Box)({
-  margin: "30px",
-});
-
 const SCAvatar = styled(Avatar)({
-  height: "100px",
-  width: "100px",
-});
-
-const SCChip = styled(Chip)({
-  marginRight: "10px",
-  marginTop: "10px",
+  height: AVATAR_SIZE + "px",
+  width: AVATAR_SIZE + "px",
 });
 
 const SCText = styled(Typography)({
@@ -79,12 +84,6 @@ const SCText = styled(Typography)({
   marginTop: "10px",
 });
 
-const SCButton = styled(Button)({
-  marginTop: "7px",
-  marginLeft: "7px",
-});
-
-const AVATAR_SIZE = 300;
 
 function UserInfo(props) {
   const classes = useStyles();
@@ -99,11 +98,8 @@ function UserInfo(props) {
   const { id } = useParams();
   const isOwner = currentUser.uid === id;
 
-  console.log(initialForm);
 
   const handleFormChange = (property) => (event) => {
-    console.log("In handleFormChange");
-    console.log({ property, event });
     setForm({
       ...form,
       [property]: event.target.value,
@@ -121,11 +117,9 @@ function UserInfo(props) {
   const handleFirstNameChange = handleFormChange("firstName");
   const handleLastNameChange = handleFormChange("lastName");
   const handleDisplayNameChange = handleFormChange("displayName");
-  const handleTagsChange = handleFormChange("tags");
   const handleTagsInputTextChange = handleFormChange("tagsInputText");
 
   const handleDeleteTag = (tag) => {
-    console.log("In handle delete tag");
     const newTags = form.tags.filter((item) => item !== tag);
     setForm({
       ...form,
@@ -167,7 +161,6 @@ function UserInfo(props) {
     // Check file is image
     // Also prevents error when cancelling image upload
     if (file?.type.match("image.*")) {
-      console.log("file type is image");
       previewFile(file);
     }
   };
@@ -292,21 +285,21 @@ function UserInfo(props) {
                   size="small"
                   value={form.tagsInputText}
                 />
-                <SCButton
+                <AddTagButton
                   variant="contained"
                   onClick={() => addTag(form.tagsInputText)}
                 >
                   Add
-                </SCButton>
+                </AddTagButton>
               </Grid>
             </Grid>
           )}
           <Box>
             {form.tags.map((item) => {
               return isEditing ? (
-                <SCChip onDelete={() => handleDeleteTag(item)} label={item} />
+                <ProfileTags onDelete={() => handleDeleteTag(item)} label={item} />
               ) : (
-                <SCChip
+                <ProfileTags
                   onDelete={() => handleDeleteTag(item)}
                   disabled
                   label={item}

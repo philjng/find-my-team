@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   TextField,
   Box,
   Typography,
@@ -8,98 +7,107 @@ import {
   Select,
   MenuItem,
   Checkbox,
+  Grid,
+  InputLabel,
+  FormControl,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardHeader } from "../Groups/UserGroups";
 import "firebase/auth";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
-import {createEvent} from "../../actions/events";
+import { useHistory, useParams } from "react-router-dom";
+import { createEvent, updateEvent } from "../../actions/events";
+import { getCreatedGroups, getJoinedGroups } from "../../actions/user";
+import { AddTagButton, ProfileTags } from "../Profile/UserInfo";
+import { setModalOpen } from "../../actions/modal";
+
+const leftGridWidth = 50;
 
 const CreateEventCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
   margin: `2rem auto`,
-  width: `75%`,
+  padding: "2rem",
+  maxWidth: "750px",
 });
 
-const Input = styled(TextField)({
-  marginBottom: `1rem`,
-  width: "75%"
-});
-
-const Input2 = styled(TextField)({
-  width: `40%`,
-  margin: `1rem`,
-  marginBottom: `1rem`,
-});
-
-const Form = styled(Box)({
-  display: `flex`,
-  justifyContent: `space-around`,
-});
+const FormGrid = styled(Grid)({});
 
 const ButtonBox = styled(Box)({
-  margin: "auto",
+  display: "flex",
+  float: "right",
+  columnGap: "1rem",
 });
 
-const AddButton = styled(Button)({
-  marginTop: "0.4rem",
-  marginLeft: "1rem",
+const Dropdown = styled(Select)({});
+
+const SCGrid = styled(Grid)({
+  flexGrow: "1",
 });
 
-const Button1 = styled(Button)({
-  marginTop: "1.5rem",
-  float: "right"
+const LeftGrid = styled(Grid)({
+  maxWidth: leftGridWidth + "%",
 });
 
-const SubmitButton = styled(Button)({
-  marginRight: `0.5rem`,
+const RightGrid = styled(Grid)({
+  maxWidth: 100 - leftGridWidth + "%",
 });
-
-const Dropdown = styled(Select)({
-  width: "80%",
-});
-
-const Typography1 = styled(Typography)({
-  marginLeft: "1rem"
-})
-
-const CoordinateCard = styled(Card)({
-  width: "80%",
-})
-
-const InputBox = styled(Box)({
-  width: "80%",
-  marginBottom: "1rem"
-
-})
 
 function Create(props) {
-  const { user, createEvent } = props;
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventLocation, setEventLocation] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [eventStart, setEventStart] = useState("");
-  const [eventEnd, setEventEnd] = useState("");
-  const [tagText, setTagText] = useState("");
-  const [tags, setTags] = useState([]);
-  const [eventGroup, setEventGroup] = useState("");
-  const [isCoordinate, setIsCoordinate] = useState(false);
-  const [eventLatitude, setEventLatitude] = useState(0);
-  const [eventLongitude, setEventLongitude] = useState(0);
+  const {
+    user,
+    createEvent,
+    getCreatedGroups,
+    getJoinedGroups,
+    isEditMode,
+    setModalOpen,
+    updateEvent,
+    event,
+  } = props;
+  const [eventTitle, setEventTitle] = useState(event ? event.title : "");
+  const [eventLocation, setEventLocation] = useState(
+    event ? event.location : ""
+  );
+  const [eventDescription, setEventDescription] = useState(
+    event ? event.description : ""
+  );
+  const [eventStart, setEventStart] = useState(
+    event ? event.startTime.split(".")[0] : ""
+  );
+  const [eventEnd, setEventEnd] = useState(
+    event ? event.endTime.split(".")[0] : ""
+  );
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState(event ? event.tags : []);
+  const [eventGroup, setEventGroup] = useState(event ? event.group : "");
+  const [isCoordinate, setIsCoordinate] = useState(
+    event ? event.useCoordinates : false
+  );
+  const [eventLatitude, setEventLatitude] = useState(
+    event ? event.latitude : 0
+  );
+  const [eventLongitude, setEventLongitude] = useState(
+    event ? event.longitude : 0
+  );
   const [viewCoordinates, setViewCoordinates] = useState(false);
 
   const history = useHistory();
+  const { id } = useParams();
 
-  const addTag = () => {
-    let tags_cpy = [...tags];
-    tags_cpy.push(tagText);
-    setTags(tags_cpy);
-    setTagText("");
+  useEffect(() => {
+    getCreatedGroups(user.user_id);
+    getJoinedGroups(user.user_id);
+  }, [getCreatedGroups, getJoinedGroups, user.user_id]);
+
+  const addTag = (newTag) => {
+    newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]));
+    setTag("");
   };
 
-  //TODO: Fix refresh bug
+  const handleDeleteTag = (tagToDelete) => {
+    setTags(tags.filter((tag) => tag !== tagToDelete));
+  };
+
   const handleSubmit = () => {
     if (eventTitle.trim() === "") {
       window.alert("Event name is required");
@@ -130,181 +138,250 @@ function Create(props) {
       window.alert("Invalid coordinates. Latitude must be between -90 and 90 and longitude must be between -180 and 180");
       return;
     }
-    createEvent({
-      creatorId: user.user_id,
-      creator: user.displayName,
-      title: eventTitle,
-      location: eventLocation.trim() === "" ? "" : eventLocation,
-      latitude: eventLatitude,
-      longitude: eventLongitude,
-      useCoordinates: isCoordinate,
-      description: eventDescription.trim() === "" ? "No description" : eventDescription,
-      startTime: new Date(eventStart),
-      endTime: new Date(eventEnd),
-      participantSize: 1,
-      participantIds: [user.user_id],
-      group: eventGroup,
-      tags: tags,
-      status: "status",
-      createdAt: new Date(),
-      lastModified: new Date(),
-      comments: []
-    })
-      .then((result) => {
-        setEventTitle("");
-        setEventLocation("");
-        setEventDescription("");
-        setEventStart("");
-        setEventEnd("");
-        setTags([]);
-        setEventGroup("");
-        setIsCoordinate(false);
-        setEventLatitude(0);
-        setEventLongitude(0);
-        history.push("/events");
-      })
-      .catch((err) => console.log(err));
+
+    isEditMode
+      ? updateEvent(id, {
+          creatorId: user.user_id,
+          creator: user.displayName,
+          title: eventTitle,
+          location: eventLocation.trim() === "" ? "No location" : eventLocation,
+          latitude: eventLatitude,
+          longitude: eventLongitude,
+          useCoordinates: isCoordinate,
+          description:
+            eventDescription.trim() === ""
+              ? "No description"
+              : eventDescription,
+          startTime: new Date(eventStart),
+          endTime: new Date(eventEnd),
+          participantSize: event.participantSize,
+          participantIds: event.participantIds,
+          group: eventGroup,
+          tags: tags,
+          status: "status",
+          createdAt: event.createdAt,
+          lastModified: event.lastModified,
+          comments: event.comments,
+        }).then(() => setModalOpen(false))
+      : createEvent({
+          creatorId: user.user_id,
+          creator: user.displayName,
+          title: eventTitle,
+          location: eventLocation.trim() === "" ? "No location" : eventLocation,
+          latitude: eventLatitude,
+          longitude: eventLongitude,
+          useCoordinates: isCoordinate,
+          description:
+            eventDescription.trim() === ""
+              ? "No description"
+              : eventDescription,
+          startTime: new Date(eventStart),
+          endTime: new Date(eventEnd),
+          participantSize: 1,
+          participantIds: [user.user_id],
+          group: eventGroup,
+          tags: tags,
+          status: "status",
+          createdAt: new Date(),
+          lastModified: new Date(),
+          comments: [],
+        }).then(() => {
+          history.push("/events");
+        });
+    setEventTitle("");
+    setEventLocation("");
+    setEventDescription("");
+    setEventStart("");
+    setEventEnd("");
+    setTags([]);
+    setEventGroup("");
+    setIsCoordinate(false);
+    setEventLatitude(0);
+    setEventLongitude(0);
   };
 
   return (
     <CreateEventCard>
-      <CardContent>
-        <CardHeader align="center" variant="h5">
-          Create Event
-        </CardHeader>
-        <Form>
-          <InputBox>
-            <InputBox>
-              <Typography>Event Title</Typography>
-              <Input
-                variant="filled"
+      <Grid container direction="column" spacing="2">
+        <Grid item>
+          <CardHeader align="center" variant="h5">
+            {isEditMode ? "Edit Event" : "Create Event"}
+          </CardHeader>
+        </Grid>
+        <FormGrid item container direction="row" spacing="3">
+          <LeftGrid container item direction="column" spacing="2">
+            <Grid item>
+              <TextField
+                variant="outlined"
                 size="small"
+                label="Event Title"
+                fullWidth
                 value={eventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
               />
-            </InputBox>
+            </Grid>
             {viewCoordinates ? (
-              <CoordinateCard>
-              <InputBox>
-                <Typography>Coordinates</Typography>
-                <Input2
-                  variant="filled"
-                  size="small"
-                  value={eventLatitude}
-                  onChange={(e) => setEventLatitude(e.target.value)}
-                />
-                <Input2
-                  variant="filled"
-                  size="small"
-                  value={eventLongitude}
-                  onChange={(e) => setEventLongitude(e.target.value)}
-                />
-                <InputBox>
-                  <Typography1 display="inline">Use Coordinates</Typography1>
-                <Checkbox
-                  value={isCoordinate}
-                  onClick={(e) => setIsCoordinate(!isCoordinate)}
-                />
-                <Button1
-                  onClick={(e) => setViewCoordinates(!viewCoordinates)}
-                >Set Location</Button1>
-                </InputBox>
-              </InputBox>
-              </CoordinateCard>
+              <>
+                <Grid item>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    label="Latitude"
+                    fullWidth
+                    value={eventLatitude}
+                    onChange={(e) => setEventLatitude(e.target.value)}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    label="Longitude"
+                    fullWidth
+                    value={eventLongitude}
+                    onChange={(e) => setEventLongitude(e.target.value)}
+                  />
+                  <Typography display="inline">Use Coordinates</Typography>
+                  <Checkbox
+                    value={isCoordinate}
+                    onClick={(e) => setIsCoordinate(!isCoordinate)}
+                  />
+                  <Button onClick={(e) => setViewCoordinates(!viewCoordinates)}>
+                    Set Location
+                  </Button>
+                </Grid>
+              </>
             ) : (
-              <InputBox>
-                <Typography>Location</Typography>
-                <Input
-                  variant="filled"
+              <Grid item>
+                <TextField
+                  variant="outlined"
                   size="small"
+                  label="Location"
+                  fullWidth
                   value={eventLocation}
                   onChange={(e) => setEventLocation(e.target.value)}
                 />
-               <Button
-                  onClick={(e) => setViewCoordinates(!viewCoordinates)}
-                >Set Coordinates</Button>
-              </InputBox>
+                <Button onClick={(e) => setViewCoordinates(!viewCoordinates)}>
+                  Set Coordinates
+                </Button>
+              </Grid>
             )}
-            <InputBox>
-              <Typography>Description</Typography>
-              <Input
-                variant="filled"
+            <Grid item>
+              <TextField
+                variant="outlined"
                 multiline
+                label="Description"
+                fullWidth
                 rows={3}
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
               />
-            </InputBox>
-          </InputBox>
-          <InputBox>
-            <InputBox>
-              <Typography>Start Time</Typography>
-              <Input
+            </Grid>
+          </LeftGrid>
+          <RightGrid container item direction="column" spacing="2">
+            <Grid item>
+              <TextField
                 type="datetime-local"
-                variant="filled"
+                variant="outlined"
                 size="small"
+                label="Start Time"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
                 value={eventStart}
                 onChange={(e) => setEventStart(e.target.value)}
               />
-            </InputBox>
-            <InputBox>
-              <Typography>End Time</Typography>
-              <Input
+            </Grid>
+            <Grid item>
+              <TextField
                 type="datetime-local"
-                variant="filled"
+                variant="outlined"
                 size="small"
+                label="End Time"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
                 value={eventEnd}
                 onChange={(e) => setEventEnd(e.target.value)}
               />
-            </InputBox>
-            <InputBox>
-              <Typography>Group</Typography>
-              <Dropdown
-                value={eventGroup}
-                onChange={(e) => setEventGroup(e.target.value)}
-              >
-                <MenuItem value={"000000000000000000000000"}>Public</MenuItem>
-                {user.userGroups.created.map((group) => (
-                  <MenuItem value={group._id}>{group.name}</MenuItem>
-                ))}
-                {user.userGroups.joined.map((group) => (
-                  <MenuItem value={group._id}>{group.name}</MenuItem>
-                ))}
-              </Dropdown>
-            </InputBox>
-            <InputBox>
-              <Typography>Tags</Typography>
-              <Input
-                variant="filled"
-                size="small"
-                value={tagText}
-                onChange={(e) => setTagText(e.target.value)}
-              />
-              <AddButton variant="contained" onClick={addTag}>
-                Add
-              </AddButton>
-            </InputBox>
-            <ButtonBox>
-              <SubmitButton
-                type="submit"
-                color="primary"
-                variant="contained"
-                onClick={handleSubmit}
-              >
-                Submit
-              </SubmitButton>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  history.goBack();
-                }}
-              >
-                Cancel
-              </Button>
-            </ButtonBox>
-          </InputBox>
-        </Form>
-      </CardContent>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel id="group-dropdown">Group</InputLabel>
+                <Dropdown
+                  id="group-dropdown"
+                  fullWidth
+                  label="Group"
+                  value={eventGroup}
+                  onChange={(e) => setEventGroup(e.target.value)}
+                >
+                  <MenuItem value={"000000000000000000000000"}>Public</MenuItem>
+                  {user.userGroups.created.map((group) => (
+                    <MenuItem value={group._id}>{group.name}</MenuItem>
+                  ))}
+                  {user.userGroups.joined.map((group) => (
+                    <MenuItem value={group._id}>{group.name}</MenuItem>
+                  ))}
+                </Dropdown>
+              </FormControl>
+            </Grid>
+            <Grid item container direction="row" spacing="2">
+              <SCGrid item>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="left"
+                  alignItems="left"
+                >
+                  <Grid item>
+                    <TextField
+                      onChange={(e) => setTag(e.target.value)}
+                      id="outlined-basic"
+                      label="Tag"
+                      size="small"
+                      value={tag}
+                    />
+                    <AddTagButton
+                      variant="contained"
+                      onClick={() => {
+                        addTag(tag);
+                      }}
+                    >
+                      Add
+                    </AddTagButton>
+                    <Box>
+                      {tags.map((item) => (
+                        <ProfileTags
+                          label={item}
+                          onDelete={() => handleDeleteTag(item)}
+                        />
+                      ))}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </SCGrid>
+            </Grid>
+          </RightGrid>
+        </FormGrid>
+        <Grid item>
+          <ButtonBox>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                isEditMode ? setModalOpen(false) : history.goBack();
+              }}
+            >
+              Cancel
+            </Button>
+          </ButtonBox>
+        </Grid>
+      </Grid>
     </CreateEventCard>
   );
 }
@@ -317,8 +394,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createEvent: (eventData) => dispatch(createEvent(eventData))
-  }
-}
+    createEvent: (eventData) => dispatch(createEvent(eventData)),
+    getCreatedGroups: (id) => dispatch(getCreatedGroups(id)),
+    getJoinedGroups: (id) => dispatch(getJoinedGroups(id)),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen)),
+    updateEvent: (id, eventData) => dispatch(updateEvent(id, eventData)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Create);
