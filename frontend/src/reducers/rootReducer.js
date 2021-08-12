@@ -5,6 +5,7 @@ import groups from "./groups";
 import snackbar from "./snackbar";
 import profile from "./profile";
 import search from "./search";
+import modal from "./modal";
 
 const rootReducer = combineReducers({
   user,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   snackbar,
   profile,
   search,
+  modal,
 });
 
 export default rootReducer;

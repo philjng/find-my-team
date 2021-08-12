@@ -27,7 +27,6 @@ function EventParticipants(props) {
       <Typography variant="h5">{"Participants (" + participants.length + ")"}</Typography>
       <List1>
         {_.isEmpty(participants) ? (
-          // <CircularProgress color="primary" size={100}/> // once we have LOADING state set up
           <></>
         ) : (
           participants.map((participant) => (

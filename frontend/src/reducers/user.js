@@ -16,7 +16,6 @@ const initialState = {
   image: null,
 };
 
-// TODO: set user state once when app loads to match useAuth data
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
@@ -71,8 +70,6 @@ const userReducer = (state = initialState, action) => {
       };
     }
     case "GET_USER": {
-      /* TODO: not decided on yet, but currently user collection does not store userGroups nor events,
-          that is managed by groups api call */
       return {
         ...state,
         ...action.payload,

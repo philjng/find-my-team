@@ -42,7 +42,6 @@ router.get("/joined", function (req, res, next) {
       res.send(data);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send({
         message: error.message || "There was an error while getting groups",
       });
@@ -79,14 +78,12 @@ router.delete("/:id", function (req, res, next) {
       res.send(req.params.id);
     })
     .catch((e) => {
-      console.log(e);
       res.status(500).send({ message: e.message || "DELETE group failed" });
     });
 });
 
 /* PUT endpoint to update group - add or remove member */
 router.put("/:id", function (req, res, next) {
-  // TODO: find new method - current one without the 'useFindAndModify' option set to false is deprecated
   const newGroup = req.body;
   Group.findById(req.params.id, (err, group) => {
     if (err) {

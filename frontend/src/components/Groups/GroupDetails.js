@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
   Box,
   Button,
@@ -9,19 +9,20 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
-import { styled } from "@material-ui/styles";
-import { useEffect, useState } from "react";
+import {styled} from "@material-ui/styles";
+import {useEffect} from "react";
 import {
-  deleteGroup,
   addMember,
   removeMember,
   getGroupPageData,
 } from "../../actions/groups";
-import { Link, useHistory, useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import LoadingPage from "../Login/LoadingPage";
 import TagChips from "../Events/TagChips";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 import EventsContainer from "../Events/EventsContainer";
+import EditModal from "../shared-components/EditModal";
+import {setModalOpen} from "../../actions/modal";
 
 const _ = require("lodash");
 
@@ -94,28 +95,18 @@ function GroupDetails(props) {
     groupMembers,
     groupEvents,
     getGroupPageData,
-    deleteGroup,
     addMember,
     removeMember,
+    setModalOpen
   } = props;
-  const history = useHistory();
-  const { id } = useParams();
+  const {id} = useParams();
 
   const isManager = group.creatorId === user.user_id;
   const isMember = group.memberIds?.includes(user.user_id);
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     getGroupPageData(id);
   }, [id, getGroupPageData]);
-
-  const handleDelete = () => {
-    window.confirm(
-      "Are you sure you want to delete this group? This action cannot be undone."
-    ) &&
-      deleteGroup(group._id) &&
-      history.goBack();
-  };
 
   const joinGroup = () => {
     addMember(group._id, user.user_id);
@@ -123,14 +114,14 @@ function GroupDetails(props) {
 
   const leaveGroup = () => {
     window.confirm("Are you sure you want to leave this group?") &&
-      removeMember(group._id, user.user_id);
+    removeMember(group._id, user.user_id);
   };
 
-  // TODO: might want to abstract parts away and simplify this file
   return _.isEmpty(group) || _.isEmpty(groupMembers) ? (
-    <LoadingPage value="Loading data..." />
+    <LoadingPage value="Loading data..."/>
   ) : (
     <Container>
+      <EditModal isEvent={false}/>
       <GroupPageGrid
         container
         direction="column"
@@ -151,57 +142,27 @@ function GroupDetails(props) {
                     </Box>
                     <Box fontWeight="fontWeightLight">
                       {group.groupSize +
-                        (group.groupSize === 1 ? " member" : " members")}
+                      (group.groupSize === 1 ? " member" : " members")}
                     </Box>
                   </Typography>
-                  {isEditing ? (
-                    <Box>
-                      <GroupOption
-                        disableElevation
-                        size="small"
-                        variant="contained"
-                        onClick={() => setIsEditing(false)}
-                      >
-                        Cancel
-                      </GroupOption>
-                      <GroupOption
-                        disableElevation
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                      >
-                        Update
-                      </GroupOption>
-                      <GroupOption
-                        disableElevation
-                        size="small"
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleDelete()}
-                      >
-                        Delete group
-                      </GroupOption>
-                    </Box>
-                  ) : (
-                    <GroupOption
-                      disableElevation
-                      size="small"
-                      variant="contained"
-                      onClick={() => {
-                        if (isManager) {
-                          setIsEditing(true);
-                        } else {
-                          isMember ? leaveGroup() : joinGroup();
-                        }
-                      }}
-                    >
-                      {isManager
-                        ? "Edit"
-                        : isMember
+                  <GroupOption
+                    disableElevation
+                    size="small"
+                    variant="contained"
+                    onClick={() => {
+                      if (isManager) {
+                        setModalOpen(true);
+                      } else {
+                        isMember ? leaveGroup() : joinGroup();
+                      }
+                    }}
+                  >
+                    {isManager
+                      ? "Edit"
+                      : isMember
                         ? "Leave Group"
                         : "Join Group"}
-                    </GroupOption>
-                  )}
+                  </GroupOption>
                 </Box>
                 <Box>
                   <Typography variant="h6">Group Description</Typography>
@@ -209,10 +170,9 @@ function GroupDetails(props) {
                 </Box>
                 <Box>
                   <Typography variant="h6">Tags</Typography>
-                  <TagChips tags={group.tags} />
+                  <TagChips tags={group.tags}/>
                 </Box>
               </LeftBox>
-              {/*TODO: images for group*/}
               <Image>
                 <img
                   src="https://i.ytimg.com/vi/NVuL7mLqT6g/maxresdefault.jpg"
@@ -228,9 +188,8 @@ function GroupDetails(props) {
         </GroupGrid>
         <SecondGrid item container spacing="2" direction="row">
           <EventsGrid item>
-            <EventsContainer events={groupEvents} />
+            <EventsContainer events={groupEvents}/>
           </EventsGrid>
-          {/*TODO: abstract out members card into it's own component with own fetching*/}
           <MembersGrid item>
             <MembersCard>
               <VerticalContent>
@@ -272,9 +231,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getGroupPageData: (groupId) => dispatch(getGroupPageData(groupId)),
-    deleteGroup: (groupId) => dispatch(deleteGroup(groupId)),
     addMember: (groupId, userId) => dispatch(addMember(groupId, userId)),
     removeMember: (groupId, userId) => dispatch(removeMember(groupId, userId)),
+    setModalOpen: (isOpen) => dispatch(setModalOpen(isOpen))
   };
 };
 
