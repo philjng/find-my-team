@@ -25,6 +25,19 @@ function DisplayMap(props) {
       zoom: initial_zoom,
     });
     if (props.useCoordinates) {
+      if (
+        isNaN(props.latitude) ||
+        isNaN(parseFloat(props.latitude)) ||
+        props.latitude > 90 ||
+        props.latitude < -90 ||
+        isNaN(props.longitude) ||
+        isNaN(parseFloat(props.longitude)) ||
+        props.longitude > 180 ||
+        props.longitude < -180
+      ) {
+        console.log("invalid coordinates");
+        return;
+      }
       let center = [props.longitude, props.latitude];
       new mapboxgl.Marker().setLngLat(center).addTo(map.current);
       props.addMapMarker(props.location);

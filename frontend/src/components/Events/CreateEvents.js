@@ -128,6 +128,17 @@ function Create(props) {
       window.alert("Event must belong to a group or be public");
       return;
     }
+
+    if (isNaN(eventLatitude) || isNaN(parseFloat(eventLatitude)) || eventLatitude > 90 || eventLatitude < -90) {
+      window.alert("Invalid coordinates. Latitude must be between -90 and 90 and longitude must be between -180 and 180");
+      return;
+    }
+
+    if (isNaN(eventLongitude) || isNaN(parseFloat(eventLongitude)) || eventLongitude > 180 || eventLongitude < -180) {
+      window.alert("Invalid coordinates. Latitude must be between -90 and 90 and longitude must be between -180 and 180");
+      return;
+    }
+
     isEditMode
       ? updateEvent(id, {
           creatorId: user.user_id,
