@@ -60,13 +60,8 @@ export const searchGroups = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-<<<<<<< HEAD
       type: "ERROR_GROUPS",
       payload: e.message,
-=======
-      type: "ERROR",
-      payload: console.log(e),
->>>>>>> origin/master
     });
   }
 };
@@ -93,13 +88,8 @@ export const searchEvents = (searchText) => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-<<<<<<< HEAD
       type: "ERROR_EVENTS",
       payload: e.message,
-=======
-      type: "ERROR",
-      payload: console.log(e),
->>>>>>> origin/master
     });
   }
 };
