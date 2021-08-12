@@ -48,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
 export const ProfileTags = styled(Chip)({
   marginRight: "0.5rem",
   marginTop: "1rem",
+  backgroundColor: "#339999",
+  color: "white"
 });
 
 export const AddTagButton = styled(Button)({
