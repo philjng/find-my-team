@@ -97,6 +97,7 @@ function SignUpForm(props) {
   const handleConfirmPasswordChange = (event) => {
     setForm({
       ...form,
+      tags,
       confirmPassword: event.target.value,
     });
   };
