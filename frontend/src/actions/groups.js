@@ -25,8 +25,17 @@ export const getGroups = () => async (dispatch) => {
   }
 };
 
-export const createGroup = (data) => async (dispatch) => {
+export const createGroup = (data, base64Image) => async (dispatch) => {
   try {
+    let imageUploadRes;
+
+    if (base64Image) {
+      imageUploadRes = await genericApi.post(`/api/images`, {
+        data: base64Image,
+      });
+      data.image = imageUploadRes.data.public_id;
+    }
+
     genericApi
       .post(`/api/groups`, data, { headers })
       .then((res) => {
@@ -116,35 +125,44 @@ export const getGroupEvents = (groupId) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: "ERROR_GROUP_EVENTS",
-      payload: e.message
-    })
+      payload: e.message,
+    });
   }
 };
 
-export const updateGroup = (groupId, updatedData) => async (dispatch) => {
-  try {
-    genericApi.put(`/api/groups/${groupId}`, updatedData)
-      .then((res) => {
+export const updateGroup =
+  (groupId, updatedData, base64Image) => async (dispatch) => {
+    try {
+      let imageUploadRes;
+
+      if (base64Image) {
+        imageUploadRes = await genericApi.post(`/api/images`, {
+          data: base64Image,
+        });
+        updatedData.image = imageUploadRes.data.public_id;
+      }
+
+      genericApi.put(`/api/groups/${groupId}`, updatedData).then((res) => {
         dispatch({
           type: "UPDATE_GROUP",
-          payload: res.data
-        })
+          payload: res.data,
+        });
         dispatch(getGroupPageData(groupId));
         dispatch(showSnackbar(SUCCESS, "Group has been updated."));
-      })
-  } catch (e) {
-    dispatch({
-      type: "UPDATE_GROUP_ERROR",
-      payload: e.message,
-    });
-    dispatch(
-      showSnackbar(
-        WARNING,
-        "There was an error with updating the group. Please try again."
-      )
-    );
-  }
-}
+      });
+    } catch (e) {
+      dispatch({
+        type: "UPDATE_GROUP_ERROR",
+        payload: e.message,
+      });
+      dispatch(
+        showSnackbar(
+          WARNING,
+          "There was an error with updating the group. Please try again."
+        )
+      );
+    }
+  };
 
 export const addMember = (groupId, userId) => async (dispatch) => {
   try {
