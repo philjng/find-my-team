@@ -77,7 +77,6 @@ export const editUserProfile = (id, data, base64Image) => async (dispatch) => {
       imageUploadRes = await genericApi.post(`/api/images`, {
         data: base64Image,
       });
-      console.log(imageUploadRes.data);
       data.image = imageUploadRes.data.public_id;
     }
 

@@ -9,7 +9,6 @@ const EventsGrid = styled(Grid)({
 });
 
 const UserEvents = (props) => {
-  // can potentially just take in EventsContainer to use after refactor
   const { createdEvents, joinedEvents } = props;
 
   // Find first upcoming event user is participating in

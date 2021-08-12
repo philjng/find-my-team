@@ -15,7 +15,7 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
 import { styled } from "@material-ui/styles";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { Check } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
@@ -47,6 +47,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const ProfileTags = styled(Chip)({
+  marginRight: "0.5rem",
+  marginTop: "1rem",
+  backgroundColor: "#339999",
+  color: "white"
+});
+
+export const AddTagButton = styled(Button)({
+  marginTop: "0.5rem",
+  marginLeft: "0.5rem",
+});
+
 const SCCard = styled(Card)({
   width: 500,
 });
@@ -67,20 +79,11 @@ const SCAvatar = styled(Avatar)({
   width: AVATAR_SIZE + "px",
 });
 
-const SCChip = styled(Chip)({
-  marginRight: "10px",
-  marginTop: "10px",
-});
-
 const SCText = styled(Typography)({
   marginRight: "10px",
   marginTop: "10px",
 });
 
-const SCButton = styled(Button)({
-  marginTop: "7px",
-  marginLeft: "7px",
-});
 
 function UserInfo(props) {
   const classes = useStyles();
@@ -95,7 +98,6 @@ function UserInfo(props) {
   const { id } = useParams();
   const isOwner = currentUser.uid === id;
 
-  console.log(initialForm);
 
   const handleFormChange = (property) => (event) => {
     setForm({
@@ -283,21 +285,21 @@ function UserInfo(props) {
                   size="small"
                   value={form.tagsInputText}
                 />
-                <SCButton
+                <AddTagButton
                   variant="contained"
                   onClick={() => addTag(form.tagsInputText)}
                 >
                   Add
-                </SCButton>
+                </AddTagButton>
               </Grid>
             </Grid>
           )}
           <Box>
             {form.tags.map((item) => {
               return isEditing ? (
-                <SCChip onDelete={() => handleDeleteTag(item)} label={item} />
+                <ProfileTags onDelete={() => handleDeleteTag(item)} label={item} />
               ) : (
-                <SCChip
+                <ProfileTags
                   onDelete={() => handleDeleteTag(item)}
                   disabled
                   label={item}

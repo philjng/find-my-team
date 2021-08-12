@@ -1,5 +1,8 @@
 import UserInfo from "./UserInfo";
-import { Box, Grid } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+} from "@material-ui/core";
 import UserGroups from "../Groups/UserGroups";
 import { connect } from "react-redux";
 import { useEffect } from "react";

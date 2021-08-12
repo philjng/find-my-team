@@ -1,12 +1,10 @@
 import {
   Container,
   Card,
-  Box,
   CardContent,
   List,
   ListItem,
   Typography,
-  Grid,
 } from "@material-ui/core";
 import Event from "../Events/Event";
 
