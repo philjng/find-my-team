@@ -3,6 +3,7 @@ var router = express.Router();
 const Event = require("../models/event");
 var mongoose = require("mongoose");
 const User = require("../models/user");
+const _ = require("lodash");
 
 /* GET all events listing, ordered by the start time of event. */
 router.get("/", function (req, res, next) {
@@ -32,15 +33,41 @@ router.get("/:id", function (req, res, next) {
 });
 
 /* Search for keyword in events collection */
-router.get("/search/:text", function (req, res, next) {
+router.get("/search/:text?", function (req, res, next) {
+  if (req.params.text === '') {
+    return [];
+  }
   const searchText = req.params.text;
+  console.log(searchText);
   Event.find(
     { $text: { $search: searchText } },
     { score: { $meta: "textScore" } }
   )
     .sort({ score: { $meta: "textScore" } })
     .then((data) => {
-      res.send(data);
+      Event.find(
+        {$or: [
+          { title: { $regex: searchText, $options: "i" } },
+          { location: { $regex: searchText, $options: "i" } },
+          { description: { $regex: searchText, $options: "i" } },
+          { tags: { $regex: searchText, $options: "i" } },
+          { "comments.text": { $regex: searchText, $options: "i" } }
+
+        ]})
+      .then(
+        (data2) => {
+          let allResults = data.concat(data2);
+          let uniqueIds = [];
+          let uniqueResults = [];
+          for (let i = 0; i < allResults.length; i++) {
+            if (!uniqueIds.includes(allResults[i]._id.toString())) {
+              uniqueIds.push(allResults[i]._id.toString());
+              uniqueResults.push(allResults[i]);
+            }
+          }
+          res.send(uniqueResults);
+        }
+      );
     })
     .catch((error) => {
       res.status(500).send({
@@ -57,6 +84,42 @@ router.post("/", function (req, res, next) {
       res.status(500).send({ message: error.message || "POST event failed" });
     } else {
       res.send(req.body);
+    }
+  });
+});
+
+/* UPDATE event */
+router.put("/:id", function (req, res, next) {
+  const newEvent = req.body;
+  Event.findById(req.params.id, (err, event) => {
+    if (err) {
+      res.status(err.code).send(err);
+    } else {
+      if (
+        event.lastModified === undefined ||
+        newEvent.lastModified === undefined ||
+        new Date(newEvent.lastModified).getTime() ===
+          new Date(event.lastModified).getTime()
+      ) {
+        newEvent.lastModified = new Date();
+        Event.findByIdAndUpdate(
+          req.params.id,
+          newEvent,
+          { new: true, useFindAndModify: false },
+          (error, result) => {
+            if (error) {
+              res.status(error.code).send(error);
+            } else {
+              res.send(req.body);
+            }
+          }
+        );
+      } else {
+        res.status(400).send({
+          status: 400,
+          message: "Resource was modified. Try again.",
+        });
+      }
     }
   });
 });
@@ -97,7 +160,7 @@ router.get("/:id/participants", function (req, res, next) {
 router.patch("/:id/participants", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $push: { participantIds: req.body.userId },
-    $inc: { participantSize: 1 }
+    $inc: { participantSize: 1 },
   })
     .then(() => res.send("success"))
     .catch((err) => {
@@ -109,7 +172,7 @@ router.patch("/:id/participants", function (req, res, next) {
 router.patch("/:id/removeParticipant", function (req, res, next) {
   Event.findByIdAndUpdate(req.params.id, {
     $pull: { participantIds: req.body.userId },
-    $inc: { participantSize: -1 }
+    $inc: { participantSize: -1 },
   })
     .then(() => res.send("success"))
     .catch((err) => {

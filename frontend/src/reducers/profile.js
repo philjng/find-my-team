@@ -24,12 +24,21 @@ export const profileReducer = (state = initialState, action) => {
         ...action.payload,
       };
     }
-    case "GET_USER_PROFILE_GROUPS": {
+    case "GET_USER_PROFILE_JOINED_GROUPS": {
       return {
         ...state,
         userGroups: {
           ...state.userGroups,
-          ...action.payload,
+          joined: action.payload,
+        },
+      };
+    }
+    case "GET_USER_PROFILE_CREATED_GROUPS": {
+      return {
+        ...state,
+        userGroups: {
+          ...state.userGroups,
+          created: action.payload,
         },
       };
     }

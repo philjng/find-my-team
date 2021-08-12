@@ -3,7 +3,7 @@ var router = express.Router();
 
 const Group = require("../models/group");
 const User = require("../models/user");
-const Event = require("../models/event")
+const Event = require("../models/event");
 
 /* GET groups listing by latest creation date. */
 router.get("/", function (req, res, next) {
@@ -82,7 +82,7 @@ router.delete("/:id", function (req, res, next) {
     });
 });
 
-/* PUT endpoint to update group - add or remove member */
+/* PUT endpoint to update group or add or remove member */
 router.put("/:id", function (req, res, next) {
   const newGroup = req.body;
   Group.findById(req.params.id, (err, group) => {
@@ -142,19 +142,22 @@ router.get("/:id/members", function (req, res, next) {
 /* GET group's events */
 router.get("/:id/events", function (req, res, next) {
   Event.find({
-    group: req.params.id
+    group: req.params.id,
   })
     .then((groupEvents) => {
-      res.send(groupEvents)
+      res.send(groupEvents);
     })
     .catch((error) => {
       res.status(500).send({
-        message: error.message || "There was an error fetching group events"
+        message: error.message || "There was an error fetching group events",
       });
     });
 });
 
-router.get("/search/:text", function (req, res, next) {
+router.get("/search/:text?", function (req, res, next) {
+  if (req.params.text === '') {
+    return [];
+  }
   const searchText = req.params.text;
   Group.find(
     { $text: { $search: searchText } },
@@ -162,11 +165,30 @@ router.get("/search/:text", function (req, res, next) {
   )
     .sort({ score: { $meta: "textScore" } })
     .then((data) => {
-      res.send(data);
+      Group.find(
+        {$or: [
+          { name: { $regex: searchText, $options: "i" } },
+          { description: { $regex: searchText, $options: "i" } },
+          { tags: { $regex: searchText, $options: "i" } }
+        ]})
+      .then(
+        (data2) => {
+          let allResults = data.concat(data2);
+          let uniqueIds = [];
+          let uniqueResults = [];
+          for (let i = 0; i < allResults.length; i++) {
+            if (!uniqueIds.includes(allResults[i]._id.toString())) {
+              uniqueIds.push(allResults[i]._id.toString());
+              uniqueResults.push(allResults[i]);
+            }
+          }
+          res.send(uniqueResults);
+        }
+      );
     })
     .catch((error) => {
       res.status(500).send({
-        message: error.message || "There was an error while getting group",
+        message: error.message || "There was an error while getting event",
       });
     });
 });

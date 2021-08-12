@@ -107,6 +107,19 @@ made more efficient. Some examples include having more admin actions for the gro
 - contributions can also be noted from PRs, and in the Project tab (some tickets have names attached for work done)
 
 Lucas Gustafson (u8h2b):
+- set up initial Redux structure
+- worked on events functionality:
+  - worked on event listing page; getting events, filtering events, linking to event details page and event display related endpoints
+  - worked on event details page; commenting, joining/leaving group and related endpoints
+  - worked on event creation page; field validation and event creation endpoint
+- worked on search functionality
+  - worked on search results page 
+  - worked on search endpoints for events, users and groups 
+- worked on maps functionality
+  - researched maps APIs
+  - chose and implemented MapBox API
+  - set up translation of event locations names into coordinates and markers
+  - integrated maps into event details and event listing pages
 
 Philip Ng (s3d1b):
 
@@ -120,7 +133,12 @@ Philip Ng (s3d1b):
 - set up CI / CD from Heroku
 - holistic app changes (to make it more unified, went into Events after Lucas built the foundation)
 
-Samson Tsui (o5e1b):
+Samson Tsui (o5e1b);
+- Implemented Firebase Authentication service in conjunction with our user model backend for our login sign up system
+- Initiated user profile page front and back end
+- Developed app image uploading system using 3rd party service Cloudinary
+- Set up URL id param for user, events, and groups page
+- General UI updates and code refactoring across the app
 
 Sidney Lu (b2p1b):
 

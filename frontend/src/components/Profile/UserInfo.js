@@ -15,13 +15,15 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import { useEffect, useState } from "react";
 import { styled } from "@material-ui/styles";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { Check } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { editUserProfile, getUserProfile } from "../../actions/profile";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
+
+const AVATAR_SIZE = 300;
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -73,8 +75,8 @@ const SCBox = styled(Box)({
 });
 
 const SCAvatar = styled(Avatar)({
-  height: "100px",
-  width: "100px",
+  height: AVATAR_SIZE + "px",
+  width: AVATAR_SIZE + "px",
 });
 
 const SCText = styled(Typography)({
@@ -82,7 +84,6 @@ const SCText = styled(Typography)({
   marginTop: "10px",
 });
 
-const AVATAR_SIZE = 300;
 
 function UserInfo(props) {
   const classes = useStyles();

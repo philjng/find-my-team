@@ -7,9 +7,9 @@ import UserGroups from "../Groups/UserGroups";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { styled } from "@material-ui/styles";
-import { getHomePageData } from "../../actions/user";
 import TmpComponent from "./TmpComponent";
-import { useAuth } from "../../context/AuthContext";
+import { getUserProfilePageData } from "../../actions/profile";
+import { useParams } from "react-router-dom";
 
 const fromTop = "60px";
 
@@ -29,12 +29,12 @@ const Box3 = styled(Box)({
 });
 
 function Profile(props) {
-  const { getHomePageData } = props;
-  const { currentUser } = useAuth();
+  const { user, userGroups, getUserProfilePageData } = props;
+  const { id } = useParams();
 
   useEffect(() => {
-    getHomePageData(currentUser.uid);
-  }, [getHomePageData, currentUser.uid]);
+    getUserProfilePageData(id);
+  }, [getUserProfilePageData, id]);
 
   return (
     <SCBox>
@@ -42,18 +42,21 @@ function Profile(props) {
       <Grid>
         <Box3>
           <TmpComponent
-            title="Your Joined Events"
+            title={`${user.displayName}'s Joined Events`}
             events={props.joinedEvents}
           />
           <TmpComponent
-            title="Your Created Events"
+            title={`${user.displayName}'s Created Events`}
             events={props.createdEvents}
           />
         </Box3>
       </Grid>
       <Grid>
         <Box2>
-          <UserGroups />
+          <UserGroups
+            title={`${user.displayName}'s Groups`}
+            userGroups={userGroups}
+          />
         </Box2>
       </Grid>
     </SCBox>
@@ -62,14 +65,16 @@ function Profile(props) {
 
 const mapStateToProps = (state) => {
   return {
-    createdEvents: state.user.userEvents.created,
-    joinedEvents: state.user.userEvents.joined,
+    user: state.profile,
+    createdEvents: state.profile.userEvents.created,
+    joinedEvents: state.profile.userEvents.joined,
+    userGroups: state.profile.userGroups,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getHomePageData: (id) => dispatch(getHomePageData(id)),
+    getUserProfilePageData: (id) => dispatch(getUserProfilePageData(id)),
   };
 };
 

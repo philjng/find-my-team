@@ -22,6 +22,9 @@ const searchReducer = (state = initialState, action) => {
     case "SEARCH_EVENTS": {
       return { ...state, events: action.payload };
     }
+    case "ERROR": {
+      return {...state, events: [], groups: [], users: []}
+    }
     default:
       return state;
   }
