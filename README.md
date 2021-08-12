@@ -127,7 +127,7 @@ Sidney Lu (b2p1b):
 - worked on the profile page
 - refactored application to be deployed and deployed to heroku
 - set up application to work on development and production environments
-- refactorized to standardize all API calls on frontend
+- refactored to standardize all API calls on frontend
 
 # Prototypes
 
