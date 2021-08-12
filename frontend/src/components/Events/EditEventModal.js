@@ -1,5 +1,5 @@
 import React from "react";
-import {Backdrop, Box, Button, Container, Fade, Modal} from "@material-ui/core";
+import {Backdrop, Box, Button, Container, Fade, Modal, TextField} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import {setModalOpen} from "../../actions/modal";
@@ -9,6 +9,41 @@ import {useHistory, useParams} from "react-router-dom";
 export const ButtonMR = styled(Button)({
   marginRight: "1rem"
 });
+
+export const DarkTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#f8f8ff",
+  },
+  "& .MuiFormLabel-filled": {
+    color: "#f8f8ff",
+  },
+  "& .MuiInputLabel-outlined": {
+    color: "grey",
+  },
+  "& .MuiInput-underline:before": {
+    borderBottomColor: "#f8f8ff"
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#f8f8ff"
+  },
+  // outlined text fields
+  "& .MuiOutlinedInput-root": {
+    color: "#f8f8ff",
+    "& fieldset": {
+      borderColor: "#f8f8ff"
+    },
+    "&:hover fieldset": {
+      borderColor: "#f8f8ff"
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#f8f8ff"
+    }
+  },
+  // tag color inverter
+  "& .MuiInputLabel-animated": {
+    color: "grey",
+  },
+})
 
 const ModalContainer = styled(Container)({
   backgroundColor: "#36393f",

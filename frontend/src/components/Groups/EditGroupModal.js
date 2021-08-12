@@ -1,11 +1,12 @@
-import React from "react";
-import {Backdrop, Box, Container, Fade, Modal} from "@material-ui/core";
+import React, {useState} from "react";
+import {Backdrop, Box, Container, Fade, Grid, Modal} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 import {connect} from "react-redux";
 import {setModalOpen} from "../../actions/modal";
 import {deleteGroup} from "../../actions/groups";
 import {useHistory, useParams} from "react-router-dom";
-import {ButtonMR} from "../Events/EditEventModal";
+import {ButtonMR, DarkTextField} from "../Events/EditEventModal";
+import {AddTagButton, ProfileTags} from "../Profile/UserInfo";
 
 const ModalContainer = styled(Container)({
   backgroundColor: "#36393f",
@@ -24,6 +25,19 @@ const EditGroupModal = (props) => {
   const {modal, setModalOpen, deleteGroup} = props;
   const {id} = useParams();
   const history = useHistory();
+
+  const [description, setDescription] = useState(props.description);
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState(props.tags);
+
+  const addTag = (newTag) => {
+    newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]))
+    setTag("");
+  }
+
+  const handleDeleteTag = (tagToDelete) => {
+    setTags(tags.filter((tag) => tag !== tagToDelete))
+  }
 
   const handleClose = () => {
     setModalOpen(false);
@@ -53,7 +67,48 @@ const EditGroupModal = (props) => {
       <Fade in={modal.isOpen}>
         <ModalContainer>
           <h2>{"Edit Group"}</h2>
-          <p>react-transition-group animates me.</p>
+          <Grid item container direction="column" spacing="2">
+            <Grid item>
+              <DarkTextField
+                variant="outlined"
+                label="Group Description"
+                value={description}
+                multiline
+                fullWidth
+                rows={5}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <Grid
+                container
+                direction="column"
+                justifyContent="left"
+                alignItems="left"
+              >
+                <Grid item>
+                  <DarkTextField
+                    onChange={(e) => setTag(e.target.value)}
+                    id="outlined-basic"
+                    label="Tag"
+                    size="small"
+                    value={tag}
+                  />
+                  <AddTagButton
+                    variant="contained"
+                    onClick={() => {addTag(tag)}}
+                  >
+                    Add
+                  </AddTagButton>
+                  <Box>
+                    {tags.map((item) => (
+                      <ProfileTags label={item} onDelete={() => handleDeleteTag(item)} />
+                    ))}
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
           <ButtonGroup>
             <ButtonMR
               disableElevation
