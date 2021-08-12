@@ -10,7 +10,7 @@ export const ButtonMR = styled(Button)({
   marginRight: "1rem",
 });
 
-const EditGroupModal = (props) => {
+const EditModal = (props) => {
   const { modal, setModalOpen, isEvent } = props;
 
   const handleClose = () => {
@@ -31,7 +31,7 @@ const EditGroupModal = (props) => {
     >
       <Fade in={modal.isOpen}>
         {isEvent ? (
-          <Create isEditMode={true} />
+          <Create isEditMode={true} event={props.event}/>
         ) : (
           <CreateGroupPage isEditMode={true} group={props.group} />
         )}
@@ -52,4 +52,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditGroupModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditModal);
