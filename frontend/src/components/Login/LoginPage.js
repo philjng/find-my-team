@@ -2,22 +2,17 @@ import LoginForm from "./LoginForm";
 import {Container, Grid, Typography} from "@material-ui/core";
 import {styled} from "@material-ui/styles";
 
-const leftGridWidth = 75;
-
 const SCContainer = styled(Container)({
   maxWidth: "75%",
   display: "flex",
-  justifyContent: "space-between"
 });
 
 const LeftGrid = styled(Grid)({
-  maxWidth: leftGridWidth + "%",
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const RightGrid = styled(Grid)({
-  maxWidth: 1 - leftGridWidth + "%",
 });
 
 function LoginPage() {
@@ -25,9 +20,15 @@ function LoginPage() {
     <SCContainer>
         <LeftGrid container>
           <Grid item>
-            <Typography>FindMyTeam</Typography>
-            <Typography>Find events. Find groups.</Typography>
-            <Typography>Meet new people.</Typography>
+            <Typography variant="h1" color="primary">
+              FindMyTeam
+            </Typography>
+            <Typography variant="h6" color="primary">
+              Find events. Find groups.
+            </Typography>
+            <Typography variant="h6" color="primary">
+              Meet new people.
+            </Typography>
           </Grid>
         </LeftGrid>
         <RightGrid container>
