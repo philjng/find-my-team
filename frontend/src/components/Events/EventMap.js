@@ -27,6 +27,19 @@ function EventMap(props) {
       setIsRendered(true);
       setViewableEvents(props.events);
       if (event.useCoordinates) {
+        if (
+          isNaN(event.latitude) ||
+          isNaN(parseFloat(event.latitude)) ||
+          event.latitude > 90 ||
+          event.latitude < -90 ||
+          isNaN(event.longitude) ||
+          isNaN(parseFloat(event.longitude)) ||
+          event.longitude > 180 ||
+          event.longitude < -180
+        ) {
+          console.log("invalid coordinates");
+          return;
+        }
         let center = [event.longitude, event.latitude];
         let popup = new mapboxgl.Popup().setHTML(
           `<h2>${event.title}<h2/> <a href="/events/${event._id}"><p>Details</p></a>`

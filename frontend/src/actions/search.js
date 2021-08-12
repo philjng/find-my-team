@@ -19,7 +19,7 @@ export const searchUsers = (searchText) => async (dispatch) => {
       searchText.includes("%")
     ) {
       dispatch({
-        type: "SEARCH_EVENTS",
+        type: "SEARCH_USERS",
         payload: [],
       });
       return;
@@ -47,7 +47,7 @@ export const searchGroups = (searchText) => async (dispatch) => {
       searchText.includes("%")
     ) {
       dispatch({
-        type: "SEARCH_EVENTS",
+        type: "SEARCH_GROUPS",
         payload: [],
       });
       return;

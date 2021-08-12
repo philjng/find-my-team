@@ -99,7 +99,7 @@ function Create(props) {
     setTagText("");
   };
 
-  //TODO: Add validation for fields and fix refresh bug
+  //TODO: Fix refresh bug
   const handleSubmit = () => {
     if (eventTitle.trim() === "") {
       window.alert("Event name is required");
@@ -118,6 +118,16 @@ function Create(props) {
 
     if (eventGroup.trim() === "") {
       window.alert("Event must belong to a group or be public");
+      return;
+    }
+
+    if (isNaN(eventLatitude) || isNaN(parseFloat(eventLatitude)) || eventLatitude > 90 || eventLatitude < -90) {
+      window.alert("Invalid coordinates. Latitude must be between -90 and 90 and longitude must be between -180 and 180");
+      return;
+    }
+
+    if (isNaN(eventLongitude) || isNaN(parseFloat(eventLongitude)) || eventLongitude > 180 || eventLongitude < -180) {
+      window.alert("Invalid coordinates. Latitude must be between -90 and 90 and longitude must be between -180 and 180");
       return;
     }
     createEvent({
