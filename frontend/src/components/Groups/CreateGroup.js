@@ -1,32 +1,20 @@
 import {
   Box,
   Button,
-  Card,
-  Checkbox,
+  Card, CardContent, Chip,
   Container,
-  FormControlLabel,
-  FormGroup,
   Grid,
   TextField,
   Typography,
 } from "@material-ui/core";
 import { styled } from "@material-ui/styles";
 import { CardHeader } from "./UserGroups";
-import React, { useState } from "react";
-import {
-  BASKETBALL,
-  BIKING,
-  FRISBEE,
-  RUNNING,
-  SOCCER,
-  TENNIS,
-  VOLLEYBALL,
-} from "../../tags";
+import React, {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { createGroup } from "../../actions/groups";
 import { useHistory } from "react-router-dom";
+import {AddTagButton, ProfileTags} from "../Profile/UserInfo";
 
-const leftGridWidth = 75;
 const CreateGroupCard = styled(Card)({
   backgroundColor: `#f7fdfc`,
   margin: `2rem`,
@@ -37,14 +25,6 @@ const SCContainer = styled(Container)({
   maxWidth: "750px",
 });
 
-const LeftGrid = styled(Grid)({
-  maxWidth: leftGridWidth + "%",
-});
-
-const RightGrid = styled(Grid)({
-  maxWidth: 1 - leftGridWidth + "%",
-});
-
 const ButtonGroup = styled(Box)({
   display: `flex`,
   float: `right`,
@@ -53,34 +33,33 @@ const ButtonGroup = styled(Box)({
 
 const CreateGroupPage = (props) => {
   const { user } = props;
+  const history = useHistory();
 
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
-  const [checkbox, setCheckbox] = useState({
-    Basketball: false,
-    Biking: false,
-    Frisbee: false,
-    Running: false,
-    Soccer: false,
-    Tennis: false,
-    Volleyball: false,
-  });
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState([])
 
-  const history = useHistory();
+  const addTag = (newTag) => {
+    newTag.trim() !== "" && setTags(tags.concat([newTag.trim()]))
+    setTag("");
+  }
+
+  const handleDeleteTag = (tagToDelete) => {
+    setTags(tags.filter((tag) => tag !== tagToDelete))
+  }
 
   const handleSubmit = () => {
     if (groupName.trim() === "") {
       window.alert("Group name is required.");
       return;
     }
-    const keys = Object.keys(checkbox);
-    const filtered = keys.filter((key) => checkbox[key]);
     props.createGroup({
       creatorId: user.user_id,
       creator: user.displayName,
       name: groupName,
       description: description.trim() === "" ? "No description." : description,
-      tags: filtered,
+      tags: tags,
       createdAt: new Date(),
       lastModified: new Date(),
       memberIds: [user.user_id],
@@ -88,10 +67,6 @@ const CreateGroupPage = (props) => {
     });
     setDescription("");
     history.push("/groups");
-  };
-
-  const handleCheckboxChange = (event) => {
-    setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
   };
 
   return (
@@ -103,8 +78,7 @@ const CreateGroupPage = (props) => {
               Create Group
             </CardHeader>
           </Grid>
-          <Grid item container direction="row" spacing="3">
-            <LeftGrid item container direction="column" spacing="2">
+            <Grid item container direction="column" spacing="2">
               <Grid item>
                 <TextField
                   variant="outlined"
@@ -126,90 +100,37 @@ const CreateGroupPage = (props) => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Grid>
-            </LeftGrid>
-            <RightGrid item>
-              <FormGroup>
-                <Typography>Group tags:</Typography>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Basketball}
-                      onChange={handleCheckboxChange}
-                      name="Basketball"
+              <Grid item>
+                <Typography variant="h6">Tags</Typography>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="left"
+                  alignItems="left"
+                >
+                  <Grid item>
+                    <TextField
+                      onChange={(e) => setTag(e.target.value)}
+                      id="outlined-basic"
+                      label="Tag"
+                      size="small"
+                      value={tag}
                     />
-                  }
-                  label={BASKETBALL}
-                  color="primary"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Biking}
-                      onChange={handleCheckboxChange}
-                      name="Biking"
-                    />
-                  }
-                  label={TENNIS}
-                  color="primary"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Frisbee}
-                      onChange={handleCheckboxChange}
-                      name="Frisbee"
-                    />
-                  }
-                  label={SOCCER}
-                  color="primary"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Running}
-                      onChange={handleCheckboxChange}
-                      name="Running"
-                    />
-                  }
-                  label={FRISBEE}
-                  color="primary"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Soccer}
-                      onChange={handleCheckboxChange}
-                      name="Soccer"
-                    />
-                  }
-                  label={VOLLEYBALL}
-                  color="primary"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Tennis}
-                      onChange={handleCheckboxChange}
-                      name="Tennis"
-                    />
-                  }
-                  label={BIKING}
-                  color="primary"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checkbox.Volleyball}
-                      onChange={handleCheckboxChange}
-                      name="Volleyball"
-                    />
-                  }
-                  label={RUNNING}
-                  color="primary"
-                />
-              </FormGroup>
-            </RightGrid>
-          </Grid>
+                    <AddTagButton
+                      variant="contained"
+                      onClick={() => {addTag(tag)}}
+                    >
+                      Add
+                    </AddTagButton>
+                    <Box>
+                      {tags.map((item) => (
+                          <ProfileTags label={item} onDelete={() => handleDeleteTag(item)} />
+                      ))}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           <Grid item>
             <ButtonGroup>
               <Button

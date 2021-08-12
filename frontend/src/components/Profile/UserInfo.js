@@ -45,6 +45,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const ProfileTags = styled(Chip)({
+  marginRight: "0.5rem",
+  marginTop: "1rem",
+});
+
+export const AddTagButton = styled(Button)({
+  marginTop: "0.5rem",
+  marginLeft: "0.5rem",
+});
+
 const SCCard = styled(Card)({
   width: 500,
 });
@@ -69,19 +79,9 @@ const SCAvatar = styled(Avatar)({
   width: "100px",
 });
 
-const SCChip = styled(Chip)({
-  marginRight: "10px",
-  marginTop: "10px",
-});
-
 const SCText = styled(Typography)({
   marginRight: "10px",
   marginTop: "10px",
-});
-
-const SCButton = styled(Button)({
-  marginTop: "7px",
-  marginLeft: "7px",
 });
 
 const AVATAR_SIZE = 300;
@@ -125,7 +125,6 @@ function UserInfo(props) {
   const handleTagsInputTextChange = handleFormChange("tagsInputText");
 
   const handleDeleteTag = (tag) => {
-    console.log("In handle delete tag");
     const newTags = form.tags.filter((item) => item !== tag);
     setForm({
       ...form,
@@ -292,21 +291,21 @@ function UserInfo(props) {
                   size="small"
                   value={form.tagsInputText}
                 />
-                <SCButton
+                <AddTagButton
                   variant="contained"
                   onClick={() => addTag(form.tagsInputText)}
                 >
                   Add
-                </SCButton>
+                </AddTagButton>
               </Grid>
             </Grid>
           )}
           <Box>
             {form.tags.map((item) => {
               return isEditing ? (
-                <SCChip onDelete={() => handleDeleteTag(item)} label={item} />
+                <ProfileTags onDelete={() => handleDeleteTag(item)} label={item} />
               ) : (
-                <SCChip
+                <ProfileTags
                   onDelete={() => handleDeleteTag(item)}
                   disabled
                   label={item}
