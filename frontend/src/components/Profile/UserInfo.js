@@ -23,6 +23,8 @@ import { editUserProfile, getUserProfile } from "../../actions/profile";
 import { useAuth } from "../../context/AuthContext";
 import CloudinaryAvatar from "../shared-components/CloudinaryAvatar";
 
+const AVATAR_SIZE = 300;
+
 const useStyles = makeStyles((theme) => ({
   profile: {
     "margin-top": "50px",
@@ -60,13 +62,9 @@ const SCBox = styled(Box)({
   alignItems: "left",
 });
 
-const TextBox = styled(Box)({
-  margin: "30px",
-});
-
 const SCAvatar = styled(Avatar)({
-  height: "100px",
-  width: "100px",
+  height: AVATAR_SIZE + "px",
+  width: AVATAR_SIZE + "px",
 });
 
 const SCChip = styled(Chip)({
@@ -84,8 +82,6 @@ const SCButton = styled(Button)({
   marginLeft: "7px",
 });
 
-const AVATAR_SIZE = 300;
-
 function UserInfo(props) {
   const classes = useStyles();
 
@@ -102,8 +98,6 @@ function UserInfo(props) {
   console.log(initialForm);
 
   const handleFormChange = (property) => (event) => {
-    console.log("In handleFormChange");
-    console.log({ property, event });
     setForm({
       ...form,
       [property]: event.target.value,
@@ -121,11 +115,9 @@ function UserInfo(props) {
   const handleFirstNameChange = handleFormChange("firstName");
   const handleLastNameChange = handleFormChange("lastName");
   const handleDisplayNameChange = handleFormChange("displayName");
-  const handleTagsChange = handleFormChange("tags");
   const handleTagsInputTextChange = handleFormChange("tagsInputText");
 
   const handleDeleteTag = (tag) => {
-    console.log("In handle delete tag");
     const newTags = form.tags.filter((item) => item !== tag);
     setForm({
       ...form,
@@ -167,7 +159,6 @@ function UserInfo(props) {
     // Check file is image
     // Also prevents error when cancelling image upload
     if (file?.type.match("image.*")) {
-      console.log("file type is image");
       previewFile(file);
     }
   };
