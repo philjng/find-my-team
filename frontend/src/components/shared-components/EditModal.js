@@ -10,6 +10,11 @@ export const ButtonMR = styled(Button)({
   marginRight: "1rem",
 });
 
+export const SCModal = styled(Modal)({
+  height: "700px",
+  overflow: "scroll"
+});
+
 const EditModal = (props) => {
   const { modal, setModalOpen, isEvent } = props;
 
@@ -18,7 +23,7 @@ const EditModal = (props) => {
   };
 
   return (
-    <Modal
+    <SCModal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={modal.isOpen}
@@ -36,7 +41,7 @@ const EditModal = (props) => {
           <CreateGroupPage isEditMode={true} group={props.group} />
         )}
       </Fade>
-    </Modal>
+    </SCModal>
   );
 };
 
