@@ -162,6 +162,10 @@ and make postings or interact with existing postings.
 Users will be able to search for other users or groups with similar interests.
 Additional functionality may include shareability of event postings with other users / groups, creating leagues, and publicity of groups.
 
+## Screenshots
+![image](https://github.com/user-attachments/assets/2caa5bf1-f8a8-49c0-be15-e88c499f51ad)
+
+
 ## Prototypes
 
 ### Add New Event Post Workflow
